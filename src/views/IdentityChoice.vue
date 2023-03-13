@@ -1,17 +1,17 @@
 <template>   
     <div class="container-fluid d-flex align-items-center justify-content-center" id="identity">
-        <div class="whiteBox">
-            <div class="row">
-                <h1>Who are you?</h1>
-            </div>
-            <div class="row">
-                <button type="button" class="btn btn-outline-dark">Driver</button>
-            </div>
-            <div class="row">
-                <button type="button" class="btn btn-outline-dark">Passenger</button>
-            </div>
-            <div class="row">
-                <button type="button" class="btn btn-outline-dark">Admin</button>
+        <div class="bg-white opacity-75 rounded-4 w-75 h-75 d-flex align-items-center justify-content-center">
+            <div>
+                <div>
+                    <h2 class="text-center">Who are you?</h2>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div>
+                        <button type="button" class="btn btn-outline-dark w-100 my-3">Driver</button>
+                        <button type="button" class="btn btn-outline-dark w-100 my-3">Passenger</button>
+                        <button type="button" class="btn btn-outline-dark w-100 my-3">Admin</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -39,19 +39,5 @@
         background-image: url("../assets/background.jpg");
         background-repeat: no-repeat;
         padding:10%
-    }
-    .whiteBox{
-        background-color:white;
-        opacity:0.8;
-        padding: 10%;
-        width:80%;
-        height:80%;
-        border-radius: 25px;
-    }
-    .row{
-        padding:5%;
-    }
-    .btn{
-        background-color: white;
     }
 </style>
