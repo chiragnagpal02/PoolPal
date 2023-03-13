@@ -1,15 +1,15 @@
 <template>   
     <div class="container-fluid d-flex align-items-center justify-content-center" id="identity">
-        <div class="bg-white opacity-75 rounded-4 w-75 h-75 d-flex align-items-center justify-content-center">
+        <div class="bg-white rounded-4 w-75 h-75 d-flex align-items-center justify-content-center">
             <div>
                 <div>
                     <h3 class="text-center">Choose your identity:</h3>
                 </div>
                 <div class="d-flex justify-content-center">
                     <div>
-                        <button type="button" class="btn btn-outline-dark w-100 my-3">Driver</button>
-                        <button type="button" class="btn btn-outline-dark w-100 my-3">Passenger</button>
-                        <button type="button" class="btn btn-outline-dark w-100 my-3">Admin</button>
+                        <button type="button" class="btn btn-outline-dark w-100 my-3"><router-link to="/login" class="routerlink">Driver</router-link></button>
+                        <button type="button" class="btn btn-outline-dark w-100 my-3"><router-link to="/login" class="routerlink">Passenger</router-link></button>
+                        <button type="button" class="btn btn-outline-dark w-100 my-3"><router-link to="/login" class="routerlink">Admin</router-link></button>
                     </div>
                 </div>
             </div>
@@ -27,5 +27,9 @@
         background-image: url("../assets/background.jpg");
         background-repeat: no-repeat;
         padding:10%
+    }
+    .routerlink{
+        color:black;
+        text-decoration: none;
     }
 </style>
