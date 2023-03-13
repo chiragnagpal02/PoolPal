@@ -3,7 +3,7 @@
     <div class="container-fluid">
 
       <!-- logo -->
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand mx-2" href="#">
         <img src="../assets/logo.png" alt="Logo" width="50" height="50" class="d-inline-block align-text-top"> 
       </a>
 
@@ -12,15 +12,18 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav mx-auto">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Request A Ride</a>
+            <a class="nav-link" href="#">Offer A Ride</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Offer A Ride</a>
+            <a class="nav-link">Ride History</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">Earning Summary</a>
           </li>
           <li class="nav-item">
             <a class="nav-link">Chats</a>
@@ -28,18 +31,22 @@
           <li class="nav-item">
             <a class="nav-link">Profile</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link">Log In</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">Sign Up</a>
+          </li>
         </ul>
-      
       </div>
     </div>
   </nav>
 </template>
-
-
+  
+  
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.navbar-right {
-  float: right;
+.nav-item{
+  margin-inline-end: 30px;
 }
 </style>
-
