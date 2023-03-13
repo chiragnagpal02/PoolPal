@@ -1,11 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-
+import identity from '@/views/IdentityChoice.vue'
 const routes = [
   {
     path: '/',
+    name: 'identity',
+    component: identity
+  },
+  {
+    path: '/home',
     name: 'home',
-    component: HomeView
   },
   {
     path: '/profile',
