@@ -1,6 +1,6 @@
 <template>   
     <div class="container-fluid d-flex align-items-center justify-content-center" id="identity">
-        <div class="bg-white rounded-4 w-75 h-75 d-flex align-items-center justify-content-center">
+        <div class="whitebox bg-white rounded-4 w-75 d-flex align-items-center justify-content-center">
             <div>
                 <div>
                     <h3 class="text-center">Choose your identity:</h3>
@@ -31,5 +31,8 @@
     .routerlink{
         color:black;
         text-decoration: none;
+    }
+    .whitebox{
+        height:500px;
     }
 </style>

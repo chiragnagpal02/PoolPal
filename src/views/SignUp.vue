@@ -16,11 +16,15 @@
                                 <label for="exampleInputPassword1" class="form-label">Password</label>
                                 <input type="password" class="form-control" id="exampleInputPassword1">
                             </div>
+                            <div class="my-2">
+                                <label for="exampleInputPassword" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" id="exampleInputPassword2">
+                            </div>
                             
                             <button type="submit" class="btn btn-outline-dark my-2 w-100">Submit</button>
                                 
-                            <div class="pt-5 text-center">
-                                Don't have an account? <router-link to="/signUp">Create new one</router-link>
+                            <div class="pt-3">
+                                Already have an account? <router-link to="/login">Log In</router-link> 
                             </div>
                         </form>
                     </div>
