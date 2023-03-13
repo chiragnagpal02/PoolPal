@@ -1,11 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import identity from '@/views/IdentityChoice.vue'
+import driverLogin from '@/views/driver/DriverLogin.vue'
 const routes = [
   {
-    path: '/',
+    path: '/1',
     name: 'identity',
     component: identity
   },
+  {
+    path: '/',
+    name: 'driverLogin',
+    component: driverLogin
+  }
 
 ]
 

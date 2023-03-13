@@ -3,7 +3,7 @@
         <div class="bg-white opacity-75 rounded-4 w-75 h-75 d-flex align-items-center justify-content-center">
             <div>
                 <div>
-                    <h2 class="text-center">Who are you?</h2>
+                    <h3 class="text-center">Choose your identity:</h3>
                 </div>
                 <div class="d-flex justify-content-center">
                     <div>
@@ -16,18 +16,6 @@
         </div>
     </div>
 </template>
-  
-<script>
-// @ is an alias to /src
-// import NavBar from '@/components/NavBar.vue'
-
-// export default {
-//   name: 'HomeView',
-//   components: {
-//     NavBar
-//   }
-// }
-</script>
   
 <style scoped>
     #identity{
