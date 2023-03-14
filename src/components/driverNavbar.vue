@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
 
       <!-- logo -->
@@ -40,8 +40,6 @@
   </nav>
 </template>
 
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .nav-item{
     margin-inline-end: 30px;

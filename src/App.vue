@@ -1,20 +1,23 @@
 <template>
   <div id="app">
-    
-    <!-- <PassengerNavbar/> -->
-    <router-view/>
+    <div>
+      <PassengerNavbar/>
+    </div>
+    <div>
+      <router-view/>
+    </div>
   </div>
 </template>
 
 <script>
-// import PassengerNavbar from '@/components/PassengerNavbar.vue'
+import PassengerNavbar from '@/components/PassengerNavbar.vue'
 // import DriverNavbar from '@/components/DriverNavbar.vue'
 // import AdminNavbar from '@/components/AdminNavbar.vue'
 
 export default {
   name: 'app',
   components: {
-    // PassengerNavbar
+    PassengerNavbar
     // DriverNavbar
     // AdminNavbar
   }
