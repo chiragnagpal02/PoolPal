@@ -17,7 +17,7 @@
                                 <input type="password" class="form-control" id="exampleInputPassword1">
                             </div>
                             
-                            <button type="submit" class="btn btn-outline-dark my-2 w-100">Submit</button>
+                            <button type="submit" class="btn btn-outline-dark mt-3 mb-5 w-100">Submit</button>
                                 
                             <div class="pt-5 text-center">
                                 Don't have an account? <router-link to="/signUp">Create new one</router-link>
