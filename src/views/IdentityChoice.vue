@@ -26,7 +26,11 @@
         bottom: 0;
         background-image: url("../assets/background.jpg");
         background-repeat: no-repeat;
-        padding:10%
+        padding:10%;
+        height: 100%; 
+        background-position: center;
+        background-size: cover;
+
     }
     .routerlink{
         color:black;
