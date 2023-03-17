@@ -24,7 +24,7 @@ const routes = [
     path: '/homepage',
     name: 'homepage',
     component: homepage
-  }
+  },
 
 ]
 
