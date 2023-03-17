@@ -3,6 +3,7 @@ import identity from '@/views/IdentityChoice.vue'
 import login from '@/views/LogIn.vue'
 import signUp from '@/views/SignUp.vue'
 import homepage from '@/views/HomePage.vue'
+import createcarpool from '@/views/CreateCarpool.vue'
 
 const routes = [
   {
