@@ -1,17 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import identity from '@/views/IdentityChoice.vue'
 import login from '@/views/LogIn.vue'
 import signUp from '@/views/SignUp.vue'
-import homepage from '@/views/HomePage.vue'
+import passengerHomepage from '@/views/passenger/PassengerHomePage.vue'
+import driverHomepage from '@/views/driver/DriverHomePage.vue'
+import adminHomepage from '@/views/admin/AdminHomePage.vue'
+
+
 
 const routes = [
   {
     path: '/',
-    name: 'identity',
-    component: identity
-  },
-  {
-    path: '/login',
     name: 'login',
     component: login
   },
@@ -21,9 +19,19 @@ const routes = [
     component: signUp
   },
   {
-    path: '/homepage',
-    name: 'homepage',
-    component: homepage
+    path: '/driverHomepage',
+    name: 'driverHomepage',
+    component: driverHomepage
+  },
+  {
+    path: '/passengerHomepage',
+    name: 'passengerHomepage',
+    component: passengerHomepage
+  },
+  {
+    path: '/adminHomepage',
+    name: 'adminHomepage',
+    component: adminHomepage
   }
 
 ]

@@ -48,5 +48,6 @@
 <style scoped>
 .nav-item{
   margin-inline-end: 30px;
+  text-align:center;
 }
 </style>
