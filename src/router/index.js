@@ -26,11 +26,6 @@ const routes = [
     name: 'homepage',
     component: homepage
   },
-  {
-    path: '/createcarpool',
-    name: 'createcarpool',
-    component: createcarpool
-  },
 
 ]
 
