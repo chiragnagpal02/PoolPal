@@ -1,20 +1,29 @@
 <template>   
-    <div class="container-fluid d-flex align-items-center justify-content-center" id="identity">
+    <div class="container-fluid d-flex align-items-center justify-content-center" id="image">
         <div class="whitebox bg-white rounded-4 w-75 d-flex align-items-center justify-content-center">
             <div class="w-100">
                 <div>
-                    <h3 class="text-center">Log In as ROLE</h3>
+                    <h3 class="text-center">Log In</h3>
                 </div>
                 <div class="d-flex justify-content-center">
                     <div class="w-75">
                         <form>
                             <div class="my-2">
-                                <label for="exampleInputEmail1" class="form-label">Email Address</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email">
                             </div>
                             <div class="my-2">
-                                <label for="exampleInputPassword1" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password">
+                            </div>
+                            <div class="my-2">
+                                <label for="identity" class="form-label">Identity</label>
+                                <select name="identity" class="form-control" id="identity">
+                                    <option value="volvo">--Select Identity--</option>
+                                    <option value="saab">Driver</option>
+                                    <option value="mercedes">Passenger</option>
+                                    <option value="audi">Admin</option>
+                                </select>
                             </div>
                             
                             <button type="submit" class="btn btn-outline-dark mt-3 mb-5 w-100">Submit</button>
@@ -31,13 +40,13 @@
 </template>
   
 <style scoped>
-    #identity{
+    #image{
         position: absolute;
         top: 0;
         left: 0; 
         right: 0;
         bottom: 0;
-        background-image: url("../assets/background.jpg");
+        background-image: url("../assets/loginSignup.jpg");
         background-repeat: no-repeat;
         padding:10%;
         height: 100%; 

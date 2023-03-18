@@ -34,10 +34,10 @@
   </nav>
 </template>
   
-  
-  <!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .nav-item{
     margin-inline-end: 30px;
+    text-align:center;
   }
 </style>
