@@ -11,6 +11,8 @@ import driverProfile from '@/views/driver/DriverProfile.vue'
 //passenger
 import passengerHomepage from '@/views/passenger/PassengerHomePage.vue'
 import passengerProfile from '@/views/passenger/PassengerProfile.vue'
+import createRequest from '@/views/passenger/CreateRequest.vue'
+
 //admin
 import adminHomepage from '@/views/admin/AdminHomePage.vue'
 
@@ -53,6 +55,11 @@ const routes = [
     path: '/passengerProfile',
     name: 'passengerProfile',
     component: passengerProfile
+  },
+  {
+    path: '/createRequest',
+    name: '/createRequest',
+    component: createRequest
   },
 
   // admin

@@ -17,10 +17,13 @@
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Book A Ride</a>
+            <a class="nav-link" href="#">Offer A Ride</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Ride History</a>
+            <a class="nav-link">Rides</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">Earning Summary</a>
           </li>
           <li class="nav-item">
             <a class="nav-link">Chats</a>
@@ -39,10 +42,12 @@
     </div>
   </nav>
 </template>
+  
 
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .nav-item{
-    margin-inline-end: 30px;
-    text-align:center;
-  }
+.nav-item{
+  margin-inline-end: 30px;
+  text-align:center;
+}
 </style>

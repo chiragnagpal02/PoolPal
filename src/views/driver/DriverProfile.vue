@@ -3,7 +3,7 @@
   <DriverNavbar/>
 
   <div class="background container-fluid d-flex align-items-center justify-content-center">
-    <div class="student-profile py-4">
+    <div class="profile py-4 w-100">
       <div class="card shadow-sm">
         <div class="card-header bg-transparent text-center">
           <img class="profile_img" src="../../assets/profile.jpg">
@@ -12,37 +12,37 @@
         <div class="card-body d-flex align-items-center justify-content-center">
           <table class="table">
             <tr>
-              <th width="40%">Age</th>
+              <th width="49%">Age</th>
               <td width="2%">:</td>
               <td>age</td>
             </tr>
             <tr>
-              <th width="40%">Gender</th>
+              <th width="49%">Gender</th>
               <td width="2%">:</td>
               <td>m/f</td>
             </tr>
             <tr>
-              <th width="40%">Email</th>
-              <td width="5%">:</td>
+              <th width="49%">Email</th>
+              <td width="2%">:</td>
               <td>xx@gmail.com</td>
             </tr>
             <tr>
-              <th width="40%">Address</th>
+              <th width="49%">Address</th>
               <td width="2%">:</td>
               <td>xxx</td>
             </tr>
             <tr>
-              <th width="40%">Vehicle Number</th>
+              <th width="49%">Vehicle Number</th>
               <td width="2%">:</td>
               <td>xxx</td>
             </tr>
             <tr>
-              <th width="40%">License Number</th>
+              <th width="49%">License Number</th>
               <td width="2%">:</td>
               <td>xxx</td>
             </tr>
             <tr>
-              <th width="40%">Phone Number</th>
+              <th width="49%">Phone Number</th>
               <td width="2%">:</td>
               <td>xxx</td>
             </tr>
@@ -69,28 +69,28 @@
   width:100%;
   height:100%;
   background-repeat: no-repeat;
-  background-image: url('../../assets/homepage.jpg');
+  background-image: url('../../assets/forms.jpg');
   height: 100%; 
   background-position: center;
   background-size: cover;
 }
-.student-profile .card {
+.profile .card {
     border-radius: 10px;
 }
-.student-profile .profile_img {
-    width: 50%;
+.profile .profile_img {
+    width: 200px;
     object-fit: cover;
     margin: 10px auto;
     border: 5px solid #ccc;
     border-radius: 50%;
     aspect-ratio: 1/1;
 }
-.student-profile .card h3 {
+.profile .card h3 {
     font-size: 20px;
     font-weight: 700;
 }
-.student-profile .table th,
-.student-profile .table td {
+.profile .table th,
+.profile .table td {
     padding: 5px 10px;
 }
 </style>
