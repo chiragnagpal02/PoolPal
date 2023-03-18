@@ -70,7 +70,6 @@
   height:100%;
   background-repeat: no-repeat;
   background-image: url('../../assets/forms.jpg');
-  height: 100%; 
   background-position: center;
   background-size: cover;
 }

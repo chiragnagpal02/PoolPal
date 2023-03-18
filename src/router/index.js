@@ -12,6 +12,7 @@ import driverProfile from '@/views/driver/DriverProfile.vue'
 import passengerHomepage from '@/views/passenger/PassengerHomePage.vue'
 import passengerProfile from '@/views/passenger/PassengerProfile.vue'
 import createRequest from '@/views/passenger/CreateRequest.vue'
+import passengerRides from '@/views/passenger/PassengerRides.vue'
 
 //admin
 import adminHomepage from '@/views/admin/AdminHomePage.vue'
@@ -58,8 +59,13 @@ const routes = [
   },
   {
     path: '/createRequest',
-    name: '/createRequest',
+    name: 'createRequest',
     component: createRequest
+  },
+  {
+    path: '/passengerRides',
+    name: 'passengerRides',
+    component: passengerRides
   },
 
   // admin
