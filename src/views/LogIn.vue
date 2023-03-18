@@ -46,7 +46,7 @@
         left: 0; 
         right: 0;
         bottom: 0;
-        background-image: url("../assets/background.jpg");
+        background-image: url("../assets/loginSignup.jpg");
         background-repeat: no-repeat;
         padding:10%;
         height: 100%; 
