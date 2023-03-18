@@ -1,11 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import login from '@/views/LogIn.vue'
 import signUp from '@/views/SignUp.vue'
-import passengerHomepage from '@/views/passenger/PassengerHomePage.vue'
-import driverHomepage from '@/views/driver/DriverHomePage.vue'
-import adminHomepage from '@/views/admin/AdminHomePage.vue'
-
-
+import homepage from '@/views/HomePage.vue'
+import createcarpool from '@/views/CreateCarpool.vue'
 
 const routes = [
   {
@@ -32,7 +29,7 @@ const routes = [
     path: '/adminHomepage',
     name: 'adminHomepage',
     component: adminHomepage
-  }
+  },
 
 ]
 

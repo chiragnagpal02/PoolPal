@@ -43,14 +43,16 @@ class Drivers(db.Model):
 # Carpool DB
 
 class Carpool(db.Model):
-    CID = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    CPID = db.Column(db.Integer, primary_key=True, autoincrement=True)
     DID = db.Column(db.Integer, db.ForeignKey('drivers.DID'), nullable=False)
     PID = db.Column(db.JSON, nullable=True)
-    Start_location_lat = db.Column(db.Float, nullable=False)
-    Start_Location_long = db.Column(db.Float, nullable=False)
+    Start_Location_Lat = db.Column(db.Float, nullable=False)
+    Start_Location_Long = db.Column(db.Float, nullable=False)
     End_Location_Lat = db.Column(db.Float, nullable=False)
-    End_Location_long = db.Column(db.Float, nullable=False)
+    End_Location_Long = db.Column(db.Float, nullable=False)
     Distance = db.Column(db.Float, nullable=False)
+    Date_Time = db.Column(db.DateTime, default=datetime.now())
+    Available_Seats = db.Column(db.Integer, nullable=False)
     Price = db.Column(db.Float, nullable=True)
     Status = db.Column(db.String(20), nullable=False)
     Created_on = db.Column(db.DateTime, default=datetime.now())
