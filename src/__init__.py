@@ -3,7 +3,7 @@ import os
 from src.carpool import carpool
 from src.passengers import passengers
 from src.drivers import drivers
-
+from src.googleMap import googleMap
 from src.database import db
 
 def create_app(test_config=None):
@@ -28,6 +28,8 @@ def create_app(test_config=None):
     app.register_blueprint(passengers)
     app.register_blueprint(drivers)
     app.register_blueprint(carpool)
+    app.register_blueprint(googleMap)
+
 
     
     return app
