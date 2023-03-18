@@ -19,10 +19,10 @@
                             <div class="my-2">
                                 <label for="identity" class="form-label">Identity</label>
                                 <select name="identity" class="form-control" id="identity">
-                                    <option value="volvo">--Select Identity--</option>
-                                    <option value="saab">Driver</option>
-                                    <option value="mercedes">Passenger</option>
-                                    <option value="audi">Admin</option>
+                                    <option>Select Identity--</option>
+                                    <option value="driver">Driver</option>
+                                    <option value="passenger">Passenger</option>
+                                    <option value="admin">Admin</option>
                                 </select>
                             </div>
                             

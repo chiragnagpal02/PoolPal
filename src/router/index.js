@@ -7,6 +7,8 @@ import signUp from '@/views/SignUp.vue'
 // driver
 import driverHomepage from '@/views/driver/DriverHomePage.vue'
 import driverProfile from '@/views/driver/DriverProfile.vue'
+import driverRides from '@/views/driver/DriverRides.vue'
+import driverChats from '@/views/driver/DriverChats.vue'
 
 //passenger
 import passengerHomepage from '@/views/passenger/PassengerHomePage.vue'
@@ -43,6 +45,16 @@ const routes = [
     path: '/driverProfile',
     name: 'driverProfile',
     component: driverProfile
+  },
+  {
+    path: '/driverRides',
+    name: 'driverRides',
+    component: driverRides
+  },
+  {
+    path: '/driverChats',
+    name: 'driverChats',
+    component: driverChats
   },
 
   // passenger

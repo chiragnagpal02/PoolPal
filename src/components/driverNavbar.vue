@@ -23,9 +23,6 @@
             <a class="nav-link">Rides</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link">Earning Summary</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link">Chats</a>
           </li>
           <li class="nav-item">
