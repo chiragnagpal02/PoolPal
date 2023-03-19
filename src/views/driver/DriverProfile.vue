@@ -37,7 +37,7 @@
               <td>xxx</td>
             </tr>
             <tr>
-              <th width="49%">License Number</th>
+              <th width="49%">Driver License</th>
               <td width="2%">:</td>
               <td>xxx</td>
             </tr>

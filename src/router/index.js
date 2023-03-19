@@ -9,18 +9,18 @@ import driverHomepage from '@/views/driver/DriverHomePage.vue'
 import driverProfile from '@/views/driver/DriverProfile.vue'
 import driverRides from '@/views/driver/DriverRides.vue'
 import driverChats from '@/views/driver/DriverChats.vue'
+import driverRequest from '@/views/driver/DriverRequest.vue'
 
 //passenger
 import passengerHomepage from '@/views/passenger/PassengerHomePage.vue'
 import passengerProfile from '@/views/passenger/PassengerProfile.vue'
-import createRequest from '@/views/passenger/CreateRequest.vue'
+import passengerRequest from '@/views/passenger/PassengerRequest.vue'
 import passengerRides from '@/views/passenger/PassengerRides.vue'
+import passengerChats from '@/views/passenger/PassengerChats.vue'
 
 //admin
 import adminHomepage from '@/views/admin/AdminHomePage.vue'
 
-
-// import createcarpool from '@/views/CreateCarpool.vue'
 
 const routes = [
   // shared
@@ -56,6 +56,11 @@ const routes = [
     name: 'driverChats',
     component: driverChats
   },
+  {
+    path: '/driverRequest',
+    name: 'driverRequest',
+    component: driverRequest
+  },
 
   // passenger
   {
@@ -70,14 +75,19 @@ const routes = [
     component: passengerProfile
   },
   {
-    path: '/createRequest',
-    name: 'createRequest',
-    component: createRequest
+    path: '/passengerRequest',
+    name: 'passengerRequest',
+    component: passengerRequest
   },
   {
     path: '/passengerRides',
     name: 'passengerRides',
     component: passengerRides
+  },
+  {
+    path: '/passengerChats',
+    name: 'passengerChats',
+    component: passengerChats
   },
 
   // admin
