@@ -37,36 +37,13 @@
         <div class="row my-4">
             <div class="card">
                 <p class="card-text px-2 py-4" style="text-align:left;" >
-                    Starting Location: <br>
-                    Destination: <br>
-                    Date: <br>
-                    Time: <br>
-                    Driver: <br>
                     Carpool ID: <br>
-                </p>
-            </div>
-        </div>
-
-        <div class="row my-4">
-            <div class="card">
-                <p class="card-text px-2 py-4" style="text-align:left;" >
                     Starting Location: <br>
                     Destination: <br>
                     Date: <br>
                     Time: <br>
-                    Driver: <br>
-                </p>
-            </div>
-        </div>
-
-        <div class="row my-4">
-            <div class="card">
-                <p class="card-text px-2 py-4" style="text-align:left;" >
-                    Starting Location: <br>
-                    Destination: <br>
-                    Date: <br>
-                    Time: <br>
-                    Driver: <br>
+                    Passenger Name: <br>
+                    Price: <br>                    
                 </p>
             </div>
         </div>
@@ -78,35 +55,13 @@
         <div class="row my-4">
             <div class="card">
                 <p class="card-text px-2 py-4" style="text-align:left;" >
+                    Carpool ID: <br>
                     Starting Location: <br>
                     Destination: <br>
                     Date: <br>
                     Time: <br>
-                    Driver: <br>
-                </p>
-            </div>
-        </div>
-
-        <div class="row my-4">
-            <div class="card">
-                <p class="card-text px-2 py-4" style="text-align:left;" >
-                    Starting Location: <br>
-                    Destination: <br>
-                    Date: <br>
-                    Time: <br>
-                    Driver: <br>
-                </p>
-            </div>
-        </div>
-
-        <div class="row my-4">
-            <div class="card">
-                <p class="card-text px-2 py-4" style="text-align:left;" >
-                    Starting Location: <br>
-                    Destination: <br>
-                    Date: <br>
-                    Time: <br>
-                    Driver: <br>
+                    Passenger Name: <br>
+                    Price: <br>  
                 </p>
             </div>
         </div>

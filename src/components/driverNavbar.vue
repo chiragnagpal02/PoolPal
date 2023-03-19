@@ -20,6 +20,9 @@
             <a class="nav-link" href="#">Offer A Ride</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link">Requests</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link">Rides</a>
           </li>
           <li class="nav-item">

@@ -20,6 +20,9 @@
             <a class="nav-link" href="#">Book A Ride</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link">Offers</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="#">Rides</a>
           </li>
           <li class="nav-item">

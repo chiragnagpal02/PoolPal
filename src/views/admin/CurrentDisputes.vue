@@ -1,38 +1,22 @@
 <template>
     <PassengerNavbar/>
-     <div class="container-fluid background text-center">
+     <div class="container-fluid background">
         <div class="row">
-            <h3 class="my-3">Upcoming Rides</h3>
+            <h3 class="my-3 text-center">Current Disputes</h3>
         </div>
         <div class="row my-4">
             <div class="card">
                 <p class="card-text p-4" style="text-align:left;" >
-                    Carpool ID: <br>
                     Starting Location: <br>
                     Destination: <br>
                     Date: <br>
                     Time: <br>
                     Driver Name: <br>
-                    Price: <br> 
+                    Price: <br>
                 </p>
-            </div>
-        </div>
-
-        <!-- past rides -->
-        <div class="row">
-            <h3 class="my-3">Past Rides</h3>
-        </div>
-        <div class="row my-4">
-            <div class="card">
-                <p class="card-text p-4" style="text-align:left;" >
-                    Carpool ID: <br>
-                    Starting Location: <br>
-                    Destination: <br>
-                    Date: <br>
-                    Time: <br>
-                    Driver Name: <br>
-                    Price: <br> 
-                </p>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100">Accept</button>
+                </div>
             </div>
         </div>
     </div>

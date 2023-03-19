@@ -9,7 +9,8 @@ import driverHomepage from '@/views/driver/DriverHomePage.vue'
 import driverProfile from '@/views/driver/DriverProfile.vue'
 import driverRides from '@/views/driver/DriverRides.vue'
 import driverChats from '@/views/driver/DriverChats.vue'
-import driverRequest from '@/views/driver/DriverRequest.vue'
+import driverOffer from '@/views/driver/DriverOffer.vue'
+import driverRequests from '@/views/driver/DriverRequests.vue'
 
 //passenger
 import passengerHomepage from '@/views/passenger/PassengerHomePage.vue'
@@ -17,6 +18,7 @@ import passengerProfile from '@/views/passenger/PassengerProfile.vue'
 import passengerRequest from '@/views/passenger/PassengerRequest.vue'
 import passengerRides from '@/views/passenger/PassengerRides.vue'
 import passengerChats from '@/views/passenger/PassengerChats.vue'
+import passengerOffers from '@/views/passenger/PassengerOffers.vue'
 
 //admin
 import adminHomepage from '@/views/admin/AdminHomePage.vue'
@@ -57,9 +59,14 @@ const routes = [
     component: driverChats
   },
   {
-    path: '/driverRequest',
-    name: 'driverRequest',
-    component: driverRequest
+    path: '/driverOffer',
+    name: 'driverOffer',
+    component: driverOffer
+  },
+  {
+    path: '/driverRequests',
+    name: 'driverRequests',
+    component: driverRequests
   },
 
   // passenger
@@ -88,6 +95,11 @@ const routes = [
     path: '/passengerChats',
     name: 'passengerChats',
     component: passengerChats
+  },
+  {
+    path: '/passengerOffers',
+    name: 'passengerOffers',
+    component: passengerOffers
   },
 
   // admin
