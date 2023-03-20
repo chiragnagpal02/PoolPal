@@ -1,5 +1,5 @@
 <template>
-    <PassengerNavbar/>
+    <AdminNavbar/>
      <div class="container-fluid background text-center">
         <div class="row">
             <h3 class="my-3">Resolved Disputes</h3>
@@ -24,10 +24,10 @@
     export default {
     name: 'app',
     components: {
-        PassengerNavbar
+        AdminNavbar
     }
     }
-    import PassengerNavbar from '@/components/PassengerNavbar.vue';
+    import AdminNavbar from '@/components/AdminNavbar.vue';
 </script>
 
 

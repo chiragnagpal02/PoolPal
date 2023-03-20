@@ -22,7 +22,8 @@ import passengerOffers from '@/views/passenger/PassengerOffers.vue'
 
 //admin
 import adminHomepage from '@/views/admin/AdminHomePage.vue'
-
+import adminCurrent from '@/views/admin/CurrentDisputes.vue'
+import adminResolved from '@/views/admin/ResolvedDisputes.vue'
 
 const routes = [
   // shared
@@ -107,6 +108,16 @@ const routes = [
     path: '/adminHomepage',
     name: 'adminHomepage',
     component: adminHomepage
+  },
+  {
+    path: '/adminCurrent',
+    name: 'adminCurrent',
+    component: adminCurrent
+  },
+  {
+    path: '/adminResolved',
+    name: 'adminResolved',
+    component: adminResolved
   },
 
 ]

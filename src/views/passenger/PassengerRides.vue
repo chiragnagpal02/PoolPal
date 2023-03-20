@@ -15,6 +15,10 @@
                     Driver Name: <br>
                     Price: <br> 
                 </p>
+
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100">Contact Customer Support</button>
+                </div>
             </div>
         </div>
 
@@ -33,6 +37,10 @@
                     Driver Name: <br>
                     Price: <br> 
                 </p>
+
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100">Review</button>
+                </div>
             </div>
         </div>
     </div>
