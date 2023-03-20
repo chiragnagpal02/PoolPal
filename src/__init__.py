@@ -3,7 +3,7 @@ import os
 from src.carpool import carpool
 from src.passengers import passengers
 from src.drivers import drivers
-from src.googleMap import googleMap
+from src.googlemap import googleMap
 from src.database import db
 
 def create_app(test_config=None):
