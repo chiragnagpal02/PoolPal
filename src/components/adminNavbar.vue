@@ -3,9 +3,9 @@
     <div class="container-fluid">
 
       <!-- logo -->
-      <a class="navbar-brand mx-2" href="#">
+      <router-link to="/adminHomepage" class="navbar-brand mx-2 routing">
         <img src="../assets/logo.png" alt="Logo" width="50" height="50" class="d-inline-block align-text-top"> 
-      </a>
+      </router-link>
 
       <!-- nav items -->
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -14,19 +14,19 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mx-auto">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <router-link to="/adminHomepage" class="nav-link routing">Home</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Current Disputes</a>
+            <router-link to="/adminCurrent" class="nav-link routing">Current Disputes</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link">Dispute History</a>
+            <router-link to="/adminResolved" class="nav-link routing">Dispute History</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link">Log In</a>
+            <router-link to="/" class="nav-link routing">Log In</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link">Sign Up</a>
+            <router-link to="/signUp" class="nav-link routing">Sign Up</router-link>
           </li>
         </ul>
       </div>
@@ -39,5 +39,10 @@
   .nav-item{
     margin-inline-end: 30px;
     text-align:center;
+    margin-bottom:15px;
+  }
+  .routing{
+    color:black;
+    text-decoration: none;
   }
 </style>

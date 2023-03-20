@@ -26,7 +26,9 @@
                                 </select>
                             </div>
                             
-                            <button type="submit" class="btn btn-outline-dark mt-3 mb-5 w-100">Submit</button>
+                            <button type="submit" class="btn btn-outline-dark mt-3 mb-5 w-100">
+                                <router-link to="/driverHomepage" style="color:black; text-decoration:none;">Log In</router-link>
+                            </button>
                                 
                             <div class="pt-5 text-center">
                                 Don't have an account? <router-link to="/signUp">Create new one</router-link>

@@ -3,7 +3,7 @@
         <div class="whitebox bg-white rounded-4 w-75 d-flex align-items-center justify-content-center">
             <div class="w-100">
                 <div>
-                    <h3 class="text-center">Sign Up as ROLE</h3>
+                    <h3 class="text-center">Sign Up</h3>
                 </div>
                 <div class="d-flex justify-content-center">
                     <div class="w-75">
@@ -21,10 +21,12 @@
                                 <input type="password" class="form-control" id="exampleInputPassword2">
                             </div>
                             
-                            <button type="submit" class="btn btn-outline-dark my-2 w-100">Submit</button>
+                            <button type="submit" class="btn btn-outline-dark mt-3 mb-5 w-100">
+                                <router-link to="/driverHomepage" style="color:black; text-decoration:none;">Sign Up</router-link>
+                            </button>
                                 
                             <div class="pt-3 text-center">
-                                Already have an account? <router-link to="/login">Log In</router-link> 
+                                Already have an account? <router-link to="/">Log In</router-link> 
                             </div>
                         </form>
                     </div>

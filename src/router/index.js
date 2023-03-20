@@ -9,18 +9,21 @@ import driverHomepage from '@/views/driver/DriverHomePage.vue'
 import driverProfile from '@/views/driver/DriverProfile.vue'
 import driverRides from '@/views/driver/DriverRides.vue'
 import driverChats from '@/views/driver/DriverChats.vue'
+import driverOffer from '@/views/driver/DriverOffer.vue'
+import driverRequests from '@/views/driver/DriverRequests.vue'
 
 //passenger
 import passengerHomepage from '@/views/passenger/PassengerHomePage.vue'
 import passengerProfile from '@/views/passenger/PassengerProfile.vue'
-import createRequest from '@/views/passenger/CreateRequest.vue'
+import passengerRequest from '@/views/passenger/PassengerRequest.vue'
 import passengerRides from '@/views/passenger/PassengerRides.vue'
+import passengerChats from '@/views/passenger/PassengerChats.vue'
+import passengerOffers from '@/views/passenger/PassengerOffers.vue'
 
 //admin
 import adminHomepage from '@/views/admin/AdminHomePage.vue'
-
-
-// import createcarpool from '@/views/CreateCarpool.vue'
+import adminCurrent from '@/views/admin/CurrentDisputes.vue'
+import adminResolved from '@/views/admin/ResolvedDisputes.vue'
 
 const routes = [
   // shared
@@ -56,6 +59,16 @@ const routes = [
     name: 'driverChats',
     component: driverChats
   },
+  {
+    path: '/driverOffer',
+    name: 'driverOffer',
+    component: driverOffer
+  },
+  {
+    path: '/driverRequests',
+    name: 'driverRequests',
+    component: driverRequests
+  },
 
   // passenger
   {
@@ -70,14 +83,24 @@ const routes = [
     component: passengerProfile
   },
   {
-    path: '/createRequest',
-    name: 'createRequest',
-    component: createRequest
+    path: '/passengerRequest',
+    name: 'passengerRequest',
+    component: passengerRequest
   },
   {
     path: '/passengerRides',
     name: 'passengerRides',
     component: passengerRides
+  },
+  {
+    path: '/passengerChats',
+    name: 'passengerChats',
+    component: passengerChats
+  },
+  {
+    path: '/passengerOffers',
+    name: 'passengerOffers',
+    component: passengerOffers
   },
 
   // admin
@@ -85,6 +108,16 @@ const routes = [
     path: '/adminHomepage',
     name: 'adminHomepage',
     component: adminHomepage
+  },
+  {
+    path: '/adminCurrent',
+    name: 'adminCurrent',
+    component: adminCurrent
+  },
+  {
+    path: '/adminResolved',
+    name: 'adminResolved',
+    component: adminResolved
   },
 
 ]

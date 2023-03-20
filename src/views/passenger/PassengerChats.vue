@@ -1,5 +1,5 @@
 <template>
-    <DriverNavbar/>
+    <PassengerNavbar/>
 
     <div class="container-fluid background">
         <!-- back button -->
@@ -59,10 +59,10 @@
     export default {
     name: 'app',
     components: {
-        DriverNavbar
+        PassengerNavbar
     }
     }
-    import DriverNavbar from '@/components/DriverNavbar.vue';
+    import PassengerNavbar from '@/components/PassengerNavbar.vue';
 </script>
 
 <style>

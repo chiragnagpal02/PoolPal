@@ -7,75 +7,40 @@
         <div class="row my-4">
             <div class="card">
                 <p class="card-text p-4" style="text-align:left;" >
+                    Carpool ID: <br>
                     Starting Location: <br>
                     Destination: <br>
                     Date: <br>
                     Time: <br>
-                    Driver: <br>
+                    Driver Name: <br>
+                    Price: <br> 
                 </p>
+
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100">Contact Customer Support</button>
+                </div>
             </div>
         </div>
 
-        <div class="row my-4">
-            <div class="card">
-                <p class="card-text p-4" style="text-align:left;" >
-                    Starting Location: <br>
-                    Destination: <br>
-                    Date: <br>
-                    Time: <br>
-                    Driver: <br>
-                </p>
-            </div>
-        </div>
-
-        <div class="row my-4">
-            <div class="card">
-                <p class="card-text p-4" style="text-align:left;" >
-                    Starting Location: <br>
-                    Destination: <br>
-                    Date: <br>
-                    Time: <br>
-                    Driver: <br>
-                </p>
-            </div>
-        </div>
-
+        <!-- past rides -->
         <div class="row">
             <h3 class="my-3">Past Rides</h3>
         </div>
         <div class="row my-4">
             <div class="card">
                 <p class="card-text p-4" style="text-align:left;" >
+                    Carpool ID: <br>
                     Starting Location: <br>
                     Destination: <br>
                     Date: <br>
                     Time: <br>
-                    Driver: <br>
+                    Driver Name: <br>
+                    Price: <br> 
                 </p>
-            </div>
-        </div>
 
-        <div class="row my-4">
-            <div class="card">
-                <p class="card-text p-4" style="text-align:left;" >
-                    Starting Location: <br>
-                    Destination: <br>
-                    Date: <br>
-                    Time: <br>
-                    Driver: <br>
-                </p>
-            </div>
-        </div>
-
-        <div class="row my-4">
-            <div class="card">
-                <p class="card-text p-4" style="text-align:left;" >
-                    Starting Location: <br>
-                    Destination: <br>
-                    Date: <br>
-                    Time: <br>
-                    Driver: <br>
-                </p>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100">Review</button>
+                </div>
             </div>
         </div>
     </div>
