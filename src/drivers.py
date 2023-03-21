@@ -1,54 +1,92 @@
-from flask import Blueprint, jsonify, request
-from src.database import Drivers, db
-from constants.http_status_codes import *
+from flask import Blueprint, request, jsonify, render_template
+from src.databases import Driver, db
 
 
+driver = Blueprint('driver', __name__, url_prefix='/api/driver')
 
-drivers = Blueprint('drivers', __name__, url_prefix='/api/v1/drivers')
 
-
-@drivers.route('/create', methods=['POST'])
-def create_driver():
-    dname = request.json['DName']
-    dage = request.json['DAge']
-    dgender = request.json['DGender']
-    demail = request.json['DEmail']
-    daddress = request.json['DAddress']
-    dvehicle = request.json['DVehicleNo']
-    dlicense = request.json['DLicenseNo']
-    dphone = request.json['DPhone']
-    
-
-    new_driver = Drivers(
-        DName=dname,
-        DAge=dage,
-        DGender=dgender,
-        DEmail=demail,
-        DAddress=daddress,
-        DVehicleNo=dvehicle,
-        DLicenseNo=dlicense,
-        DPhone=dphone,
-        
-    )
-
-    db.session.add(new_driver)
-    db.session.commit()
-    
-    return jsonify({
-        "message": "Driver created successfully",
-        'driver': {
-            'Driver Name': new_driver.DName,
-            'Driver Age': new_driver.DAge,
-            'Driver Gender': new_driver.DGender,
-            'Driver Email': new_driver.DEmail,
-            'Driver Address': new_driver.DAddress,
-            'Driver Vehicle No': new_driver.DVehicleNo,
-            'Driver License No': new_driver.DLicenseNo,
-            'Driver Phone': new_driver.DPhone,
+@driver.route('/get_all_drivers')
+def get_all_drivers(): 
+    drivers = Driver.query.all()
+    if len(drivers):
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "drivers": [driver.json() for driver in drivers]
+                }
             }
-        }), HTTP_201_CREATED
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": "There are no drivers."
+        }
+    ), 404
 
 
-@drivers.route('/me')
-def me():
-    return {'message': 'User Me'}
+@driver.route('/get_driver_by_id/<driver_id>')
+def get_driver_by_id(driver_id):
+    driver = Driver.query.filter_by(DID=driver_id).first()
+    if driver:
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "driver": driver.json()
+                }
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": "There are no drivers."
+        }
+    ), 404
+
+@driver.route('/get_driver_by_licence/<license>', methods=['GET'])
+def get_driver_by_licence(licence):
+    driver = Driver.query.filter_by(DLicenseNo=licence).first()
+    if driver:
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "driver": driver.json()
+                }
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": "There are no drivers."
+        }
+    ), 404
+
+
+@driver.route('/add_driver', methods=['POST'])
+def add_driver():
+    DName = request.json['DName']
+    DGender = request.json['DGender']
+    DEmail = request.json['DEmail']
+    DVehicleNo = request.json['DVehicleNo']
+    DLicenseNo = request.json['DLicenseNo']
+    DPhoneNo = request.json['DPhoneNo']
+    DLicenseExpiration = request.json['DLicenseExpiration']
+    DCar = request.json['DCar']
+    DCapacity = request.json['DCapacity']
+
+    driver = Driver(DName, DGender, DEmail, DVehicleNo, DLicenseNo, DPhoneNo, DLicenseExpiration, DCar, DCapacity)
+
+    db.session.add(driver)
+    db.session.commit()
+
+    return jsonify(
+        {
+            "code": 200,
+            "data": {
+                'status': f"Driver with id {driver.DID} has been added successfully."
+            }
+        }
+    )
+    

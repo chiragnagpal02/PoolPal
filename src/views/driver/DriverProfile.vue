@@ -60,7 +60,7 @@
     DriverNavbar
   }
   }
-  import DriverNavbar from '@/components/DriverNavbar.vue';
+  import DriverNavbar from '@/components/driverNavbar.vue';
 </script>
 
 <style scoped>

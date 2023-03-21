@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from src.database import Carpool, db
+from src.databases import Carpool, db
 from constants.http_status_codes import *
 
 

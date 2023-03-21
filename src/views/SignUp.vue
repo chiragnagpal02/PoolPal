@@ -21,13 +21,21 @@
                                 <input type="password" class="form-control" id="exampleInputPassword2">
                             </div>
                             
-                            <button type="submit" class="btn btn-outline-dark mt-3 mb-5 w-100">
-                                <router-link to="/driverHomepage" style="color:black; text-decoration:none;">Sign Up</router-link>
+                            <button type="submit" class="btn btn-outline-dark mt-3 mb-3 w-100">
+                                <router-link to="/driverHomePage" style="color:black; text-decoration:none;">Sign Up</router-link>
                             </button>
                                 
-                            <div class="pt-3 text-center">
+                            <div class=" text-center">
                                 Already have an account? <router-link to="/">Log In</router-link> 
                             </div>
+
+                            <div class="divider mt-3">
+                                <hr class="left"/> OR <hr class="right" />
+                            </div>
+
+                            <button @click="addUser" type="submit" class="btn btn-outline-dark mt-3 mb-3 w-100">
+                                <router-link to="/driverHomepage" style="color:black; text-decoration:none;">Continue with google</router-link>
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -53,4 +61,88 @@
     .whitebox{
         height:500px;
     }
+
+    .divider {
+    width:690px;
+    text-align:center;
+}
+
+    .divider hr {
+        margin-left:auto;
+        margin-right:auto;
+        width:40%;
+
+    }
+
+    .left {
+        float:left;
+    }
+
+    .right {
+        float:right;
+    }
 </style>
+
+<script>
+
+export default {
+    name: "SignUp",
+    data () {
+        return{}
+    },
+
+    mounted(){
+        // sessionStorage.removeItem("user");
+        // localStorage.clear();
+    },
+
+    methods: {
+        addUser() {
+            window.location =  'http://127.0.0.1:5000/auth/'
+            // reset data
+            // this.bookAdded = false;
+            // this.addBookError = "";
+
+            // let jsonData = JSON.stringify({
+            //     title: this.newTitle,
+            //     price: this.newPrice,
+            //     availability: this.newAvailability
+            // });
+
+            // fetch(`${get_all_URL}/${this.newISBN13}`,
+            //     {
+            //         method: "POST",
+            //         headers: {
+            //             "Content-type": "application/json"
+            //         },
+            //         body: jsonData
+            //     })
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         console.log(data);
+            //         result = data.data;
+            //         console.log(result);
+            //         // 3 cases
+            //         switch (data.code) {
+            //             case 201:
+            //                 this.bookAdded = true;
+
+            //                 // refresh book list
+            //                 this.getAllBooks();
+
+            //                 // an alternate way is to add this one element into this.books
+            //                 break;
+            //             case 400:
+            //             case 500:
+            //                 this.addBookError = data.message;
+            //                 break;
+            //             default:
+            //                 throw `${data.code}: ${data.message}`;
+            //         }
+            //     })
+            },
+    }
+}
+       
+
+</script>

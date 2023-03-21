@@ -60,7 +60,7 @@
     PassengerNavbar
   }
   }
-  import PassengerNavbar from '@/components/PassengerNavbar.vue';
+  import PassengerNavbar from '@/components/passengerNavbar.vue';
 </script>
 
 <style scoped>

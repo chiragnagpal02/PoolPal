@@ -27,9 +27,11 @@
     name: 'app',
     components: {
         DriverNavbar
+        }
     }
-    }
-    import DriverNavbar from '@/components/PassengerNavbar.vue';
+
+    import DriverNavbar from '@/components/passengerNavbar.vue';
+
 </script>
 
 
