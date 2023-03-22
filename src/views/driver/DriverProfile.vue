@@ -54,13 +54,26 @@
 </template>
 
 <script>
+  // component
+  import DriverNavbar from '@/components/DriverNavbar.vue';
   export default {
   name: 'app',
   components: {
     DriverNavbar
   }
   }
-  import DriverNavbar from '@/components/driverNavbar.vue';
+  
+
+  // axios
+  import axios from 'axios'
+
+  const driver_id = 1
+  axios.get(`/get_driver_by_id/${driver_id}`)
+  .then(response => {
+    this.driver = response.data
+  })
+  
+
 </script>
 
 <style scoped>

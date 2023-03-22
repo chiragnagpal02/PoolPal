@@ -62,7 +62,7 @@
         PassengerNavbar
     }
     }
-    import PassengerNavbar from '@/components/passengerNavbar.vue';
+    import PassengerNavbar from '@/components/PassengerNavbar.vue';
 </script>
 
 <style>

@@ -37,7 +37,7 @@
       AdminNavbar
   }
   }
-  import AdminNavbar from '@/components/adminNavbar.vue';
+  import AdminNavbar from '@/components/AdminNavbar.vue';
 </script>
 
 <style scoped>

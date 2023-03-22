@@ -30,7 +30,7 @@
         }
     }
 
-    import DriverNavbar from '@/components/passengerNavbar.vue';
+    import DriverNavbar from '@/components/PassengerNavbar.vue';
 
 </script>
 
