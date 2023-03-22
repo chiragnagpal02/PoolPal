@@ -1,16 +1,14 @@
-from functools import wraps
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from os import environ
 from flask_cors import CORS
-from authenticationMS import login_is_required
 import validators
 from datetime import datetime
-import jwt
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/PoolPal'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/PoolPal'
+app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 299}
 
@@ -63,9 +61,7 @@ class Driver(db.Model):
             "DCapacity": self.DCapacity
         }
     
-
-
-@app.route('/get_all_drivers')
+@app.route('/driver/get_all_drivers')
 
 def get_all_drivers(): 
     drivers = Driver.query.all()
@@ -97,7 +93,7 @@ def get_all_drivers():
 
 
 
-@app.route('/get_driver_by_id/<driver_id>')
+@app.route('/driver/get_driver_by_id/<driver_id>')
 def get_driver_by_id(driver_id):
     driver = Driver.query.filter_by(DID=driver_id).first()
 
@@ -120,7 +116,7 @@ def get_driver_by_id(driver_id):
         }
     ), 404
 
-@app.route('/get_driver_by_licence/<license>', methods=['GET'])
+@app.route('/driver/get_driver_by_licence/<license>', methods=['GET'])
 def get_driver_by_licence(licence):
     driver = Driver.query.filter_by(DLicenseNo=licence).first()
     if driver:
@@ -139,8 +135,27 @@ def get_driver_by_licence(licence):
         }
     ), 404
 
+@app.route("/driver/get_driver_by_email/<email>")
+def get_driver_by_email(email):
+    driver = Driver.query.filter_by(DEmail=email).first()
+    if driver:
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "driver": driver.json()
+                }
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message":f"There are no drivers with email id {email}."
+        }
+    ), 404
 
-@app.route('/add_driver', methods=['POST'])
+
+@app.route('/driver/add_driver', methods=['POST'])
 def add_driver():
 
     DName = request.json['DName']
@@ -190,7 +205,7 @@ def add_driver():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(host="0.0.0.0", debug=True, port=5000)
         
 
 
