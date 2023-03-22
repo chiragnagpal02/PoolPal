@@ -28,15 +28,24 @@ CREATE TABLE IF NOT EXISTS carpooling (
 );
 
 
-CREATE TABLE IF NOT EXISTS `driver` (
- `DID` int(11) NOT NULL,
- `DName` varchar(64) NOT NULL,
- `DGender` char(1) NOT NULL,
- `DEmail` varchar(64) NOT NULL,
- `DVehicleNo` varchar(64) NOT NULL,
- `DLicenseNo` varchar(64) NOT NULL,
- `DLicenseExpiration` datetime DEFAULT NULL,
- `DPhoneNo` int(11) NOT NULL,
- `DCar` varchar(100) NOT NULL,
- `DCapacity` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `review` (
+  `CPID` int NOT NULL,
+  `DID` int NOT NULL,
+  `PID` int NOT NULL,
+  `PRating` int DEFAULT NULL,
+  `DRating` int DEFAULT NULL,
+  `PDescription` varchar(100) DEFAULT NULL,
+  `DDescription` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`CPID`,`DID`,`PID`),
+  CONSTRAINT `review_ibfk_1` FOREIGN KEY (`CPID`) REFERENCES `carpool` (`CPID`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `review_ibfk_2` FOREIGN KEY (`DID`) REFERENCES `driver` (`DID`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `review_ibfk_3` FOREIGN KEY (`PID`) REFERENCES `passenger` (`PID`) ON DELETE RESTRICT ON UPDATE RESTRICT
+)
+
+CREATE TABLE `staff` (
+  `SID` int NOT NULL AUTO_INCREMENT,
+  `SName` varchar(100) NOT NULL,
+  `Gender` varchar(1) NOT NULL,
+  PRIMARY KEY (`SID`)
+)
+
