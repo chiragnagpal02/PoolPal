@@ -96,6 +96,16 @@ def add_new_passenger():
         }
     })
 
+@app.route('/get_all_carpools', methods=['GET'])
+def get_all_carpools():
+    carpools = Carpool.query.all()
+    return jsonify({
+        "code": 200,
+        "data": {
+            "carpools": [carpool.json() for carpool in carpools]
+        }
+    }), 200
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
     
