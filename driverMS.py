@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 from os import environ
 from flask_cors import CORS
@@ -7,15 +7,14 @@ from datetime import datetime
 
 
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/PoolPal'
-app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/PoolPal'
+# app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 299}
 
 db = SQLAlchemy(app)
 
 CORS(app)
-
 
 class Driver(db.Model):
     __tablename__ = 'driver'
@@ -61,7 +60,11 @@ class Driver(db.Model):
             "DCapacity": self.DCapacity
         }
     
-@app.route('/driver/get_all_drivers')
+@app.route("/", methods=['GET'])
+def home():
+    return render_template("driver.html")
+    
+@app.route('/api/v1/driver/get_all_drivers')
 
 def get_all_drivers(): 
     drivers = Driver.query.all()
