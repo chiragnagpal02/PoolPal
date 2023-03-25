@@ -74,3 +74,10 @@
       PRIMARY KEY (CPID, DID, PID)
   );
 
+CREATE TABLE User (
+    Email VARCHAR(200) NOT NULL,
+    Role VARCHAR(10) NOT NULL,
+    PRIMARY KEY (Email, Role)
+);
+
+
