@@ -31,6 +31,7 @@
 
     .whitebox {
       height: 500px;
+      border-radius: 0.5rem;
     }
 
     .divider {
@@ -52,21 +53,32 @@
     .right {
       float: right;
     }
+    
+    a{
+      text-decoration: none;
+      color:black;
+    }
   </style>
 
 </head>
 
 <body>
   <div class="container-fluid d-flex align-items-center justify-content-center" id="identity">
-    <div class="whitebox bg-white rounded-4 w-75 d-flex align-items-center justify-content-center">
+    <div class="whitebox bg-white w-75 d-flex align-items-center justify-content-center">
       <div class="w-100">
         <div>
-          <h3 class="text-center">Sign Up</h3>
+          <h3 class="text-center">Choose Your Identity</h3>
         </div>
         <div class="d-flex justify-content-center">
           <div class="w-75">
               <button class="btn btn-outline-dark mt-3 mb-3 w-100">
                 <a href="driver/driverSignUp.html">Driver</a>
+              </button>
+              <button class="btn btn-outline-dark mt-3 mb-3 w-100">
+                <a href="passenger/passengerSignUp.html">Passenger</a>
+              </button>
+              <button class="btn btn-outline-dark mt-3 mb-3 w-100">
+                <a href="driver/driverSignUp.html">Admin</a>
               </button>
             </form>
           </div>
@@ -77,9 +89,7 @@
 
 
   <!-- Bootstrap Bundle with Popper -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 
 </html>
