@@ -62,7 +62,7 @@ class Driver(db.Model):
     
 @app.route("/", methods=['GET'])
 def home():
-    return render_template("driver.html")
+    return render_template("driver_chirag.html")
     
 @app.route('/api/v1/driver/get_all_drivers')
 
