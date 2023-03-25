@@ -28,15 +28,23 @@ CREATE TABLE IF NOT EXISTS carpooling (
 );
 
 
-CREATE TABLE IF NOT EXISTS `driver` (
- `DID` int(11) NOT NULL,
- `DName` varchar(64) NOT NULL,
- `DGender` char(1) NOT NULL,
- `DEmail` varchar(64) NOT NULL,
- `DVehicleNo` varchar(64) NOT NULL,
- `DLicenseNo` varchar(64) NOT NULL,
- `DLicenseExpiration` datetime DEFAULT NULL,
- `DPhoneNo` int(11) NOT NULL,
- `DCar` varchar(100) NOT NULL,
- `DCapacity` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS review (
+  CPID INTEGER NOT NULL,
+  DID INTEGER NOT NULL,
+  PID INTEGER NOT NULL,
+  PRating INTEGER,
+  DRating INTEGER,
+  PDescription VARCHAR(100),
+  DDescription VARCHAR(100),
+  FOREIGN KEY (CPID) REFERENCES carpooling(CPID),
+  FOREIGN KEY (PID) REFERENCES passengers(PID), 
+  PRIMARY KEY (CPID,DID,PID)
+);
+
+CREATE TABLE IF NOT EXISTS staff (
+  SID INTEGER AUTO_INCREMENT,
+  SName varchar(100) NOT NULL,
+  Gender varchar(1) NOT NULL,
+  PRIMARY KEY (SID)
+);
+
