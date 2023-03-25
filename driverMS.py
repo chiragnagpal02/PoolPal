@@ -4,6 +4,7 @@ from os import environ
 from flask_cors import CORS
 import validators
 from datetime import datetime
+import bcrypt
 
 
 app = Flask(__name__)
@@ -23,6 +24,7 @@ class Driver(db.Model):
     DName = db.Column(db.String(64), nullable=False)
     DGender = db.Column(db.String(1), nullable=False)
     DEmail = db.Column(db.String(64), nullable=False)
+    DPasswordHash = db.Column(db.String(400), nullable=False)
     DVehicleNo = db.Column(db.String(64), nullable=False)
     DLicenseNo = db.Column(db.String(64), nullable=False)
     DLicenseExpiration = db.Column(db.DateTime, nullable=True)
@@ -35,10 +37,11 @@ class Driver(db.Model):
         {},
     )
 
-    def __init__(self, DName, DGender, DEmail, DVehicleNo, DLicenseNo, DLicenseExpiration, DPhoneNo, DCar, DCapacity):
+    def __init__(self, DName, DGender, DEmail, DPasswordHash, DVehicleNo, DLicenseNo, DLicenseExpiration, DPhoneNo, DCar, DCapacity):
         self.DName = DName
         self.DGender = DGender
         self.DEmail = DEmail
+        self.DPasswordHash = DPasswordHash
         self.DVehicleNo = DVehicleNo
         self.DLicenseNo = DLicenseNo
         self.DLicenseExpiration = DLicenseExpiration
@@ -52,6 +55,7 @@ class Driver(db.Model):
             "DName": self.DName,
             "DGender": self.DGender,
             "DEmail": self.DEmail,
+            "DPasswordHash": self.DPasswordHash,
             "DVehicleNo": self.DVehicleNo,
             "DLicenseNo": self.DLicenseNo,
             "DLicenseExpiration": self.DLicenseExpiration,
@@ -164,6 +168,9 @@ def add_driver():
     DName = request.json['DName']
     DGender = request.json['DGender']
     DEmail = request.json['DEmail']
+    DPassword = request.json['DPassword']
+    salt = bcrypt.gensalt()
+    DPasswordHash = bcrypt.hashpw(DPassword.encode('utf-8'), salt)
     DVehicleNo = request.json['DVehicleNo']
     DLicenseNo = request.json['DLicenseNo']
     DPhoneNo = request.json['DPhoneNo']
@@ -185,7 +192,8 @@ def add_driver():
     driver = Driver(
         DName=DName,
         DGender=DGender, 
-        DEmail=DEmail, 
+        DEmail=DEmail,
+        DPasswordHash=DPasswordHash, 
         DVehicleNo=DVehicleNo, 
         DLicenseNo=DLicenseNo,
         DPhoneNo=DPhoneNo,
@@ -209,9 +217,3 @@ def add_driver():
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True, port=5000)
-        
-
-
-
-    
-
