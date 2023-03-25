@@ -30,6 +30,7 @@ class Passengers(db.Model):
     PAge = db.Column(db.Integer, nullable=False)
     PGender = db.Column(db.String(1), nullable=False)
     PEmail = db.Column(db.String(200), nullable=False)
+    PPasswordHash = db.Column(db.String(400), nullable=False)
     PAddress = db.Column(db.String(400), nullable=False)
     PPhone = db.Column(db.Integer, nullable=False)
     PAccount_Created_At = db.Column(db.DateTime, default=datetime.now())
@@ -39,12 +40,13 @@ class Passengers(db.Model):
         {},
     )
 
-    def __init__(self, PName, PUserName, PAge, PGender, PEmail, PAddress, PPhone, PAccount_Created_At):
+    def __init__(self, PName, PUserName, PAge, PGender, PEmail, PPasswordHash, PAddress, PPhone, PAccount_Created_At):
         self.PName = PName
         self.PUserName = PUserName
         self.PAge = PAge
         self.PGender = PGender
         self.PEmail = PEmail
+        self.PPasswordHash = PPasswordHash
         self.PAddress = PAddress
         self.PPhone = PPhone
         self.PAccount_Created_At = PAccount_Created_At
@@ -57,6 +59,7 @@ class Passengers(db.Model):
             "PAge": self.PAge,
             "PGender": self.PGender,
             "PEmail": self.PEmail,
+            "PPasswordHash": self.PPasswordHash,
             "PAddress": self.PAddress,
             "PPhone": self.PPhone,
             "PAccount_Created_At": self.PAccount_Created_At
@@ -131,6 +134,9 @@ def add_new_passenger():
     PAge = request.json.get('PAge')
     PGender = request.json.get('PGender')
     PEmail = request.json.get('PEmail')
+    salt = bcrypt.gensalt()
+    PPassword = request.json.get('PPassword')
+    PPasswordHash = bcrypt.hashpw(PPassword.encode('utf-8'), salt)
     PAddress = request.json.get('PAddress')
     PPhone = request.json.get('PPhone')
     PAccount_Created_At = datetime.now()
@@ -157,6 +163,7 @@ def add_new_passenger():
         PAge,
         PGender,
         PEmail,
+        PPasswordHash,
         PAddress,
         PPhone,
         PAccount_Created_At
