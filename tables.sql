@@ -2,6 +2,8 @@ CREATE TABLE IF NOT EXISTS passengers (
     PID INTEGER AUTO_INCREMENT,
     PName VARCHAR(200) NOT NULL,
     PUserName VARCHAR(200) NOT NULL UNIQUE,
+    PPassWord VARCHAR(200) NOT NULL,
+    PConfirmPassword VARCHAR(200) NOT NULL,
     PAge INTEGER NOT NULL,
     PGender CHAR(1) NOT NULL,
     PEmail VARCHAR(200)NOT NULL,
@@ -55,6 +57,8 @@ CREATE TABLE IF NOT EXISTS `driver` (
  `DName` varchar(64) NOT NULL,
  `DGender` char(1) NOT NULL,
  `DEmail` varchar(64) NOT NULL,
+ 'DPassword' varchar(64) NOT NULL,
+ 'DConfirmPassword' varchar(64) NOT NULL,
  `DVehicleNo` varchar(64) NOT NULL,
  `DLicenseNo` varchar(64) NOT NULL,
  `DLicenseExpiration` datetime DEFAULT NULL,
@@ -68,9 +72,7 @@ CREATE TABLE carpeople (
     CPID INTEGER NOT NULL,
     DID INTEGER NOT NULL,
     PID INTEGER NOT NULL,
-    PRIMARY KEY (CPID, DID, PID),
-    FOREIGN KEY (CPID) REFERENCES carpooling(CPID),
-    FOREIGN KEY (DID) REFERENCES driver(DID),
-    FOREIGN KEY (PID) REFERENCES passenger(PID)
+    PEmail VARCHAR(100) NOT NULL,
+    PRIMARY KEY (CPID, DID, PID)
 );
 
