@@ -10,7 +10,8 @@ import jwt
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/PoolPal'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/PoolPal'
+app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 299}
 
@@ -60,6 +61,9 @@ class Passengers(db.Model):
             "PAccount_Created_At": self.PAccount_Created_At
         }
     
+@app.route('/')
+def home():
+    return "Hi World"
 
 @app.route('/api/v1/get_all_passengers')
 def get_all_passengers():
