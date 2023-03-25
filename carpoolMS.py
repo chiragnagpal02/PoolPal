@@ -3,7 +3,6 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from os import environ
 from flask_cors import CORS
-from authenticationMS import login_is_required
 import validators
 from datetime import datetime
 import jwt
@@ -26,9 +25,11 @@ class Carpool(db.Model):
     DriverFee = db.Column(db.Float(precision=2), nullable=False)
     DateTime = db.Column(db.DateTime, default=datetime.now())
     CPStartLocation = db.Column(db.String(64), nullable=False)
-    CPStartCoordinates = db.Column(db.Float(precision=10), nullable=False)
-    CPendLocation = db.Column(db.String(64), nullable=False)
-    CPEndCoordinates = db.Column(db.Float(precision=10), nullable=False)
+    CPStartLatitude = db.Column(db.Float(precision=10), nullable=False)
+    CPStartLongitude = db.Column(db.Float(precision=10), nullable=False)
+    CPEndLocation = db.Column(db.String(64), nullable=False)
+    CPEndLatitude = db.Column(db.Float(precision=10), nullable=False)
+    CPEndLongitude = db.Column(db.Float(precision=10), nullable=False)
     Status = db.Column(db.String(64), nullable=False)
     Capacity_remaining = db.Column(db.Integer, nullable=False)
 
@@ -37,15 +38,17 @@ class Carpool(db.Model):
         {},
     )
 
-    def __init__(self, CPID, DID, DriverFee, DateTime, CPStartLocation, CPStartCoordinates, CPendLocation, CPendCoordinates, Status, Capacity_remaining):
+    def __init__(self, CPID, DID, DriverFee, DateTime, CPStartLatitude, CPStartLongitude ,CPStartLocation, CPEndLocation, CPEndLatitude, CPEndLongitude ,Status, Capacity_remaining):
         self.CPID = CPID
         self.DID = DID
         self.DriverFee = DriverFee
         self.DateTime = DateTime
+        self.CPStartLatitude = CPStartLatitude
+        self.CPStartLongitude = CPStartLongitude
         self.CPStartLocation = CPStartLocation
-        self.CPStartCoordinates = CPStartCoordinates
-        self.CPendLocation = CPendLocation
-        self.CPendCoordinates = CPendCoordinates
+        self.CPEndLocation = CPEndLocation
+        self.CPEndLatitude = CPEndLatitude
+        self.CPEndLongitude = CPEndLongitude
         self.Status = Status
         self.Capacity_remaining = Capacity_remaining
 
@@ -56,15 +59,40 @@ class Carpool(db.Model):
             "DriverFee": self.DriverFee,
             "DateTime": self.DateTime,
             "CPStartLocation": self.CPStartLocation,
-            "CPStartCoordinates": self.CPStartCoordinates,
-            "CPendLocation": self.CPendLocation,
-            "CPendCoordinates": self.CPendCoordinates,
+            "CPStartLatitude": self.CPStartLatitude,
+            "CPStartLongitude": self.CPStartLongitude,
+            "CPEndLocation": self.CPEndLocation,
+            "CPEndLatitude": self.CPEndLatitude,
+            "CPEndLongitude": self.CPEndLongitude,
             "Status": self.Status,
             "Capacity_remaining": self.Capacity_remaining
         }
     
+class Carpeople(db.Model):
+    __tablename__ = 'carpeople'
 
-@app.route('/add_new_carpool', methods=['POST'])
+    CPID = db.Column(db.Integer, db.ForeignKey('carpooling.CPID'), autoincrement=True)
+    DID = db.Column(db.Integer, db.ForeignKey('driver.DID'), nullable=False)
+    PID = db.Column(db.Integer, db.ForeignKey('passenger.PID'), nullable=False)
+
+    __table_args__ = (
+        db.PrimaryKeyConstraint('CPID', 'DID', 'PID'),
+    )
+
+    def __init__(self, CPID, DID, PID):
+        self.CPID = CPID
+        self.DID = DID
+        self.PID = PID
+    
+    def json(self):
+        return {
+            "CPID": self.CPID,
+            "DID": self.DID,
+            "PID": self.PID
+        }
+    
+
+@app.route('/api/v1/carpool/add_new_carpool', methods=['POST'])
 def add_new_passenger():
     DID = request.json.get('DID')
     DriverFee = request.json.get('DriverFee')
@@ -106,6 +134,36 @@ def get_all_carpools():
         }
     }), 200
 
+
+@app.route('/update_carpool_capacity/<CPID>', methods=['PUT'])
+def update_carpool_capacity(CPID):
+    CPID = int(CPID)
+    carpool = Carpool.query.filter_by(CPID=CPID).first()
+    capacity = carpool.Capacity_remaining
+    # check if the exising capacity is greater than 0. only then subtract. else return the error - 
+    # capacity cannot be negative.
+    if capacity > 0:
+        capacity = capacity - 1
+        carpool.Capacity_remaining = capacity
+        db.session.commit()
+        return jsonify({
+            "code": 200,
+            "data": {
+                "status": f"Capacity of carpool {CPID} has been updated."
+            }
+        }), 200
+    else:
+        return jsonify({
+            "code": 400,
+            "data": {
+                "status": f"Carpool with {CPID} is already full! Cannot add more people"
+            }
+        }), 400
+
+
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(host="0.0.0.0", debug=True, port=5002)
+
+
+
     
