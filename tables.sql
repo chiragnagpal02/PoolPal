@@ -48,3 +48,17 @@ CREATE TABLE IF NOT EXISTS staff (
   PRIMARY KEY (SID)
 );
 
+CREATE TABLE IF NOT EXISTS `driver` (
+ `DID` int(11) NOT NULL,
+ `DName` varchar(64) NOT NULL,
+ `DGender` char(1) NOT NULL,
+ `DEmail` varchar(64) NOT NULL,
+ `DVehicleNo` varchar(64) NOT NULL,
+ `DLicenseNo` varchar(64) NOT NULL,
+ `DLicenseExpiration` datetime DEFAULT NULL,
+ `DPhoneNo` int(11) NOT NULL,
+ `DCar` varchar(100) NOT NULL,
+ `DCapacity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
