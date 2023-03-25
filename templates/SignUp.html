@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <link rel="stylesheet" href="./style.css">
+  <link rel="icon" href="./favicon.ico" type="image/x-icon">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+  <!-- page name -->
+  <title>Sign Up</title>
+
+  <!-- css -->
+  <style>
+    #identity {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url("../assets/loginSignup.jpg");
+      background-repeat: no-repeat;
+      padding: 10%;
+      height: 100%;
+      background-position: center;
+      background-size: cover;
+    }
+
+    .whitebox {
+      height: 500px;
+    }
+
+    .divider {
+      width: 690px;
+      text-align: center;
+    }
+
+    .divider hr {
+      margin-left: auto;
+      margin-right: auto;
+      width: 40%;
+
+    }
+
+    .left {
+      float: left;
+    }
+
+    .right {
+      float: right;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="container-fluid d-flex align-items-center justify-content-center" id="identity">
+    <div class="whitebox bg-white rounded-4 w-75 d-flex align-items-center justify-content-center">
+      <div class="w-100">
+        <div>
+          <h3 class="text-center">Sign Up</h3>
+        </div>
+        <div class="d-flex justify-content-center">
+          <div class="w-75">
+            <form>
+              <div class="my-2">
+                <label for="exampleInputEmail1" class="form-label">Email Address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1">
+              </div>
+              <div class="my-2">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1">
+              </div>
+              <div class="my-2">
+                <label for="exampleInputPassword" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword2">
+              </div>
+
+              <button type="submit" class="btn btn-outline-dark mt-3 mb-3 w-100">
+                <router-link to="/driverHomePage" style="color:black; text-decoration:none;">Sign Up</router-link>
+              </button>
+
+              <div class=" text-center">
+                Already have an account? <router-link to="/">Log In</router-link>
+              </div>
+
+              <div class="divider mt-3">
+                <hr class="left" /> OR
+                <hr class="right" />
+              </div>
+
+              <button @click="addUser" type="submit" class="btn btn-outline-dark mt-3 mb-3 w-100">
+                <router-link to="/driverHomepage" style="color:black; text-decoration:none;">Continue with
+                  google</router-link>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
