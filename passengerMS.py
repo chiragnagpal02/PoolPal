@@ -61,7 +61,7 @@ class Passengers(db.Model):
         }
     
 
-@app.route('/get_all_passengers')
+@app.route('/api/v1/get_all_passengers')
 def get_all_passengers():
     passengers = Passengers.query.all()
     if len(passengers):
@@ -80,7 +80,7 @@ def get_all_passengers():
         }
     ), 404
 
-@app.route('/get_passenger_by_id/<passenger_id>')
+@app.route('/api/v1/get_passenger_by_id/<passenger_id>')
 def get_passenger_by_id(passenger_id):
     passenger = Passengers.query.filter_by(PID=passenger_id).first()
     if passenger:
@@ -119,7 +119,7 @@ def get_passenger_by_username(username):
     ), 404
 
 
-@app.route('/add_new_passenger', methods=['POST'])
+@app.route('/api/v1/add_new_passenger', methods=['POST'])
 def add_new_passenger():
     PName = request.json.get('PName')
     PUserName = request.json.get('PUserName')
