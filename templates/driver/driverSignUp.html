@@ -28,6 +28,14 @@
             <input type="email" class="form-control" id="DEmail" placeholder="Enter email" required>
         </div>
         <div class="form-group">
+            <label for="DPassword">Email:</label>
+            <input type="password" class="form-control" id="DPassword" placeholder="Enter password" required>
+        </div>
+        <div class="form-group">
+            <label for="DConfirmPassword">Email:</label>
+            <input type="password" class="form-control" id="DConfirmPassword" placeholder="Confirm password" required>
+        </div>
+        <div class="form-group">
             <label for="DVehicleNo">Vehicle Number:</label>
             <input type="text" class="form-control" id="DVehicleNo" placeholder="Enter vehicle number" required>
         </div>
@@ -63,6 +71,8 @@
             const name = document.querySelector('#DName').value;
             const gender = document.querySelector('#DGender').value;
             const email = document.querySelector('#DEmail').value;
+            const password = document.querySelector('#DPassword').value;
+            const confirmPassword = document.querySelector('#DConfirmPassword').value;
             const vehicleNo = document.querySelector('#DVehicleNo').value;
             const licenseNo = document.querySelector('#DLicenseNo').value;
             const phoneNo = document.querySelector('#DPhoneNo').value;
@@ -73,6 +83,8 @@
                 DName: name,
                 DGender: gender,
                 DEmail: email,
+                DPassword: password,
+                DConfirmPassword: confirmPassword,
                 DVehicleNo: vehicleNo,
                 DLicenseNo: licenseNo,
                 DPhoneNo: phoneNo,
