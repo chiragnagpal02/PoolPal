@@ -67,7 +67,6 @@
             const gender = document.querySelector('#PGender').value;
             const email = document.querySelector('#PEmail').value;
             const password = document.querySelector('#PPassword').value;
-            const confirmPassword = document.querySelector("#PConfirmPassword").value;
             const address = document.querySelector('#PAddress').value;
             const phone = document.querySelector('#PPhone').value;
             axios.post('http://127.0.0.1:5001/api/v1/add_new_passenger', {
@@ -77,7 +76,6 @@
                 PGender: gender,
                 PEmail: email,
                 PPassword: password, 
-                PConfirmPassword: confirmPassword,
                 PAddress: address,
                 PPhone: phone,
             })

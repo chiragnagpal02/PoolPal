@@ -5,6 +5,7 @@ from os import environ
 from flask_cors import CORS
 from authenticationMS import login_is_required
 import validators
+import bcrypt
 from datetime import datetime
 import jwt
 
