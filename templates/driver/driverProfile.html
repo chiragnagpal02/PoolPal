@@ -125,9 +125,19 @@
               <td id="licenseExpiry"></td>
             </tr>
             <tr>
+              <th width="49%">Vehicle Model</th>
+              <td width="2%">:</td>
+              <td id="model"></td>
+            </tr>
+            <tr>
               <th width="49%">Vehicle Plate Number</th>
               <td width="2%">:</td>
               <td id="vehicleNo"></td>
+            </tr>
+            <tr>
+              <th width="49%">Vehicle Capacity</th>
+              <td width="2%">:</td>
+              <td id="capacity"></td>
             </tr>
           </table>
         </div>
@@ -157,7 +167,9 @@
         document.getElementById('phoneNo').innerHTML = driver.DPhoneNo;
         document.getElementById('licenseNo').innerHTML = driver.DLicenseNo;
         document.getElementById('licenseExpiry').innerHTML = driver.DLicenseExpiration;
+        document.getElementById('model').innerHTML = driver.DCar;
         document.getElementById('vehicleNo').innerHTML = driver.DVehicleNo;
+        document.getElementById('capacity').innerHTML = driver.DCapacity;
       })
       .catch((error) => {
         console.log(error);
