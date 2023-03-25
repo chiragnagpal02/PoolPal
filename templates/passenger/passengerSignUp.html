@@ -1,14 +1,54 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Passenger Signup</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
 
-<div class="container mt-5">
+<head>
+  <title>Passenger Signup</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+  <!-- nav -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+
+      <!-- logo -->
+      <a href="passengerHomepage.html" class="navbar-brand mx-2 routing">
+        <img src="../static/logo.png" alt="Logo" width="50" height="50" class="d-inline-block align-text-top">
+      </a>
+
+      <!-- nav items -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item">
+            <router-link to="/passengerHomepage" class="nav-link routing">Home</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/passengerOffer" class="nav-link routing">Request A Ride</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/passengerRequests" class="nav-link routing">Ride Offers</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/passengerRides" class="nav-link routing">Ride History</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/passengerChats" class="nav-link routing">Chats</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/passengerProfile" class="nav-link routing">Profile</router-link>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-5">
     <h2>Passenger Signup</h2>
     <form id="passenger-form">
         <div class="form-group">
@@ -53,10 +93,10 @@
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-</div>
+  </div>
 
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
     document.addEventListener('DOMContentLoaded', function () {
         const passengerForm = document.querySelector('#passenger-form');
         passengerForm.addEventListener('submit', function (event) {
@@ -89,7 +129,7 @@
             });
         });
     });
-</script>
+  </script>
 </body>
+
 </html>
-    
