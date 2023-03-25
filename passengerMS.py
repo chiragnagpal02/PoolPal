@@ -3,11 +3,11 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from os import environ
 from flask_cors import CORS
-from authenticationMS import login_is_required
+# from authenticationMS import login_is_required
 import validators
 import bcrypt
 from datetime import datetime
-import jwt
+# import jwt
 
 
 app = Flask(__name__)

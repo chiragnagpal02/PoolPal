@@ -52,10 +52,10 @@
   );
 
   CREATE TABLE IF NOT EXISTS `driver` (
-  `DID` int(11) NOT NULL,
+  `DID` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `DName` varchar(64) NOT NULL,
   `DGender` char(1) NOT NULL,
-  `DEmail` varchar(64) NOT NULL,
+  `DEmail` varchar(64) NOT NULL UNIQUE,
   `DPasswordHash` varchar(400) NOT NULL,
   `DVehicleNo` varchar(64) NOT NULL,
   `DLicenseNo` varchar(64) NOT NULL,

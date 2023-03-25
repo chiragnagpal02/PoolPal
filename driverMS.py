@@ -23,7 +23,7 @@ class Driver(db.Model):
     DID = db.Column(db.Integer, autoincrement=True)
     DName = db.Column(db.String(64), nullable=False)
     DGender = db.Column(db.String(1), nullable=False)
-    DEmail = db.Column(db.String(64), nullable=False)
+    DEmail = db.Column(db.String(64), unique=True, nullable=False)
     DPasswordHash = db.Column(db.String(400), nullable=False)
     DVehicleNo = db.Column(db.String(64), nullable=False)
     DLicenseNo = db.Column(db.String(64), nullable=False)
