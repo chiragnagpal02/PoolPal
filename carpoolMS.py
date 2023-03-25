@@ -25,9 +25,11 @@ class Carpool(db.Model):
     DriverFee = db.Column(db.Float(precision=2), nullable=False)
     DateTime = db.Column(db.DateTime, default=datetime.now())
     CPStartLocation = db.Column(db.String(64), nullable=False)
-    CPStartCoordinates = db.Column(db.Float(precision=10), nullable=False)
-    CPendLocation = db.Column(db.String(64), nullable=False)
-    CPEndCoordinates = db.Column(db.Float(precision=10), nullable=False)
+    CPStartLatitude = db.Column(db.Float(precision=10), nullable=False)
+    CPStartLongitude = db.Column(db.Float(precision=10), nullable=False)
+    CPEndLocation = db.Column(db.String(64), nullable=False)
+    CPEndLatitude = db.Column(db.Float(precision=10), nullable=False)
+    CPEndLongitude = db.Column(db.Float(precision=10), nullable=False)
     Status = db.Column(db.String(64), nullable=False)
     Capacity_remaining = db.Column(db.Integer, nullable=False)
 
@@ -36,15 +38,17 @@ class Carpool(db.Model):
         {},
     )
 
-    def __init__(self, CPID, DID, DriverFee, DateTime, CPStartLocation, CPStartCoordinates, CPendLocation, CPendCoordinates, Status, Capacity_remaining):
+    def __init__(self, CPID, DID, DriverFee, DateTime, CPStartLatitude, CPStartLongitude ,CPStartLocation, CPEndLocation, CPEndLatitude, CPEndLongitude ,Status, Capacity_remaining):
         self.CPID = CPID
         self.DID = DID
         self.DriverFee = DriverFee
         self.DateTime = DateTime
+        self.CPStartLatitude = CPStartLatitude
+        self.CPStartLongitude = CPStartLongitude
         self.CPStartLocation = CPStartLocation
-        self.CPStartCoordinates = CPStartCoordinates
-        self.CPendLocation = CPendLocation
-        self.CPendCoordinates = CPendCoordinates
+        self.CPEndLocation = CPEndLocation
+        self.CPEndLatitude = CPEndLatitude
+        self.CPEndLongitude = CPEndLongitude
         self.Status = Status
         self.Capacity_remaining = Capacity_remaining
 
@@ -55,9 +59,11 @@ class Carpool(db.Model):
             "DriverFee": self.DriverFee,
             "DateTime": self.DateTime,
             "CPStartLocation": self.CPStartLocation,
-            "CPStartCoordinates": self.CPStartCoordinates,
-            "CPendLocation": self.CPendLocation,
-            "CPendCoordinates": self.CPendCoordinates,
+            "CPStartLatitude": self.CPStartLatitude,
+            "CPStartLongitude": self.CPStartLongitude,
+            "CPEndLocation": self.CPEndLocation,
+            "CPEndLatitude": self.CPEndLatitude,
+            "CPEndLongitude": self.CPEndLongitude,
             "Status": self.Status,
             "Capacity_remaining": self.Capacity_remaining
         }
@@ -155,10 +161,8 @@ def update_carpool_capacity(CPID):
         }), 400
 
 
-
-
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(host="0.0.0.0", debug=True, port=5002)
 
 
 
