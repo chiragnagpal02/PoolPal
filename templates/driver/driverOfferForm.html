@@ -89,7 +89,7 @@
         </div>
         <div class="d-flex justify-content-center">
           <div class="w-75">
-            <form>
+            <form id="driverOffer">
               <!-- start location -->
               <div class="my-2">
                 <label for="startLocation" class="form-label">Start Location</label>
@@ -144,6 +144,41 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          const passengerForm = document.querySelector('#driverOffer');
+          passengerForm.addEventListener('submit', function (event) {
+              event.preventDefault();
+              const name = document.querySelector('#PName').value;
+              const username = document.querySelector('#PUserName').value;
+              const age = document.querySelector('#PAge').value;
+              const gender = document.querySelector('#PGender').value;
+              const email = document.querySelector('#PEmail').value;
+              const password = document.querySelector('#PPassword').value;
+              const address = document.querySelector('#PAddress').value;
+              const phone = document.querySelector('#PPhone').value;
+              axios.post('http://127.0.0.1:5001/api/v1/add_new_passenger', {
+                  PName: name,
+                  PUserName: username,
+                  PAge: age,
+                  PGender: gender,
+                  PEmail: email,
+                  PPassword: password, 
+                  PAddress: address,
+                  PPhone: phone,
+              })
+              .then(function (response) {
+                  console.log(response);
+                  alert("Passenger added successfully.");
+              })
+              .catch(function (error) {
+                  console.log(error);
+                  alert("An error occurred while adding the passenger.");
+              });
+          });
+      });
+    </script>
 </body>
 
 </html>
