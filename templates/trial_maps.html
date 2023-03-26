@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Google Maps Route Finder</title>
+	<style>
+		#map {
+			height: 400px;
+			width: 100%;
+		}
+	</style>
+</head>
+<body>
+	<h1>Google Maps Route Finder</h1>
+	<p>Enter your starting location and destination to find the route on Google Maps:</p>
+	<form id="routeForm">
+		<label for="startLocation">Start Location:</label>
+		<input type="text" id="startLocation" name="startLocation" placeholder="Enter starting location">
+
+		<label for="endLocation">End Location:</label>
+		<input type="text" id="endLocation" name="endLocation" placeholder="Enter destination">
+
+		<input type="submit" value="Find Route">
+	</form>
+
+	<div id="map"></div>
+
+	<script>
+		function initMap() {
+			// Initialize the map
+			var map = new google.maps.Map(document.getElementById('map'), {
+				zoom: 10,
+				center: {lat: 37.7749, lng: -122.4194} // Default map center is San Francisco
+			});
+
+			// Listen for form submission
+			document.getElementById('routeForm').addEventListener('submit', function(event) {
+				event.preventDefault(); // Prevent form submission
+
+				// Get the start and end locations
+				var startLocation = document.getElementById('startLocation').value;
+				var endLocation = document.getElementById('endLocation').value;
+
+				// Create the directions service and renderer
+				var directionsService = new google.maps.DirectionsService();
+				var directionsRenderer = new google.maps.DirectionsRenderer();
+
+				// Render the directions on the map
+				directionsRenderer.setMap(map);
+
+				// Create the request object for directions service
+				var request = {
+					origin: startLocation,
+					destination: endLocation,
+					travelMode: 'DRIVING'
+				};
+
+				// Send the request to the directions service
+				directionsService.route(request, function(result, status) {
+					if (status == 'OK') {
+						// Display the route on the map
+						directionsRenderer.setDirections(result);
+					}
+				});
+			});
+		}
+	</script>
+
+	<!-- Load the Google Maps API -->
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAu5xYBC5OCuZImTFY1xt81NdOnhP0IB_g&callback=initMap"></script>
+</body>
+</html>

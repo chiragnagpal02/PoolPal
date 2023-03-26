@@ -2,8 +2,3 @@
 # journey. Return the base price. 
 
 
-
-
-
-
-@app.route('/get_base_price/<float:start_lat>,<float:start_lng>/', methods=['GET'])
