@@ -16,7 +16,8 @@
   CREATE TABLE carpooling (
       CPID INTEGER NOT NULL,
       DID INTEGER NOT NULL,
-      DriverFee NUMERIC(10, 2) NOT NULL,
+      CarpoolPrice NUMERIC(10, 2) NOT NULL,
+      PassengerPrice NUMERIC(10, 2) NOT NULL,
       DateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       CPStartLocation VARCHAR(64) NOT NULL,
       CPStartLatitude FLOAT(10) NOT NULL,
@@ -80,6 +81,8 @@ CREATE TABLE User (
     PRIMARY KEY (Email, Role)
 );
 
+
+-- db for video
 CREATE TABLE IF NOT EXISTS users (
   id INTEGER AUTO_INCREMENT,
   email varchar(64) NOT NULL,
