@@ -80,6 +80,8 @@ CREATE TABLE User (
     PRIMARY KEY (Email, Role)
 );
 
+
+-- db for video
 CREATE TABLE IF NOT EXISTS users (
   id INTEGER AUTO_INCREMENT,
   email varchar(64) NOT NULL,
