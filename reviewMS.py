@@ -37,7 +37,7 @@ class Review(db.Model):
         return {"CPID": self.CPID, "DID": self.DID, "PID": self.PID, "PRating": self.PRating, "DRating": self.DRating, "PDescription": self.PDescription, "DDescription": self.DDescription}
 
 
-@app.route("/review")
+@app.route("/api/v1/review/get_all_reviews")
 def get_all():
     reviewlist = Review.query.all()
     if len(reviewlist):
@@ -57,7 +57,7 @@ def get_all():
     ), 404
 
 
-@app.route("/create_review/<int:CPID>", methods=['POST'])
+@app.route("/api/v1/review/create_review/<int:CPID>", methods=['POST'])
 def create_review(CPID):
     if (Review.query.filter_by(CPID=CPID).first()):
         return jsonify(
@@ -95,7 +95,7 @@ def create_review(CPID):
     ), 201
 
 
-@app.route("/update_review/<int:CPID>", methods=['PUT'])
+@app.route("/api/v1/review/update_review/<int:CPID>", methods=['PUT'])
 def update_review(CPID):
     try:
         review = Review.query.filter_by(CPID=CPID).first()
@@ -141,7 +141,7 @@ def update_review(CPID):
             }
         ), 500
 
-@app.route("/find_review/<int:CPID>")
+@app.route("/api/v1/review/find_review/<int:CPID>")
 def find_by_cpid(CPID):
     review = Review.query.filter_by(CPID=CPID).first()
     if review:

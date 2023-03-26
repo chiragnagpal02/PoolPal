@@ -29,7 +29,7 @@ class Staff(db.Model):
         return {"SID": self.SID, "SName": self.SName, "Gender" : self.Gender}
 
 
-@app.route("/staff")
+@app.route("/api/v1/staff/get_all_staff")
 def get_all():
     stafflist = Staff.query.all()
     if len(stafflist):
@@ -48,7 +48,7 @@ def get_all():
         }
     ), 404
 
-@app.route("/staff/<int:SID>")
+@app.route("/api/v1/staff/get_staff_by_staffid/<int:SID>")
 def find_by_sid(SID):
     staff = Staff.query.filter_by(SID=SID).first()
     if staff:
@@ -65,7 +65,7 @@ def find_by_sid(SID):
         }
     ), 404
 
-@app.route("/create_staff/", methods=['POST'])
+@app.route("/api/v1/staff/create_staff/", methods=['POST'])
 def create_staff():
     data = request.get_json()
     staff = Staff(**data)
@@ -89,7 +89,7 @@ def create_staff():
     ), 201
 
 
-@app.route("/update_staff/<int:SID>", methods=['PUT'])
+@app.route("/api/v1/staff/update_staff/<int:SID>", methods=['PUT'])
 def update_staff(SID):
     try:
         staff = Staff.query.filter_by(SID=SID).first()

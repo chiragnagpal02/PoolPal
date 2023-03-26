@@ -2,14 +2,16 @@
 
 from flask import Flask, request, jsonify
 import requests
+from datetime import datetime
 from geopy.distance import geodesic
 
 app = Flask(__name__)
 
-THRESHOLD_DISTANCE = 2
+THRESHOLD_DISTANC_KMS = 2
 CARPOOLS_URL = 'http://127.0.0.1:5002/get_all_carpools'
 
 # Passenger chooses date, start location and end location
+# Have to check for 3 factors -> start location,  and date
 
 def get_all_existing_carpools(start_lat, start_lng):
     response = requests.get(CARPOOLS_URL)
@@ -17,8 +19,15 @@ def get_all_existing_carpools(start_lat, start_lng):
     passenger_coords = (start_lat, start_lng)
     carpools = response.json()['data']['carpools']
     for i in carpools:
+        date = i['DateTime']
+        datetime_obj = datetime.strptime(date, '%a, %d %b %Y %H:%M:%S %Z')
+        datetime_obj.date()
+        print(datetime_obj)
+        # print(d)
+        
         cpid = i['CPID']
         start_location = i['CPStartLocation']
+
 
         start_coords = (i['CPStartLatitude'], i['CPStartLongitude'])
         
@@ -30,7 +39,7 @@ def get_all_existing_carpools(start_lat, start_lng):
         
         # check for the threshold distance
 
-        if distance < THRESHOLD_DISTANCE:
+        if distance < THRESHOLD_DISTANC_KMS:
             statuses[cpid] = True
         else:
             statuses[cpid] = False
@@ -54,7 +63,7 @@ def send_matching_carpools(start_lat, start_lng):
     
     return final_carpools 
 
-@app.route('/get_matching_carpools/<float:start_lat>,<float:start_lng>/', methods=['GET'])
+@app.route('/api/v1/matching/get_matching_carpools/<float:start_lat>,<float:start_lng>/', methods=['GET'])
 def get_matching_carpools(start_lat, start_lng):
     carpools = send_matching_carpools(start_lat, start_lng)
     print(carpools)

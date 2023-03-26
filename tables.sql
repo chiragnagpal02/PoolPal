@@ -16,7 +16,8 @@
   CREATE TABLE carpooling (
       CPID INTEGER NOT NULL,
       DID INTEGER NOT NULL,
-      DriverFee NUMERIC(10, 2) NOT NULL,
+      CarpoolPrice NUMERIC(10, 2) NOT NULL,
+      PassengerPrice NUMERIC(10, 2) NOT NULL,
       DateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       CPStartLocation VARCHAR(64) NOT NULL,
       CPStartLatitude FLOAT(10) NOT NULL,
