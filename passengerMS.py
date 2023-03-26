@@ -67,7 +67,7 @@ class Passengers(db.Model):
     
 @app.route('/')
 def home():
-    return render_template("templates/passenger/passengerSignUp.html")
+    return render_template("passenger/passengerSignUp.html")
 
 @app.route('/api/v1/passenger/get_all_passengers')
 def get_all_passengers():
