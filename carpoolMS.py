@@ -22,7 +22,8 @@ class Carpool(db.Model):
 
     CPID = db.Column(db.Integer, autoincrement=True)
     DID = db.Column(db.Integer, db.ForeignKey('driver.DID'), nullable=False)
-    DriverFee = db.Column(db.Float(precision=2), nullable=False)
+    CarpoolPrice = db.Column(db.Float(precision=2), nullable=False)
+    PassengerPrice = db.Column(db.Float(precision=2), nullable=False)
     DateTime = db.Column(db.DateTime, default=datetime.now())
     CPStartLocation = db.Column(db.String(64), nullable=False)
     CPStartLatitude = db.Column(db.Float(precision=10), nullable=False)
@@ -38,9 +39,11 @@ class Carpool(db.Model):
         {},
     )
 
-    def __init__(self, CPID, DID, DriverFee, DateTime, CPStartLatitude, CPStartLongitude ,CPStartLocation, CPEndLocation, CPEndLatitude, CPEndLongitude ,Status, Capacity_remaining):
+    def __init__(self, CarpoolPrice, PassengerPrice, CPID, DID, DriverFee, DateTime, CPStartLatitude, CPStartLongitude ,CPStartLocation, CPEndLocation, CPEndLatitude, CPEndLongitude ,Status, Capacity_remaining):
         self.CPID = CPID
         self.DID = DID
+        self.CarpoolPrice = CarpoolPrice
+        self.PassengerPrice = PassengerPrice
         self.DriverFee = DriverFee
         self.DateTime = DateTime
         self.CPStartLatitude = CPStartLatitude
@@ -58,6 +61,8 @@ class Carpool(db.Model):
             "DID": self.DID,
             "DriverFee": self.DriverFee,
             "DateTime": self.DateTime,
+            "CarpoolPrice": self.CarpoolPrice,
+            "PassengerPrice": self.PassengerPrice,
             "CPStartLocation": self.CPStartLocation,
             "CPStartLatitude": self.CPStartLatitude,
             "CPStartLongitude": self.CPStartLongitude,
