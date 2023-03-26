@@ -124,7 +124,7 @@ def add_new_passenger():
         }
     })
 
-@app.route('/get_all_carpools', methods=['GET'])
+@app.route('/api/v1/carpool/get_all_carpools', methods=['GET'])
 def get_all_carpools():
     carpools = Carpool.query.all()
     return jsonify({
@@ -135,7 +135,7 @@ def get_all_carpools():
     }), 200
 
 
-@app.route('/update_carpool_capacity/<CPID>', methods=['PUT'])
+@app.route('/api/v1/carpool/update_carpool_capacity/<CPID>', methods=['PUT'])
 def update_carpool_capacity(CPID):
     CPID = int(CPID)
     carpool = Carpool.query.filter_by(CPID=CPID).first()

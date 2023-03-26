@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 from os import environ
 from flask_cors import CORS
@@ -69,7 +69,7 @@ class Passengers(db.Model):
 def home():
     return render_template("templates/passenger/passengerSignUp.html")
 
-@app.route('/api/v1/get_all_passengers')
+@app.route('/api/v1/passenger/get_all_passengers')
 def get_all_passengers():
     passengers = Passengers.query.all()
     if len(passengers):
@@ -88,7 +88,7 @@ def get_all_passengers():
         }
     ), 404
 
-@app.route('/api/v1/get_passenger_by_id/<passenger_id>')
+@app.route('/api/v1/passenger/get_passenger_by_id/<passenger_id>')
 def get_passenger_by_id(passenger_id):
     passenger = Passengers.query.filter_by(PID=passenger_id).first()
     if passenger:
@@ -107,7 +107,7 @@ def get_passenger_by_id(passenger_id):
         }
     ), 404
 
-@app.route('/get_passenger_by_username/<username>')
+@app.route('/api/v1/passenger/get_passenger_by_username/<username>')
 def get_passenger_by_username(username):
     passenger = Passengers.query.filter_by(PUserName=username).first()
     if passenger:
@@ -127,7 +127,7 @@ def get_passenger_by_username(username):
     ), 404
 
 
-@app.route('/api/v1/add_new_passenger', methods=['POST'])
+@app.route('/api/v1/passenger/add_new_passenger', methods=['POST'])
 def add_new_passenger():
     PName = request.json.get('PName')
     PUserName = request.json.get('PUserName')
