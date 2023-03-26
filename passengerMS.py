@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 from os import environ
 from flask_cors import CORS
@@ -67,7 +67,7 @@ class Passengers(db.Model):
     
 @app.route('/')
 def home():
-    return render_template("templates/passenger/passengerSignUp.html")
+    return render_template("passenger/passengerSignUp.html")
 
 @app.route('/api/v1/get_all_passengers')
 def get_all_passengers():
