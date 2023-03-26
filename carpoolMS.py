@@ -72,35 +72,12 @@ class Carpool(db.Model):
             "Status": self.Status,
             "Capacity_remaining": self.Capacity_remaining
         }
-    
-class Carpeople(db.Model):
-    __tablename__ = 'carpeople'
-
-    CPID = db.Column(db.Integer, db.ForeignKey('carpooling.CPID'), autoincrement=True)
-    DID = db.Column(db.Integer, db.ForeignKey('driver.DID'), nullable=False)
-    PID = db.Column(db.Integer, db.ForeignKey('passenger.PID'), nullable=False)
-
-    __table_args__ = (
-        db.PrimaryKeyConstraint('CPID', 'DID', 'PID'),
-    )
-
-    def __init__(self, CPID, DID, PID):
-        self.CPID = CPID
-        self.DID = DID
-        self.PID = PID
-    
-    def json(self):
-        return {
-            "CPID": self.CPID,
-            "DID": self.DID,
-            "PID": self.PID
-        }
-    
 
 @app.route('/api/v1/carpool/add_new_carpool', methods=['POST'])
 def add_new_passenger():
     DID = request.json.get('DID')
-    DriverFee = request.json.get('DriverFee')
+    CarpoolPrice = request.json.get('CarpoolPrice')
+    PassengerPrice = request.json.get('PassengerPrice')
     CPStartLocation = request.json.get('CPStartLocation')
     CPStartCoordinates = request.json.get('CPStartCoordinates')
     CPendLocation = request.json.get('CPendLocation')
@@ -110,7 +87,8 @@ def add_new_passenger():
 
     new_carpool = Carpool(
         DID=DID, 
-        DriverFee=DriverFee,
+        CarpoolPrice=CarpoolPrice,
+        PassengerPrice=PassengerPrice,
         CPStartLocation=CPStartLocation,
         CPStartCoordinates=CPStartCoordinates,
         CPendLocation=CPendLocation,
@@ -164,6 +142,19 @@ def update_carpool_capacity(CPID):
                 "status": f"Carpool with {CPID} is already full! Cannot add more people"
             }
         }), 400
+    
+@app.route("/api/v1/carpool/update_passenger_price/<CPID>", methods=['PUT'])
+def update_passenger_price(CPID):
+    CPID = int(CPID)
+    carpool = Carpool.query.filter_by(CPID=CPID).first()
+    carpool.CarpoolPrice = request.json.get('PassengerPrice')
+    db.session.commit()
+    return jsonify({
+        "code": 200,
+        "data": {
+            "status": f"Passenger price of carpool {CPID} has been updated."
+        }
+    }), 200
 
 
 if __name__ == '__main__':
