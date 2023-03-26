@@ -63,7 +63,7 @@ def send_matching_carpools(start_lat, start_lng):
     
     return final_carpools 
 
-@app.route('/get_matching_carpools/<float:start_lat>,<float:start_lng>/', methods=['GET'])
+@app.route('/api/v1/matching/get_matching_carpools/<float:start_lat>,<float:start_lng>/', methods=['GET'])
 def get_matching_carpools(start_lat, start_lng):
     carpools = send_matching_carpools(start_lat, start_lng)
     print(carpools)

@@ -100,7 +100,7 @@ def get_all_drivers():
 
 
 
-@app.route('/driver/get_driver_by_id/<driver_id>')
+@app.route('/api/v1/driver/get_driver_by_id/<driver_id>')
 def get_driver_by_id(driver_id):
     driver = Driver.query.filter_by(DID=driver_id).first()
 
@@ -123,7 +123,7 @@ def get_driver_by_id(driver_id):
         }
     ), 404
 
-@app.route('/driver/get_driver_by_licence/<license>', methods=['GET'])
+@app.route('/api/v1/driver/get_driver_by_licence/<license>', methods=['GET'])
 def get_driver_by_licence(licence):
     driver = Driver.query.filter_by(DLicenseNo=licence).first()
     if driver:
@@ -142,7 +142,7 @@ def get_driver_by_licence(licence):
         }
     ), 404
 
-@app.route("/driver/get_driver_by_email/<email>")
+@app.route("/api/v1/driver/get_driver_by_email/<email>")
 def get_driver_by_email(email):
     driver = Driver.query.filter_by(DEmail=email).first()
     if driver:
@@ -162,7 +162,7 @@ def get_driver_by_email(email):
     ), 404
 
 
-@app.route('/driver/add_driver', methods=['POST'])
+@app.route('/api/v1/driver/add_driver', methods=['POST'])
 def add_driver():
 
     DName = request.json['DName']
@@ -213,7 +213,6 @@ def add_driver():
             }
         }
     )  
-
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True, port=5000)
