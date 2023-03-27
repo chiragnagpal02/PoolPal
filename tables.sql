@@ -42,6 +42,7 @@
     DDescription VARCHAR(100),
     FOREIGN KEY (CPID) REFERENCES carpooling(CPID),
     FOREIGN KEY (PID) REFERENCES passengers(PID), 
+    FOREIGN KEY (DID) REFERENCES driver(DID), 
     PRIMARY KEY (CPID,DID,PID)
   );
 
