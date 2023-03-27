@@ -55,6 +55,7 @@
     #map {
       height: 300px;
       margin-bottom: 30px;
+      margin-top: 25px;
     }
   </style>
 
@@ -98,9 +99,14 @@
   <!-- body -->
   <div class="content">
 
+    <!-- form title -->
+    <div class="row">
+      <h3 class="my-3 text-center">Find A Ride</h3>
+    </div>
+
     <!-- enter details of request through form -->
     <div class="d-flex justify-content-center">
-      <div class="w-100 my-5">
+      <div class="w-100 mb-5 mt-2">
         <form id="routeForm">
 
           <!-- start location -->
@@ -126,12 +132,15 @@
             <label for="time" class="form-label">Time</label>
             <input type="time" class="form-control" id="time" required>
           </div>
-          <button type="submit" class="btn btn-outline-dark my-4 w-100 bg-white">Book</button>
+          <button type="submit" class="btn btn-outline-dark my-4 w-100 bg-white">Find</button>
         </form>
       </div>
     </div>
 
     <!-- map -->
+    <div class="row">
+      <h3 class="my-3 text-center">Your Route</h3>
+    </div>
     <div id="map"></div>
 
     <!-- available / rides to choose from -->
