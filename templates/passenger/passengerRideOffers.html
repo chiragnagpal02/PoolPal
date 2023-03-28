@@ -219,7 +219,9 @@
           if (status === google.maps.GeocoderStatus.OK) {
             // Get latitude and longitude of start location
             const startLat = results[0].geometry.location.lat();
+            // allLatLng["startLat"] = startLat;
             const startLng = results[0].geometry.location.lng();
+            // allLatLng["startLng"] = startLng;
 
             // Log start location latitude and longitude
             console.log('Start Location:', startLat, startLng);
@@ -231,9 +233,12 @@
         // Geocode end location
         geocoder.geocode({ address: endLocation }, function (results, status) {
           if (status === google.maps.GeocoderStatus.OK) {
+            var endLatLng = {};
             // Get latitude and longitude of end location
-            const endLat = results[0].geometry.location.lat();
-            const endLng = results[0].geometry.location.lng();
+            var endLat = results[0].geometry.location.lat();
+            endLatLng['endLat'] = endLat;
+            var endLng = results[0].geometry.location.lng();
+            endLatLng['endLng'] = endLng;
 
             // Log end location latitude and longitude
             console.log('End Location:', endLat, endLng);
@@ -243,6 +248,18 @@
         });
       });
     }
+  </script>
+
+  <!-- find matching carpool -->
+  <script>
+    console.log(initMap())
+    axios.get(`/api/v1/matching/get_matching_carpools/${startLat}, ${startLng}, ${endLat}, ${endLng}/`)
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   </script>
 
   <!-- Load the Google Maps API -->
