@@ -37,7 +37,7 @@ def register():
     Handle registration
     """
     if current_user.is_authenticated:
-        return redirect(url_for('agora.index'))
+        return redirect(url_for('agora_rtm.index'))
     else:
         form = RegistrationForm()
         if form.validate_on_submit():
