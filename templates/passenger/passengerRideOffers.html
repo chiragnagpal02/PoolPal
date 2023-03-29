@@ -10,8 +10,21 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
+  <!-- map -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+
   <!-- page name -->
-  <title>Admin Homepage</title>
+  <title>Passenger Ride Offers</title>
 
   <!-- css -->
   <style>
@@ -28,11 +41,21 @@
     }
 
     /* body css */
-    .background {
-      padding: 5% 20%;
+    body {
       width: 100%;
       height: 100%;
       background-color: honeydew;
+    }
+
+    .content {
+      padding: 5% 20%;
+    }
+
+    /* map css */
+    #map {
+      height: 300px;
+      margin-bottom: 30px;
+      margin-top: 25px;
     }
   </style>
 
@@ -60,16 +83,13 @@
             <a href="passengerHomepage.html" class="nav-link routing">Home</a>
           </li>
           <li class="nav-item">
-            <a href="passengerRequestForm.html" class="nav-link routing">Request A Ride</a>
-          </li>
-          <li class="nav-item">
             <a href="passengerRideOffers.html" class="nav-link routing">Ride Offers</a>
           </li>
           <li class="nav-item">
             <a href="passengerRides.html" class="nav-link routing">Ride History</a>
           </li>
           <li class="nav-item">
-            <a href="passengerProfile.html"class="nav-link routing">Profile</a>
+            <a href="passengerProfile.html" class="nav-link routing">Profile</a>
           </li>
         </ul>
       </div>
@@ -77,30 +97,174 @@
   </nav>
 
   <!-- body -->
-  <div class="container-fluid background">
+  <div class="content">
+
+    <!-- form title -->
     <div class="row">
-      <h3 class="my-3 text-center">Ride Offers</h3>
+      <h3 class="my-3 text-center">Find A Ride</h3>
     </div>
-    <div class="row my-4">
-      <div class="card">
-        <p class="card-text p-4" style="text-align:left;">
-          Starting Location: <br>
-          Destination: <br>
-          Date: <br>
-          Time: <br>
-          Driver Name: <br>
-          Price: <br>
-        </p>
-        <div class="d-flex justify-content-center">
-          <button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100">Accept</button>
+
+    <!-- enter details of request through form -->
+    <div class="d-flex justify-content-center">
+      <div class="w-100 mb-5 mt-2">
+        <form id="routeForm">
+
+          <!-- start location -->
+          <div class="my-2">
+            <label for="startLocation" class="form-label">Start Location</label>
+            <input type="text" class="form-control" id="startLocation" required>
+          </div>
+
+          <!-- end location -->
+          <div class="my-2">
+            <label for="endLocation" class="form-label">End Location</label>
+            <input type="text" class="form-control" id="endLocation" required>
+          </div>
+
+          <!-- date -->
+          <div class="my-2">
+            <label for="date" class="form-label">Date</label>
+            <input type="date" class="form-control" id="date" required>
+          </div>
+
+          <!-- time -->
+          <div class="my-2">
+            <label for="time" class="form-label">Time</label>
+            <input type="time" class="form-control" id="time" required>
+          </div>
+          <button type="submit" class="btn btn-outline-dark my-4 w-100 bg-white">Find</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- map -->
+    <div class="row">
+      <h3 class="my-3 text-center">Your Route</h3>
+    </div>
+    <div id="map"></div>
+
+    <!-- available / rides to choose from -->
+    <div class="container-fluid">
+      <div class="row">
+        <h3 class="my-3 text-center">Ride Offers</h3>
+      </div>
+      <div class="row my-4">
+        <div class="card">
+          <p class="card-text p-4" style="text-align:left;">
+            Starting Location: <br>
+            Destination: <br>
+            Date: <br>
+            Time: <br>
+            Driver Name: <br>
+            Price: <br>
+          </p>
+          <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100 bg-white">Accept</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
   <!-- Bootstrap Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
+
+
+  <!-- map script -->
+  <script>
+    function initMap() {
+      // Initialize the map
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 10,
+        center: { lat: 37.7749, lng: -122.4194 } // Default map center is San Francisco
+      });
+
+      // Listen for form submission
+      document.getElementById('routeForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent form submission
+
+        // Get the start and end locations
+        var startLocation = document.getElementById('startLocation').value;
+        var endLocation = document.getElementById('endLocation').value;
+
+        // Create the directions service and renderer
+        var directionsService = new google.maps.DirectionsService();
+        var directionsRenderer = new google.maps.DirectionsRenderer();
+
+        // Render the directions on the map
+        directionsRenderer.setMap(map);
+
+        // Create the request object for directions service
+        var request = {
+          origin: startLocation,
+          destination: endLocation,
+          travelMode: 'DRIVING'
+        };
+
+        // Send the request to the directions service
+        directionsService.route(request, function (result, status) {
+          if (status == 'OK') {
+            // Display the route on the map
+            directionsRenderer.setDirections(result);
+          }
+        });
+
+        // Create Geocoder object
+        const geocoder = new google.maps.Geocoder();
+
+        // Geocode start location
+        geocoder.geocode({ address: startLocation }, function (results, status) {
+          if (status === google.maps.GeocoderStatus.OK) {
+            // Get latitude and longitude of start location
+            const startLat = results[0].geometry.location.lat();
+            // allLatLng["startLat"] = startLat;
+            const startLng = results[0].geometry.location.lng();
+            // allLatLng["startLng"] = startLng;
+
+            // Log start location latitude and longitude
+            console.log('Start Location:', startLat, startLng);
+          } else {
+            console.error('Geocode error:', status);
+          }
+        });
+
+        // Geocode end location
+        geocoder.geocode({ address: endLocation }, function (results, status) {
+          if (status === google.maps.GeocoderStatus.OK) {
+            var endLatLng = {};
+            // Get latitude and longitude of end location
+            var endLat = results[0].geometry.location.lat();
+            endLatLng['endLat'] = endLat;
+            var endLng = results[0].geometry.location.lng();
+            endLatLng['endLng'] = endLng;
+
+            // Log end location latitude and longitude
+            console.log('End Location:', endLat, endLng);
+          } else {
+            console.error('Geocode error:', status);
+          }
+        });
+      });
+    }
+  </script>
+
+  <!-- find matching carpool -->
+  <script>
+    console.log(initMap())
+    axios.get(`/api/v1/matching/get_matching_carpools/${startLat}, ${startLng}, ${endLat}, ${endLng}/`)
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  </script>
+
+  <!-- Load the Google Maps API -->
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAu5xYBC5OCuZImTFY1xt81NdOnhP0IB_g&callback=initMap"></script>
 </body>
 
 </html>

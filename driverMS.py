@@ -8,7 +8,7 @@ import bcrypt
 
 
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/PoolPal'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/PoolPal'
 app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 299}
@@ -23,7 +23,7 @@ class Driver(db.Model):
     DID = db.Column(db.Integer, autoincrement=True)
     DName = db.Column(db.String(64), nullable=False)
     DGender = db.Column(db.String(1), nullable=False)
-    DEmail = db.Column(db.String(64), nullable=False)
+    DEmail = db.Column(db.String(64), unique=True, nullable=False)
     DPasswordHash = db.Column(db.String(400), nullable=False)
     DVehicleNo = db.Column(db.String(64), nullable=False)
     DLicenseNo = db.Column(db.String(64), nullable=False)
@@ -100,7 +100,7 @@ def get_all_drivers():
 
 
 
-@app.route('/driver/get_driver_by_id/<driver_id>')
+@app.route('/api/v1/driver/get_driver_by_id/<driver_id>')
 def get_driver_by_id(driver_id):
     driver = Driver.query.filter_by(DID=driver_id).first()
 
@@ -123,7 +123,7 @@ def get_driver_by_id(driver_id):
         }
     ), 404
 
-@app.route('/driver/get_driver_by_licence/<license>', methods=['GET'])
+@app.route('/api/v1/driver/get_driver_by_licence/<license>', methods=['GET'])
 def get_driver_by_licence(licence):
     driver = Driver.query.filter_by(DLicenseNo=licence).first()
     if driver:
@@ -142,7 +142,7 @@ def get_driver_by_licence(licence):
         }
     ), 404
 
-@app.route("/driver/get_driver_by_email/<email>")
+@app.route("/api/v1/driver/get_driver_by_email/<email>")
 def get_driver_by_email(email):
     driver = Driver.query.filter_by(DEmail=email).first()
     if driver:
@@ -162,7 +162,7 @@ def get_driver_by_email(email):
     ), 404
 
 
-@app.route('/driver/add_driver', methods=['POST'])
+@app.route('/api/v1/driver/add_driver', methods=['POST'])
 def add_driver():
 
     DName = request.json['DName']
@@ -213,7 +213,6 @@ def add_driver():
             }
         }
     )  
-
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True, port=5000)

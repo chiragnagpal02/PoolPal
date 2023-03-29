@@ -11,27 +11,27 @@ stripe_keys = {
 
 stripe.api_key = stripe_keys["secret_key"]
 
-@app.route('/')
+@app.route('/api/v1/payments/')
 def index():
     return render_template('index.html', key=stripe_keys['publishable_key'])
 
-@app.route("/success")
+@app.route("/api/v1/payments/success")
 def success():
     return render_template("success.html")
 
 
-@app.route("/cancelled")
+@app.route("/api/v1/payments/cancelled")
 def cancelled():
     return render_template("cancelled.html")
 
-@app.route("/config")
+@app.route("/api/v1/payments/config")
 def get_publishable_key():
     stripe_config = {"publicKey": "pk_test_51MmIrBFHZFAE1pQVPrlMHKHZhwz9bhe0G3MObVgU0tZTDZWkzk1tQjWUCMfABMIsm8JLnWvR2Wb6P8dKKr66LITR009L64FDkh"}
     return jsonify(stripe_config)
 
-@app.route("/create-checkout-session")
+@app.route("/api/v1/payments/create-checkout-session")
 def create_checkout_session():
-    domain_url = "http://127.0.0.1:5000/"
+    domain_url = "http://127.0.0.1:5000/api/v1/payments/"
     stripe.api_key = "sk_test_51MmIrBFHZFAE1pQVPwD4MzJnsitPPloEFrl3YTqCIiivuil5dTQtRsmKhdnpZn4I7iWtk49Xzp16yEq3Rle2ze9x003p7jB5rR"
 
     try:
@@ -58,8 +58,8 @@ def create_checkout_session():
                 'quantity': 1,
             }],
             mode='payment',
-            success_url='http://127.0.0.1:5000/success?session_id={CHECKOUT_SESSION_ID}',
-            cancel_url='http://127.0.0.1:5000/cancelled',
+            success_url='http://127.0.0.1:5000/api/v1/payments/success?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url='http://127.0.0.1:5000/api/v1/payments/cancelled',
             )
         return jsonify({"sessionId": checkout_session["id"]})
     except Exception as e:

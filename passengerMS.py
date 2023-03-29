@@ -1,13 +1,17 @@
 from functools import wraps
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 from os import environ
 from flask_cors import CORS
-from authenticationMS import login_is_required
+# from authenticationMS import login_is_required
 import validators
 import bcrypt
 from datetime import datetime
-import jwt
+# import jwt
+import amqp_setup
+import pika
+import json
+import os, sys
 
 
 app = Flask(__name__)
@@ -67,9 +71,56 @@ class Passengers(db.Model):
     
 @app.route('/')
 def home():
-    return "Hi World"
+    return render_template("passenger/passengerSignUp.html")
 
-@app.route('/api/v1/get_all_passengers')
+@app.route("/api/v1/passenger/create_passenger", methods=['POST'])
+def create_passenger():
+    # Simple check of input format and data of the request are JSON
+    if request.is_json:
+        try:
+            order = request.get_json()
+            print("\nReceived an order in JSON:", order)
+
+            # do the actual work
+            # 1. Send order info {cart items}
+            result = processPlaceOrder(order)
+            print('\n------------------------')
+            print('\nresult: ', result)
+            return jsonify(result), result["code"]
+
+        except Exception as e:
+            # Unexpected error in code
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            ex_str = str(e) + " at " + str(exc_type) + ": " + fname + ": line " + str(exc_tb.tb_lineno)
+            print(ex_str)
+
+            return jsonify({
+                "code": 500,
+                "message": "passengerMS.py internal error: " + ex_str
+            }), 500
+
+    # if reached here, not a JSON request.
+    return jsonify({
+        "code": 400,
+        "message": "Invalid JSON input: " + str(request.get_data())
+    }), 400
+
+
+def processPlaceOrder(order):
+    message = json.dumps(order)
+    amqp_setup.channel.basic_publish(exchange=amqp_setup.exchangename, routing_key="create.user", 
+            body=message, properties=pika.BasicProperties(delivery_mode = 2)) 
+
+    # 7. Return created order, shipping record
+    return {
+        "code": 201,
+        "data": {
+            "order_result": order
+        }
+    }
+
+@app.route('/api/v1/passenger/get_all_passengers')
 def get_all_passengers():
     passengers = Passengers.query.all()
     if len(passengers):
@@ -88,7 +139,7 @@ def get_all_passengers():
         }
     ), 404
 
-@app.route('/api/v1/get_passenger_by_id/<passenger_id>')
+@app.route('/api/v1/passenger/get_passenger_by_id/<passenger_id>')
 def get_passenger_by_id(passenger_id):
     passenger = Passengers.query.filter_by(PID=passenger_id).first()
     if passenger:
@@ -107,7 +158,7 @@ def get_passenger_by_id(passenger_id):
         }
     ), 404
 
-@app.route('/get_passenger_by_username/<username>')
+@app.route('/api/v1/passenger/get_passenger_by_username/<username>')
 def get_passenger_by_username(username):
     passenger = Passengers.query.filter_by(PUserName=username).first()
     if passenger:
@@ -127,7 +178,7 @@ def get_passenger_by_username(username):
     ), 404
 
 
-@app.route('/api/v1/add_new_passenger', methods=['POST'])
+@app.route('/api/v1/passenger/add_new_passenger', methods=['POST'])
 def add_new_passenger():
     PName = request.json.get('PName')
     PUserName = request.json.get('PUserName')

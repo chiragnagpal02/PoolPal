@@ -6,126 +6,125 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <style>
+    body {
+      background-image: url("../../static/loginSignup.jpg");
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+      background-attachment: fixed;
+    }
+
+    .whitebox {
+      border-radius: 0.5rem;
+      margin: 80px 0;
+      padding: 50px 0;
+    }
+
+    .form-group {
+      margin: 15px 0;
+    }
+
+    a {
+      text-decoration: none;
+      color: black;
+    }
+  </style>
 </head>
 
 <body>
-  <!-- nav -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-
-      <!-- logo -->
-      <a href="passengerHomepage.html" class="navbar-brand mx-2 routing">
-        <img src="../../static/logo.png" alt="Logo" width="50" height="50" class="d-inline-block align-text-top">
-      </a>
-
-
-      <!-- nav items -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mx-auto">
-          <li class="nav-item">
-            <a href="passengerHomepage.html" class="nav-link routing">Home</a>
-          </li>
-          <li class="nav-item">
-            <a href="passengerRequestForm.html" class="nav-link routing">Request A Ride</a>
-          </li>
-          <li class="nav-item">
-            <a href="passengerRideOffers.html" class="nav-link routing">Ride Offers</a>
-          </li>
-          <li class="nav-item">
-            <a href="passengerRides.html" class="nav-link routing">Ride History</a>
-          </li>
-          <li class="nav-item">
-            <a href="passengerProfile.html"class="nav-link routing">Profile</a>
-          </li>
-        </ul>
+  <div class="container-fluid d-flex align-items-center justify-content-center" id="identity">
+    <div class="whitebox bg-white w-75 d-flex align-items-center justify-content-center">
+      <div class="w-100">
+        <div>
+          <h3 class="text-center">Passenger Sign Up</h3>
+        </div>
+        <div class="d-flex justify-content-center">
+          <div class="w-75">
+            <form id="passenger-form">
+              <div class="form-group">
+                <label for="PName">Name:</label>
+                <input type="text" class="form-control" id="PName" placeholder="Enter name" required>
+              </div>
+              <div class="form-group">
+                <label for="PUserName">Username:</label>
+                <input type="text" class="form-control" id="PUserName" placeholder="Enter username" required>
+              </div>
+              <div class="form-group">
+                <label for="PAge">Age:</label>
+                <input type="number" class="form-control" id="PAge" placeholder="Enter age" required>
+              </div>
+              <div class="form-group">
+                <label for="PGender">Gender:</label>
+                <select class="form-control" id="PGender" required>
+                  <option value="">--Select Gender--</option>
+                  <option value="M">Male</option>
+                  <option value="F">Female</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="PEmail">Email:</label>
+                <input type="email" class="form-control" id="PEmail" placeholder="Enter email" required>
+              </div>
+              <div class="form-group">
+                <label for="PPassword">Password: </label>
+                <input type="password" class="form-control" id="PPassword" placeholder="Enter password" required>
+              </div>
+              <div class="form-group">
+                <label for="PComfirmPassword">Confirm Password:</label>
+                <input type="password" class="form-control" id="PConfirmPassword" placeholder="Confirm password"
+                  required>
+              </div>
+              <div class="form-group">
+                <label for="PAddress">Address:</label>
+                <input type="text" class="form-control" id="PAddress" placeholder="Enter address" required>
+              </div>
+              <div class="form-group">
+                <label for="PPhone">Phone Number:</label>
+                <input type="tel" class="form-control" id="PPhone" placeholder="Enter phone number" required>
+              </div>
+              <button type="submit" class="btn btn-outline-dark mt-3 mb-3 w-100">Submit</button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
-  </nav>
-
-  <div class="container mt-5">
-    <h2>Passenger Signup</h2>
-    <form id="passenger-form">
-        <div class="form-group">
-            <label for="PName">Name:</label>
-            <input type="text" class="form-control" id="PName" placeholder="Enter name" required>
-        </div>
-        <div class="form-group">
-            <label for="PUserName">Username:</label>
-            <input type="text" class="form-control" id="PUserName" placeholder="Enter username" required>
-        </div>
-        <div class="form-group">
-            <label for="PAge">Age:</label>
-            <input type="number" class="form-control" id="PAge" placeholder="Enter age" required>
-        </div>
-        <div class="form-group">
-            <label for="PGender">Gender:</label>
-            <select class="form-control" id="PGender" required>
-                <option value="">--Select Gender--</option>
-                <option value="M">Male</option>
-                <option value="F">Female</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="PEmail">Email:</label>
-            <input type="email" class="form-control" id="PEmail" placeholder="Enter email" required>
-        </div>
-        <div class="form-group">
-            <label for="PPassword">Password: </label>
-            <input type="password" class="form-control" id="PPassword" placeholder="Enter password" required>
-        </div>
-        <div class="form-group">
-            <label for="PComfirmPassword">Confirm Password:</label>
-            <input type="password" class="form-control" id="PConfirmPassword" placeholder="Confirm password" required>
-        </div>
-        <div class="form-group">
-            <label for="PAddress">Address:</label>
-            <input type="text" class="form-control" id="PAddress" placeholder="Enter address" required>
-        </div>
-        <div class="form-group">
-            <label for="PPhone">Phone Number:</label>
-            <input type="tel" class="form-control" id="PPhone" placeholder="Enter phone number" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
   </div>
 
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const passengerForm = document.querySelector('#passenger-form');
-        passengerForm.addEventListener('submit', function (event) {
-            event.preventDefault();
-            const name = document.querySelector('#PName').value;
-            const username = document.querySelector('#PUserName').value;
-            const age = document.querySelector('#PAge').value;
-            const gender = document.querySelector('#PGender').value;
-            const email = document.querySelector('#PEmail').value;
-            const password = document.querySelector('#PPassword').value;
-            const address = document.querySelector('#PAddress').value;
-            const phone = document.querySelector('#PPhone').value;
-            axios.post('http://127.0.0.1:5001/api/v1/add_new_passenger', {
-                PName: name,
-                PUserName: username,
-                PAge: age,
-                PGender: gender,
-                PEmail: email,
-                PPassword: password, 
-                PAddress: address,
-                PPhone: phone,
-            })
-            .then(function (response) {
-                console.log(response);
-                alert("Passenger added successfully.");
-            })
-            .catch(function (error) {
-                console.log(error);
-                alert("An error occurred while adding the passenger.");
-            });
-        });
+      const passengerForm = document.querySelector('#passenger-form');
+      passengerForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const name = document.querySelector('#PName').value;
+        const username = document.querySelector('#PUserName').value;
+        const age = document.querySelector('#PAge').value;
+        const gender = document.querySelector('#PGender').value;
+        const email = document.querySelector('#PEmail').value;
+        const password = document.querySelector('#PPassword').value;
+        const address = document.querySelector('#PAddress').value;
+        const phone = document.querySelector('#PPhone').value;
+        axios.post('http://localhost:5001/api/v1/add_new_passenger', {
+          PName: name,
+          PUserName: username,
+          PAge: age,
+          PGender: gender,
+          PEmail: email,
+          PPassword: password,
+          PAddress: address,
+          PPhone: phone,
+        })
+          .then(function (response) {
+            console.log(response);
+            alert("Passenger added successfully.");
+          })
+          .catch(function (error) {
+            console.log(error);
+            alert("An error occurred while adding the passenger.");
+          });
+      });
     });
   </script>
 </body>

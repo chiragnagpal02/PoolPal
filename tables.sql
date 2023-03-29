@@ -16,7 +16,8 @@
   CREATE TABLE carpooling (
       CPID INTEGER NOT NULL,
       DID INTEGER NOT NULL,
-      DriverFee NUMERIC(10, 2) NOT NULL,
+      CarpoolPrice NUMERIC(10, 2) NOT NULL,
+      PassengerPrice NUMERIC(10, 2) NOT NULL,
       DateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       CPStartLocation VARCHAR(64) NOT NULL,
       CPStartLatitude FLOAT(10) NOT NULL,
@@ -41,6 +42,7 @@
     DDescription VARCHAR(100),
     FOREIGN KEY (CPID) REFERENCES carpooling(CPID),
     FOREIGN KEY (PID) REFERENCES passengers(PID), 
+    FOREIGN KEY (DID) REFERENCES driver(DID), 
     PRIMARY KEY (CPID,DID,PID)
   );
 
@@ -52,10 +54,10 @@
   );
 
   CREATE TABLE IF NOT EXISTS `driver` (
-  `DID` int(11) NOT NULL,
+  `DID` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `DName` varchar(64) NOT NULL,
   `DGender` char(1) NOT NULL,
-  `DEmail` varchar(64) NOT NULL,
+  `DEmail` varchar(64) NOT NULL UNIQUE,
   `DPasswordHash` varchar(400) NOT NULL,
   `DVehicleNo` varchar(64) NOT NULL,
   `DLicenseNo` varchar(64) NOT NULL,
@@ -74,10 +76,22 @@
       PRIMARY KEY (CPID, DID, PID)
   );
 
+
+-- what is this for? 
 CREATE TABLE User (
     Email VARCHAR(200) NOT NULL,
     Role VARCHAR(10) NOT NULL,
     PRIMARY KEY (Email, Role)
+);
+
+
+-- db for video
+CREATE TABLE IF NOT EXISTS users (
+  id INTEGER AUTO_INCREMENT,
+  email varchar(64) NOT NULL,
+  username varchar(64) NOT NULL,
+  password_hash varchar(64) NOT NULL,
+  PRIMARY KEY (id)
 );
 
 

@@ -22,7 +22,8 @@ class Carpool(db.Model):
 
     CPID = db.Column(db.Integer, autoincrement=True)
     DID = db.Column(db.Integer, db.ForeignKey('driver.DID'), nullable=False)
-    DriverFee = db.Column(db.Float(precision=2), nullable=False)
+    CarpoolPrice = db.Column(db.Float(precision=2), nullable=False)
+    PassengerPrice = db.Column(db.Float(precision=2), nullable=False)
     DateTime = db.Column(db.DateTime, default=datetime.now())
     CPStartLocation = db.Column(db.String(64), nullable=False)
     CPStartLatitude = db.Column(db.Float(precision=10), nullable=False)
@@ -38,9 +39,11 @@ class Carpool(db.Model):
         {},
     )
 
-    def __init__(self, CPID, DID, DriverFee, DateTime, CPStartLatitude, CPStartLongitude ,CPStartLocation, CPEndLocation, CPEndLatitude, CPEndLongitude ,Status, Capacity_remaining):
+    def __init__(self, CarpoolPrice, PassengerPrice, CPID, DID, DriverFee, DateTime, CPStartLatitude, CPStartLongitude ,CPStartLocation, CPEndLocation, CPEndLatitude, CPEndLongitude ,Status, Capacity_remaining):
         self.CPID = CPID
         self.DID = DID
+        self.CarpoolPrice = CarpoolPrice
+        self.PassengerPrice = PassengerPrice
         self.DriverFee = DriverFee
         self.DateTime = DateTime
         self.CPStartLatitude = CPStartLatitude
@@ -58,6 +61,8 @@ class Carpool(db.Model):
             "DID": self.DID,
             "DriverFee": self.DriverFee,
             "DateTime": self.DateTime,
+            "CarpoolPrice": self.CarpoolPrice,
+            "PassengerPrice": self.PassengerPrice,
             "CPStartLocation": self.CPStartLocation,
             "CPStartLatitude": self.CPStartLatitude,
             "CPStartLongitude": self.CPStartLongitude,
@@ -67,35 +72,12 @@ class Carpool(db.Model):
             "Status": self.Status,
             "Capacity_remaining": self.Capacity_remaining
         }
-    
-class Carpeople(db.Model):
-    __tablename__ = 'carpeople'
-
-    CPID = db.Column(db.Integer, db.ForeignKey('carpooling.CPID'), autoincrement=True)
-    DID = db.Column(db.Integer, db.ForeignKey('driver.DID'), nullable=False)
-    PID = db.Column(db.Integer, db.ForeignKey('passenger.PID'), nullable=False)
-
-    __table_args__ = (
-        db.PrimaryKeyConstraint('CPID', 'DID', 'PID'),
-    )
-
-    def __init__(self, CPID, DID, PID):
-        self.CPID = CPID
-        self.DID = DID
-        self.PID = PID
-    
-    def json(self):
-        return {
-            "CPID": self.CPID,
-            "DID": self.DID,
-            "PID": self.PID
-        }
-    
 
 @app.route('/api/v1/carpool/add_new_carpool', methods=['POST'])
 def add_new_passenger():
     DID = request.json.get('DID')
-    DriverFee = request.json.get('DriverFee')
+    CarpoolPrice = request.json.get('CarpoolPrice')
+    PassengerPrice = request.json.get('PassengerPrice')
     CPStartLocation = request.json.get('CPStartLocation')
     CPStartCoordinates = request.json.get('CPStartCoordinates')
     CPendLocation = request.json.get('CPendLocation')
@@ -105,7 +87,8 @@ def add_new_passenger():
 
     new_carpool = Carpool(
         DID=DID, 
-        DriverFee=DriverFee,
+        CarpoolPrice=CarpoolPrice,
+        PassengerPrice=PassengerPrice,
         CPStartLocation=CPStartLocation,
         CPStartCoordinates=CPStartCoordinates,
         CPendLocation=CPendLocation,
@@ -124,7 +107,7 @@ def add_new_passenger():
         }
     })
 
-@app.route('/get_all_carpools', methods=['GET'])
+@app.route('/api/v1/carpool/get_all_carpools', methods=['GET'])
 def get_all_carpools():
     carpools = Carpool.query.all()
     return jsonify({
@@ -134,8 +117,40 @@ def get_all_carpools():
         }
     }), 200
 
+@app.route('/api/v1/carpool/get_carpool_by_id/<CPID>', methods=['GET'])
+def get_carpool_by_id(CPID):
+    CPID = int(CPID)
+    carpool = Carpool.query.filter_by(CPID=CPID).first()
+    return jsonify({
+        "code": 200,
+        "data": {
+            "carpool": carpool.json()
+        }
+    }), 200
 
-@app.route('/update_carpool_capacity/<CPID>', methods=['PUT'])
+@app.route('/api/v1/carpool/get_carpool_by_driver_id/<DID>', methods=['GET'])
+def get_carpool_by_driver_id(DID):
+    DID = int(DID)
+    carpools = Carpool.query.filter_by(DID=DID).all()
+    return jsonify({
+        "code": 200,
+        "data": {
+            "carpools": [carpool.json() for carpool in carpools]
+        }
+    }), 200
+
+@app.route('/api/v1/carpool/get_carpool_by_passenger_id/<PID>', methods=['GET'])
+def get_carpool_by_passenger_id(PID):
+    PID = int(PID)
+    carpools = Carpool.query.filter_by(PID=PID).all()
+    return jsonify({
+        "code": 200,
+        "data": {
+            "carpools": [carpool.json() for carpool in carpools]
+        }
+    }), 200
+
+@app.route('/api/v1/carpool/update_carpool_capacity/<CPID>', methods=['PUT'])
 def update_carpool_capacity(CPID):
     CPID = int(CPID)
     carpool = Carpool.query.filter_by(CPID=CPID).first()
@@ -159,6 +174,19 @@ def update_carpool_capacity(CPID):
                 "status": f"Carpool with {CPID} is already full! Cannot add more people"
             }
         }), 400
+    
+@app.route("/api/v1/carpool/update_passenger_price/<CPID>", methods=['PUT'])
+def update_passenger_price(CPID):
+    CPID = int(CPID)
+    carpool = Carpool.query.filter_by(CPID=CPID).first()
+    carpool.CarpoolPrice = request.json.get('PassengerPrice')
+    db.session.commit()
+    return jsonify({
+        "code": 200,
+        "data": {
+            "status": f"Passenger price of carpool {CPID} has been updated."
+        }
+    }), 200
 
 
 if __name__ == '__main__':
@@ -166,4 +194,4 @@ if __name__ == '__main__':
 
 
 
-    
+# Create carpool APIs for retriving records by CPID, DID, PID
