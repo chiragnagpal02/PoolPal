@@ -87,8 +87,8 @@
     <div class="row my-4">
       <div class="col p-0">
         <div class="container p-4 bg-white rounded-3 border">
-          <p class="fw-bold">Total Earnings</p>
-          <h4>$ <span></span></h4>
+          <p class="fw-bold">Total Earnings ($)</p>
+          <h4><span id="totalEarnings"></span></h4>
         </div>
       </div>
       <div style="width:30px"></div>
@@ -103,8 +103,8 @@
     <div class="row my-4">
       <div class="col p-0">
         <div class="container p-4 bg-white rounded-3 border text-center">
-          <p class="fw-bold">Average Earnings Per Ride</p>
-          <h2>$ xxx</h2>
+          <p class="fw-bold">Average Earnings Per Ride ($)</p>
+          <h2><span id="averageEarnings"></span></h2>
         </div>
       </div>
     </div>
@@ -130,6 +130,8 @@
       .then((response) => {
         console.log(response.data);
         var carpoolNum = 0;
+        var totalCarpoolPrice = 0;
+        var averageEarnings = 0
 
         if (response.data.data.carpools.length != 0) {
           var carpools = response.data.data.carpools;
@@ -153,15 +155,21 @@
               document.getElementById('pastRides').innerHTML = carpoolData;
 
               carpoolNum += 1;
+              totalCarpoolPrice += carpools.CarpoolPrice * carpools.capacity; 
             }
           })
+          
         }
         document.getElementById('carpoolNum').innerHTML = carpoolNum;
+        document.getElementById('totalEarnings').innerHTML = totalCarpoolPrice;
+        if (carpoolNum != 0 || totalCarpoolPrice != 0){
+          averageEarnings = totalCarpoolPrice / carpoolNum;
+        }
+        document.getElementById('averageEarnings').innerHTML = averageEarnings;
       })
       .catch((error) => {
         console.log(error);
       });
-      
   </script>
   <!-- Bootstrap Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
