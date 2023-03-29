@@ -14,9 +14,9 @@ db = SQLAlchemy(app)
 class Carpeople(db.Model):
     __tablename__ = 'carpeople'
 
-    CPID = db.Column(db.Integer, db.ForeignKey('carpooling.CPID'), autoincrement=True)
-    DID = db.Column(db.Integer, db.ForeignKey('driver.DID'), nullable=False)
-    PID = db.Column(db.Integer, db.ForeignKey('passenger.PID'), nullable=False)
+    CPID = db.Column(db.Integer, nullable=False)
+    DID = db.Column(db.Integer, nullable=False)
+    PID = db.Column(db.Integer, nullable=False)
     PEmail = db.Column(db.String(200), nullable=False)
 
     __table_args__ = (
@@ -37,13 +37,21 @@ class Carpeople(db.Model):
             "PEmail": self.PEmail
         }
     
-@app.route("/api/v1/carpeople/add_passenger/<CPID>,<DID>,<PID>,<PEmail>", methods=['POST'])
-def add_passenger(CPID, DID, PID, PEmail):
+@app.route("/api/v1/carpeople/add_passenger", methods=['POST'])
+def add_passenger():
+    CPID = request.json['CPID']
+    DID = request.json['DID']
+    PID = request.json['PID']
+    PEmail = request.json['PEmail']
     passenger = Carpeople(CPID, DID, PID, PEmail)
     db.session.add(passenger)
     db.session.commit()
     return passenger.json()
 
+@app.route("/api/v1/carpeople/get_all_passengers")
+def get_all_passengers():
+    passengers = Carpeople.query.all()
+    return jsonify([passenger.json() for passenger in passengers])
 
 @app.route("/api/v1/carpeople/get_passengers/<CPID>", methods=['GET'])
 def get_passengers(CPID):

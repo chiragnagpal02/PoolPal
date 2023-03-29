@@ -9,8 +9,8 @@ from datetime import datetime
 
 
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/PoolPal'
-app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/PoolPal'
+# app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 299}
 
@@ -22,7 +22,7 @@ class Carpool(db.Model):
     __tablename__ = 'carpooling'
 
     CPID = db.Column(db.Integer, autoincrement=True)
-    DID = db.Column(db.Integer, db.ForeignKey('driver.DID'), nullable=False)
+    DID = db.Column(db.Integer, nullable=False)
     CarpoolPrice = db.Column(db.Float(precision=2), nullable=False)
     PassengerPrice = db.Column(db.Float(precision=2), nullable=False)
     DateTime = db.Column(db.DateTime, default=datetime.now())
@@ -78,9 +78,11 @@ def add_new_passenger():
     CarpoolPrice = request.json.get('CarpoolPrice')
     PassengerPrice = request.json.get('PassengerPrice')
     CPStartLocation = request.json.get('CPStartLocation')
-    CPStartCoordinates = request.json.get('CPStartCoordinates')
-    CPendLocation = request.json.get('CPendLocation')
-    CPendCoordinates = request.json.get('CPendCoordinates')
+    CPStartLatitude = request.json.get('CPStartLatitude')
+    CPStartLongitude = request.json.get('CPStartLongitude')
+    CPEndLatitude = request.json.get('CPEndLatitude')
+    CPEndLongitude = request.json.get('CPEndLongitude')
+    CPEndLocation = request.json.get('CPEndLocation')
     Status = request.json.get('Status')
     Capacity_remaining = request.json.get('Capacity_remaining')
 
@@ -89,9 +91,11 @@ def add_new_passenger():
         CarpoolPrice=CarpoolPrice,
         PassengerPrice=PassengerPrice,
         CPStartLocation=CPStartLocation,
-        CPStartCoordinates=CPStartCoordinates,
-        CPendLocation=CPendLocation,
-        CPendCoordinates=CPendCoordinates,
+        CPStartLatitude=CPStartLatitude,
+        CPStartLongitude=CPStartLongitude,
+        CPEndLocation=CPEndLocation,
+        CPEndLatitude=CPEndLatitude,
+        CPEndLongitude=CPEndLongitude,
         Status=Status,
         Capacity_remaining=Capacity_remaining
     )
