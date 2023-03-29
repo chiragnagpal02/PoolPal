@@ -157,23 +157,16 @@ def update_carpool_capacity(CPID):
     capacity = carpool.Capacity_remaining
     # check if the exising capacity is greater than 0. only then subtract. else return the error - 
     # capacity cannot be negative.
-    if capacity > 0:
-        capacity = capacity - 1
-        carpool.Capacity_remaining = capacity
-        db.session.commit()
-        return jsonify({
-            "code": 200,
-            "data": {
-                "status": f"Capacity of carpool {CPID} has been updated."
-            }
-        }), 200
-    else:
-        return jsonify({
-            "code": 400,
-            "data": {
-                "status": f"Carpool with {CPID} is already full! Cannot add more people"
-            }
-        }), 400
+    capacity = capacity - 1
+    carpool.Capacity_remaining = capacity
+    db.session.commit()
+    return jsonify({
+        "code": 200,
+        "data": {
+            "status": f"Capacity of carpool {CPID} has been updated."
+        }
+    }), 200
+    
     
 @app.route("/api/v1/carpool/update_passenger_price/<CPID>", methods=['PUT'])
 def update_passenger_price(CPID):

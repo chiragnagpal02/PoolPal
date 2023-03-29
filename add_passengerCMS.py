@@ -10,14 +10,14 @@ app = Flask(__name__)
 
 def add_person(CPID, DID, PID, PEmail):
     url = 'http://127.0.0.1:5010/api/v1/carpeople/add_passenger/' + str(CPID) + '/' + str(DID) + '/' + str(PID) + '/' + str(PEmail)
-    response = requests.get(url)
+    response = requests.post(url)
     return response.json()
 
-# def get_passengers_in_carpool(CPID):
-#     url = 'http://127.0.0.1:5010/api/v1/carpeople/get_passengers/' + str(CPID)
-#     passengers = requests.get(url)
-#     number_of_registered_passengers = len(passengers)
-#     return passengers, number_of_registered_passengers
+def get_passengers_in_carpool(CPID):
+    url = 'http://127.0.0.1:5010/api/v1/carpeople/get_passengers/' + str(CPID)
+    passengers = requests.get(url)
+    number_of_registered_passengers = len(passengers)
+    return passengers, number_of_registered_passengers
 
 def carpool_remaining_capacity(CPID):
     url = 'http://127.0.0.1:5010/api/v1/carpool/get_carpool_by_id/' + str(CPID)
@@ -25,15 +25,15 @@ def carpool_remaining_capacity(CPID):
     carpool_capacity = response['data']['carpool']['Capacity_remaining']
     return carpool_capacity
 
-def update_passenger_price_of_carpool(CPID):
-    carpool_details = 
-    url = 'http://127.0.0.1:5010/api/v1/carpool/update_passenger_price/' + str(CPID)
-    response = requests.get(url)
+def update_passenger_price_of_carpool(CPID, passenger_price):
+    url = f'http://127.0.0.1:5010/api/v1/carpool/update_passenger_price/{CPID}'
+    payload = {'PassengerPrice': passenger_price}
+    response = requests.put(url, json=payload)
     return response.json()
     
 def update_capacity_in_carpool_table(CPID):
-    url = 'http://127.0.0.1:5010//api/v1/carpool/update_carpool_capacity/' + str(CPID)
-    response = requests.get(url)
+    url = 'http://127.0.0.1:5010/api/v1/carpool/update_carpool_capacity/' + str(CPID)
+    response = requests.put(url)
     response_status = response.status_code
     if response_status == 400:
         return False
@@ -41,4 +41,17 @@ def update_capacity_in_carpool_table(CPID):
     return response.json()
 
 @app.route('/add_passenger/<CPID>,<DID>,<PID>,<PEmail>', methods=['POST'])
-def add_passenger():
+def add_passenger(CPID, DID, PID, PEmail):
+    carpool_capacity = carpool_remaining_capacity(CPID)
+    if carpool_capacity > 0:
+        status_from_carpool = update_capacity_in_carpool_table(CPID)
+        status_from_carpeople = add_passenger(CPID, DID, PID, PEmail)
+        registered_passengers = get_passengers_in_carpool(CPID)
+        
+
+
+
+
+
+
+
