@@ -117,6 +117,38 @@ def get_all_carpools():
         }
     }), 200
 
+@app.route('/api/v1/carpool/get_carpool_by_id/<CPID>', methods=['GET'])
+def get_carpool_by_id(CPID):
+    CPID = int(CPID)
+    carpool = Carpool.query.filter_by(CPID=CPID).first()
+    return jsonify({
+        "code": 200,
+        "data": {
+            "carpool": carpool.json()
+        }
+    }), 200
+
+@app.route('/api/v1/carpool/get_carpool_by_driver_id/<DID>', methods=['GET'])
+def get_carpool_by_driver_id(DID):
+    DID = int(DID)
+    carpools = Carpool.query.filter_by(DID=DID).all()
+    return jsonify({
+        "code": 200,
+        "data": {
+            "carpools": [carpool.json() for carpool in carpools]
+        }
+    }), 200
+
+@app.route('/api/v1/carpool/get_carpool_by_passenger_id/<PID>', methods=['GET'])
+def get_carpool_by_passenger_id(PID):
+    PID = int(PID)
+    carpools = Carpool.query.filter_by(PID=PID).all()
+    return jsonify({
+        "code": 200,
+        "data": {
+            "carpools": [carpool.json() for carpool in carpools]
+        }
+    }), 200
 
 @app.route('/api/v1/carpool/update_carpool_capacity/<CPID>', methods=['PUT'])
 def update_carpool_capacity(CPID):
