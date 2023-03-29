@@ -65,7 +65,7 @@
             <a href="driverOfferForm.html" class="nav-link routing">Offer A Ride</a>
           </li>
           <li class="nav-item">
-            <a href="driverRideRequests.html"  class="nav-link routing">Upcoming Rides</a>
+            <a href="driverRideRequests.html" class="nav-link routing">Upcoming Rides</a>
           </li>
           <li class="nav-item">
             <a href="driverRides.html" class="nav-link routing">Ride History</a>
@@ -88,14 +88,14 @@
       <div class="col p-0">
         <div class="container p-4 bg-white rounded-3 border">
           <p class="fw-bold">Total Earnings</p>
-          <h4>$ xxx</h4>
+          <h4>$ <span></span></h4>
         </div>
       </div>
       <div style="width:30px"></div>
       <div class="col p-0">
         <div class="container p-4 bg-white rounded-3 border">
           <p class="fw-bold">Number of Rides Completed</p>
-          <h4>500</h4>
+          <h4><span id="carpoolNum"></span></h4>
         </div>
       </div>
     </div>
@@ -113,20 +113,56 @@
     <div class="row">
       <h3 class="my-3 text-center">Past Rides</h3>
     </div>
-    <div class="row my-4">
-      <div class="card">
-        <p class="card-text px-2 py-4" style="text-align:left;">
-          Carpool ID: <br>
-          Starting Location: <br>
-          Destination: <br>
-          Date: <br>
-          Time: <br>
-          Passenger Name: <br>
-          Price: <br>
-        </p>
-      </div>
+    <!-- axios get -->
+    <div id="pastRides">
+      <p class="text-center">No Past Rides</p>
     </div>
   </div>
+
+  <!-- axios -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <!-- getting carpools by did -->
+  <script>
+    let DID = 1;
+
+    axios.get(`http://127.0.0.1:5002/api/v1/carpool/get_carpool_by_driver_id/${DID}`)
+      .then((response) => {
+        console.log(response.data);
+        var carpoolNum = 0;
+
+        if (response.data.data.carpools.length != 0) {
+          var carpools = response.data.data.carpools;
+
+          var carpoolData = '';
+
+          // not active
+          carpools.forEach(function (carpools) {
+            if (carpools.Status != 'Active') {
+              carpoolData += `<div class="row my-4">`
+              carpoolData += `<div class="card">`
+              carpoolData += `<p class="card-text px-2 py-4" style="text-align:left;">`
+              carpoolData += `Carpool ID: ${carpools.CPID}<br>`
+              carpoolData += `Start Location: ${carpools.CPStartLocation}<br>`
+              carpoolData += `End Location: ${carpools.CPEndLocation}<br>`
+              carpoolData += `Date and Time: ${carpools.dateTime}<br>`
+              carpoolData += `Price: ${carpools.CarpoolPrice}<br>`
+              carpoolData += `</p>`
+              carpoolData += `</div>`
+              carpoolData += `</div>`
+              document.getElementById('pastRides').innerHTML = carpoolData;
+
+              carpoolNum += 1;
+            }
+          })
+        }
+        document.getElementById('carpoolNum').innerHTML = carpoolNum;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+      
+  </script>
   <!-- Bootstrap Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

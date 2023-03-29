@@ -5,11 +5,12 @@ from os import environ
 from flask_cors import CORS
 import validators
 from datetime import datetime
-import jwt
+# import jwt
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/PoolPal'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/PoolPal'
+app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 299}
 
@@ -44,7 +45,6 @@ class Carpool(db.Model):
         self.DID = DID
         self.CarpoolPrice = CarpoolPrice
         self.PassengerPrice = PassengerPrice
-        self.DriverFee = DriverFee
         self.DateTime = DateTime
         self.CPStartLatitude = CPStartLatitude
         self.CPStartLongitude = CPStartLongitude
@@ -59,7 +59,6 @@ class Carpool(db.Model):
         return {
             "CPID": self.CPID,
             "DID": self.DID,
-            "DriverFee": self.DriverFee,
             "DateTime": self.DateTime,
             "CarpoolPrice": self.CarpoolPrice,
             "PassengerPrice": self.PassengerPrice,
