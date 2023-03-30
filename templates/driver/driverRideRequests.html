@@ -34,6 +34,9 @@
       height: 100%;
       background-color: honeydew;
     }
+    a{
+      color:black;
+    }
   </style>
 
 </head>
@@ -62,7 +65,7 @@
             <a href="driverOfferForm.html" class="nav-link routing">Offer A Ride</a>
           </li>
           <li class="nav-item">
-            <a href="driverRideRequests.html"  class="nav-link routing">Upcoming Rides</a>
+            <a href="driverRideRequests.html" class="nav-link routing">Upcoming Rides</a>
           </li>
           <li class="nav-item">
             <a href="driverRides.html" class="nav-link routing">Ride History</a>
@@ -80,88 +83,112 @@
     <div class="row">
       <h3 class="my-3 text-center">Upcoming Rides</h3>
     </div>
+    <div id="upcomingRides" class="text-center">No Upcoming Rides</div>
     <div class="row my-4">
       <div class="card pb-4">
         <p class="card-text p-4 pb-2" style="text-align:left;">
-          Starting Location: <br>
-          Destination: <br>
+          Start Location: <br>
+          End Location: <br>
           Date: <br>
           Time: <br>
           Price: <br>
+          Passenger(s):
         </p>
+        <!-- cancel button -->
         <div class="d-flex justify-content-center">
           <button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100">Cancel</button>
         </div>
-        <hr>
-        <p class="card-text p-4 pb-2" style="text-align:left;">
-          PName<br>
-          P start location<br>
-          P end location
-          <button type="submit" class="btn btn-outline-dark mt-3 w-100">Accept</button>
-        </p>
-        <p class="card-text p-4 pb-2" style="text-align:left;">
-          PName<br>
-          P start location<br>
-          P end location
-          <button type="submit" class="btn btn-outline-dark mt-3 w-100">Accept</button>
-        </p>
+        <!-- dispute -->
+        <div class="d-flex justify-content-center">
+          <button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100"><a href="http://127.0.0.1:8001/auth/login" target="_blank" class="nav-link routing">Open Dispute Ticket</a></button>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- upcoming rides -->
+  <!-- axios -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <!-- getting carpools by did -->
   <script>
     let DID = 1;
+    let CPID = 1;
 
-    let endpoints = [
-    `http://127.0.0.1:5002/api/v1/carpool/get_carpool_by_driver_id/${DID}`,
-    `http://127.0.0.1:5010/api/v1/carpeople/get_passengers/${CPID}`
-    ]
+    axios.all([
+      axios.get(`http://127.0.0.1:5002/api/v1/carpool/get_carpool_by_driver_id/${DID}`),
+      axios.get(`http://127.0.0.1:5010/api/v1/carpeople/get_passengers/${CPID}`),
+    ])
+      .then(axios.spread(function (carpool, passenger) {
+        console.log(carpool.data)
+        console.log(passenger.data)
 
-    axios.get()
-      .then((response) => {
-        console.log(response.data);
-        var carpoolNum = 0;
-        var totalCarpoolPrice = 0;
-        var averageEarnings = 0
+        // get passenger name by cpid
+        var PNameList = [];
+        var passengers = passenger.data
+        for (let i = 0; i < passengers.length; i++) {
+          var PID = passengers[i].PID
+          axios.get(`http://127.0.0.1:5001/api/v1/passenger/get_passenger_by_id/${PID}`)
+            .then(response => {
+              console.log(response.data)
+              var name = response.data.data.passenger.PName;
+              PNameList.push(name)
 
-        if (response.data.data.carpools.length != 0) {
-          var carpools = response.data.data.carpools;
+              // get carpool by did
+              var carpoolNum = 0;
+              var totalCarpoolPrice = 0;
+              var averageEarnings = 0
 
-          var carpoolData = '';
+              if (carpool.data.data.carpools.length != 0) {
+                var carpools = carpool.data.data.carpools;
 
-          // not active
-          carpools.forEach(function (carpools) {
-            if (carpools.Status != 'Active') {
-              carpoolData += `<div class="row my-4">`
-              carpoolData += `<div class="card">`
-              carpoolData += `<p class="card-text px-2 py-4" style="text-align:left;">`
-              carpoolData += `Carpool ID: ${carpools.CPID}<br>`
-              carpoolData += `Start Location: ${carpools.CPStartLocation}<br>`
-              carpoolData += `End Location: ${carpools.CPEndLocation}<br>`
-              carpoolData += `Date and Time: ${carpools.dateTime}<br>`
-              carpoolData += `Price: ${carpools.CarpoolPrice}<br>`
-              carpoolData += `</p>`
-              carpoolData += `</div>`
-              carpoolData += `</div>`
-              document.getElementById('pastRides').innerHTML = carpoolData;
+                var carpoolData = '';
 
-              carpoolNum += 1;
-              totalCarpoolPrice += carpools.CarpoolPrice * carpools.capacity; 
-            }
-          })
-          
+                // not active
+                carpools.forEach(function (carpools) {
+                  if (carpools.Status == 'Active') {
+                    carpoolData += `<div class="row my-4">`
+                    carpoolData += `<div class="card">`
+                    carpoolData += `<p class="card-text px-2 py-4" style="text-align:left;">`
+                    carpoolData += `Carpool ID: ${carpools.CPID}<br>`
+                    carpoolData += `Start Location: ${carpools.CPStartLocation}<br>`
+                    carpoolData += `End Location: ${carpools.CPEndLocation}<br>`
+                    carpoolData += `Date and Time: ${carpools.dateTime}<br>`
+                    carpoolData += `Price: ${carpools.CarpoolPrice}<br>`
+                    carpoolData += `Passenger(s): `
+                    // listing the passengers
+                    for (i = 0; i < PNameList.length; i++) {
+                      if (i != PNameList.length - 1) {
+                        carpoolData += `${PNameList[i]}, `
+                      }
+                      else {
+                        carpoolData += `${PNameList[i]}`
+                      }
+                    }
+                    carpoolData += `</p>`
+                    carpoolData += `</div>`
+                    carpoolData += `</div>`
+                    document.getElementById('pastRides').innerHTML = carpoolData;
+
+                    carpoolNum += 1;
+                    totalCarpoolPrice += carpools.CarpoolPrice * carpools.capacity;
+                  }
+                })
+              }
+              document.getElementById('carpoolNum').innerHTML = carpoolNum;
+              document.getElementById('totalEarnings').innerHTML = totalCarpoolPrice;
+              if (carpoolNum != 0 || totalCarpoolPrice != 0) {
+                averageEarnings = totalCarpoolPrice / carpoolNum;
+              }
+              document.getElementById('averageEarnings').innerHTML = averageEarnings;
+            })
+            .catch(error => {
+              console.error(error);
+            });
         }
-        document.getElementById('carpoolNum').innerHTML = carpoolNum;
-        document.getElementById('totalEarnings').innerHTML = totalCarpoolPrice;
-        if (carpoolNum != 0 || totalCarpoolPrice != 0){
-          averageEarnings = totalCarpoolPrice / carpoolNum;
-        }
-        document.getElementById('averageEarnings').innerHTML = averageEarnings;
-      })
-      .catch((error) => {
+      }))
+      .catch(function (error) {
         console.log(error);
-      });
+      })
   </script>
 
   <!-- Bootstrap Bundle with Popper -->
