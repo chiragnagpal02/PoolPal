@@ -6,10 +6,13 @@ from flask_cors import CORS
 import validators
 from datetime import datetime
 import bcrypt
+import amqp_setup
+import pika
+import json
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/PoolPal' 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/PoolPal' or environ.get('dbURL') or 'mysql+mysqlconnector://root:root@localhost:3306/PoolPal'
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 299}
 
 db = SQLAlchemy(app)
@@ -205,6 +208,13 @@ def add_driver():
     db.session.add(driver)
     db.session.commit()
 
+    add_user = {
+        "Email" : driver.DEmail,
+        "Role" : "Driver"
+    }
+
+    processAddUser(add_user)
+
     return jsonify(
         {
             "code": 200,
@@ -213,6 +223,19 @@ def add_driver():
             }
         }
     )  
+
+def processAddUser(user):
+    print('\n-----Invoking user microservice-----')
+    message = json.dumps(user)
+    amqp_setup.channel.basic_publish(exchange=amqp_setup.exchangename, routing_key="create.user", 
+            body=message, properties=pika.BasicProperties(delivery_mode = 2)) 
+    
+    return {
+        "code": 201,
+        "data": {
+            "user_result": user
+        }
+    }
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True, port=5000)

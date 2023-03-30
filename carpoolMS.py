@@ -124,6 +124,15 @@ def get_all_carpools():
 def get_carpool_by_id(CPID):
     CPID = int(CPID)
     carpool = Carpool.query.filter_by(CPID=CPID).first()
+    
+    if carpool is None:
+        return jsonify({
+            "code": 404,
+            "data": {
+                "message": "Carpool not found"
+            }
+        }), 404
+    
     return jsonify({
         "code": 200,
         "data": {
