@@ -8,8 +8,9 @@ app = Flask(__name__)
 
 CORS(app)
 
-AVERAGE_SINGAPORE_FUEL_PRICES = 2.6 # per liter price
+AVERAGE_SINGAPORE_FUEL_PRICES = 3.28 # per liter price
 AVERAGE_MILEAGE_SINGAPORE_CARS = 16 # kmpl
+POOLPAL_COMMISSION = 5
 
 def calculate_price(start_lat, start_long, end_lat, end_long):
     distance = calculate_distance(start_lat, start_long, end_lat, end_long)
@@ -26,8 +27,15 @@ def calculate_distance(start_lat, start_long, end_lat, end_long):
 
 @app.route("/api/v1/base_price/<start_lat>,<start_long>/<end_lat>,<end_long>", methods=['GET'])
 def get_base_price(start_lat, start_long, end_lat, end_long):
-    base_price = calculate_price(start_lat, start_long, end_lat, end_long)
-    return base_price
+    # if type(start_lat) != float or type(start_long) != float or type(end_lat) != float or type(end_long) != float:
+    #     return jsonify({
+    #         'price': 0
+    #     })
+    base_price = round(calculate_price(start_lat, start_long, end_lat, end_long) + POOLPAL_COMMISSION, 2)
+    
+    return jsonify({
+        'price': base_price
+    })
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True, port=5101)
