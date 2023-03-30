@@ -14,7 +14,7 @@ const app = new Vue({
     rtmClient: null,
     rtmChannelInstance: null,
     rtcClient: null,
-    users: [],
+    dispute: [],
     updatedOnlineStatus: {},
     rtmChannelName: null,
     isCallingUser: false,
@@ -39,8 +39,9 @@ const app = new Vue({
   },
 
   methods: {
+
     async fetchUsers() {
-      const { data } = await axios.get("/users");
+      const { data } = await axios.get("/dispute");
       this.users = data;
     },
 
@@ -342,6 +343,8 @@ const app = new Vue({
       await this.rtcClient.leave();
       this.callPlaced = false;
     },
+
+   
 
     async handleAudioToggle() {
       if (this.mutedAudio) {

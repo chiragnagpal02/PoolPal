@@ -17,15 +17,15 @@ ROLE_PUBLISHER = 1
 @agora_rtm.route('/agora-rtm')
 @login_required
 def index():
-    users = User.query.all()
-    all_users = [user.to_json() for user in users]
+    dispute = User.query.all()
+    all_users = [user.to_json() for user in dispute]
     return render_template('agora_rtm/index.html', title='Agora Video Call with RTM', allUsers=all_users, agoraAppID=os.environ.get('AGORA_APP_ID'))
 
 
-@agora_rtm.route('/users')
+@agora_rtm.route('/dispute')
 def fetch_users():
-    users = User.query.all()
-    all_users = [user.to_json() for user in users]
+    dispute = User.query.all()
+    all_users = [user.to_json() for user in dispute]
     return jsonify(all_users)
 
 

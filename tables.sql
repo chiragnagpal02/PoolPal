@@ -165,6 +165,22 @@ CREATE TABLE `User` (
   `Role` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users for videos`
+--
+
+CREATE TABLE IF NOT EXISTS dispute (
+  id INTEGER AUTO_INCREMENT,
+  email varchar(64) NOT NULL,
+  username varchar(64) NOT NULL,
+  password_hash varchar(64) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+
 --
 -- Indexes for dumped tables
 --

@@ -1,4 +1,5 @@
-from flask import Flask, request, jsonify, render_template
+from functools import wraps
+from flask import Flask, abort, request, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 from os import environ
 from flask_cors import CORS
@@ -8,9 +9,7 @@ import bcrypt
 
 
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/PoolPal'
-app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/PoolPal' 
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 299}
 
 db = SQLAlchemy(app)
@@ -63,6 +62,7 @@ class Driver(db.Model):
             "DCar": self.DCar,
             "DCapacity": self.DCapacity
         }
+    
     
 @app.route("/", methods=['GET'])
 def home():
