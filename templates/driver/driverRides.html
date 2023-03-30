@@ -125,52 +125,58 @@
   <!-- getting carpools by did -->
   <script>
     let DID = 1;
+    let CPID = 1;
 
-    axios.get(`http://127.0.0.1:5002/api/v1/carpool/get_carpool_by_driver_id/${DID}`)
-      .then((response) => {
-        console.log(response.data);
-        var carpoolNum = 0;
-        var totalCarpoolPrice = 0;
-        var averageEarnings = 0
+    axios.all([
+      axios.get(`http://127.0.0.1:5002/api/v1/carpool/get_carpool_by_driver_id/${DID}`),
+      axios.get(`http://127.0.0.1:5010/api/v1/carpeople/get_passengers/${CPID}`)
+    ])
+    .then(axios.spread(function (carpool, passenger) {
+      console.log(carpool.data)
+      console.log(passenger)
+      var carpoolNum = 0;
+      var totalCarpoolPrice = 0;
+      var averageEarnings = 0
 
-        if (response.data.data.carpools.length != 0) {
-          var carpools = response.data.data.carpools;
+      if (carpool.data.data.carpools.length != 0) {
+        var carpools = carpool.data.data.carpools;
 
-          var carpoolData = '';
+        var carpoolData = '';
 
-          // not active
-          carpools.forEach(function (carpools) {
-            if (carpools.Status != 'Active') {
-              carpoolData += `<div class="row my-4">`
-              carpoolData += `<div class="card">`
-              carpoolData += `<p class="card-text px-2 py-4" style="text-align:left;">`
-              carpoolData += `Carpool ID: ${carpools.CPID}<br>`
-              carpoolData += `Start Location: ${carpools.CPStartLocation}<br>`
-              carpoolData += `End Location: ${carpools.CPEndLocation}<br>`
-              carpoolData += `Date and Time: ${carpools.dateTime}<br>`
-              carpoolData += `Price: ${carpools.CarpoolPrice}<br>`
-              carpoolData += `</p>`
-              carpoolData += `</div>`
-              carpoolData += `</div>`
-              document.getElementById('pastRides').innerHTML = carpoolData;
+        // not active
+        carpools.forEach(function (carpools) {
+          if (carpools.Status == 'Active') {
+            carpoolData += `<div class="row my-4">`
+            carpoolData += `<div class="card">`
+            carpoolData += `<p class="card-text px-2 py-4" style="text-align:left;">`
+            carpoolData += `Carpool ID: ${carpools.CPID}<br>`
+            carpoolData += `Start Location: ${carpools.CPStartLocation}<br>`
+            carpoolData += `End Location: ${carpools.CPEndLocation}<br>`
+            carpoolData += `Date and Time: ${carpools.dateTime}<br>`
+            carpoolData += `Price: ${carpools.CarpoolPrice}<br>`
+            carpoolData += `Passenger: `
+            carpoolData += `</p>`
+            carpoolData += `</div>`
+            carpoolData += `</div>`
+            document.getElementById('pastRides').innerHTML = carpoolData;
 
-              carpoolNum += 1;
-              totalCarpoolPrice += carpools.CarpoolPrice * carpools.capacity; 
-            }
-          })
-          
-        }
-        document.getElementById('carpoolNum').innerHTML = carpoolNum;
-        document.getElementById('totalEarnings').innerHTML = totalCarpoolPrice;
-        if (carpoolNum != 0 || totalCarpoolPrice != 0){
-          averageEarnings = totalCarpoolPrice / carpoolNum;
-        }
-        document.getElementById('averageEarnings').innerHTML = averageEarnings;
-      })
-      .catch((error) => {
+            carpoolNum += 1;
+            totalCarpoolPrice += carpools.CarpoolPrice * carpools.capacity;
+          }
+        })
+      }
+      document.getElementById('carpoolNum').innerHTML = carpoolNum;
+      document.getElementById('totalEarnings').innerHTML = totalCarpoolPrice;
+      if (carpoolNum != 0 || totalCarpoolPrice != 0) {
+        averageEarnings = totalCarpoolPrice / carpoolNum;
+      }
+      document.getElementById('averageEarnings').innerHTML = averageEarnings;
+    }))
+    .catch (function(error) {
         console.log(error);
-      });
+    })
   </script>
+
   <!-- Bootstrap Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
