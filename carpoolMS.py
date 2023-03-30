@@ -5,11 +5,12 @@ from os import environ
 from flask_cors import CORS
 import validators
 from datetime import datetime
-import jwt
+# import jwt
 
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/PoolPal'
+# app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 299}
 
@@ -21,7 +22,7 @@ class Carpool(db.Model):
     __tablename__ = 'carpooling'
 
     CPID = db.Column(db.Integer, autoincrement=True)
-    DID = db.Column(db.Integer, db.ForeignKey('driver.DID'), nullable=False)
+    DID = db.Column(db.Integer, nullable=False)
     CarpoolPrice = db.Column(db.Float(precision=2), nullable=False)
     PassengerPrice = db.Column(db.Float(precision=2), nullable=False)
     DateTime = db.Column(db.DateTime, default=datetime.now())
@@ -44,7 +45,6 @@ class Carpool(db.Model):
         self.DID = DID
         self.CarpoolPrice = CarpoolPrice
         self.PassengerPrice = PassengerPrice
-        self.DriverFee = DriverFee
         self.DateTime = DateTime
         self.CPStartLatitude = CPStartLatitude
         self.CPStartLongitude = CPStartLongitude
@@ -59,7 +59,6 @@ class Carpool(db.Model):
         return {
             "CPID": self.CPID,
             "DID": self.DID,
-            "DriverFee": self.DriverFee,
             "DateTime": self.DateTime,
             "CarpoolPrice": self.CarpoolPrice,
             "PassengerPrice": self.PassengerPrice,
@@ -79,9 +78,11 @@ def add_new_passenger():
     CarpoolPrice = request.json.get('CarpoolPrice')
     PassengerPrice = request.json.get('PassengerPrice')
     CPStartLocation = request.json.get('CPStartLocation')
-    CPStartCoordinates = request.json.get('CPStartCoordinates')
-    CPendLocation = request.json.get('CPendLocation')
-    CPendCoordinates = request.json.get('CPendCoordinates')
+    CPStartLatitude = request.json.get('CPStartLatitude')
+    CPStartLongitude = request.json.get('CPStartLongitude')
+    CPEndLatitude = request.json.get('CPEndLatitude')
+    CPEndLongitude = request.json.get('CPEndLongitude')
+    CPEndLocation = request.json.get('CPEndLocation')
     Status = request.json.get('Status')
     Capacity_remaining = request.json.get('Capacity_remaining')
 
@@ -90,9 +91,11 @@ def add_new_passenger():
         CarpoolPrice=CarpoolPrice,
         PassengerPrice=PassengerPrice,
         CPStartLocation=CPStartLocation,
-        CPStartCoordinates=CPStartCoordinates,
-        CPendLocation=CPendLocation,
-        CPendCoordinates=CPendCoordinates,
+        CPStartLatitude=CPStartLatitude,
+        CPStartLongitude=CPStartLongitude,
+        CPEndLocation=CPEndLocation,
+        CPEndLatitude=CPEndLatitude,
+        CPEndLongitude=CPEndLongitude,
         Status=Status,
         Capacity_remaining=Capacity_remaining
     )
@@ -157,23 +160,16 @@ def update_carpool_capacity(CPID):
     capacity = carpool.Capacity_remaining
     # check if the exising capacity is greater than 0. only then subtract. else return the error - 
     # capacity cannot be negative.
-    if capacity > 0:
-        capacity = capacity - 1
-        carpool.Capacity_remaining = capacity
-        db.session.commit()
-        return jsonify({
-            "code": 200,
-            "data": {
-                "status": f"Capacity of carpool {CPID} has been updated."
-            }
-        }), 200
-    else:
-        return jsonify({
-            "code": 400,
-            "data": {
-                "status": f"Carpool with {CPID} is already full! Cannot add more people"
-            }
-        }), 400
+    capacity = capacity - 1
+    carpool.Capacity_remaining = capacity
+    db.session.commit()
+    return jsonify({
+        "code": 200,
+        "data": {
+            "status": f"Capacity of carpool {CPID} has been updated."
+        }
+    }), 200
+    
     
 @app.route("/api/v1/carpool/update_passenger_price/<CPID>", methods=['PUT'])
 def update_passenger_price(CPID):

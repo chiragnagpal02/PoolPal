@@ -253,7 +253,7 @@
   <!-- find matching carpool -->
   <script>
     console.log(initMap())
-    axios.get(`/api/v1/matching/get_matching_carpools/${startLat}, ${startLng}, ${endLat}, ${endLng}/`)
+    axios.get(`http://127.0.0.1:5001/api/v1/matching/get_matching_carpools/${startLat}, ${startLng}, ${endLat}, ${endLng}/`)
       .then(function (response) {
         console.log(response.data);
       })

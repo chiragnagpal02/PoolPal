@@ -6,7 +6,7 @@ from app import db, login_manager
 
 class User(UserMixin, db.Model):
 
-    __tablename__ = 'users'
+    __tablename__ = 'dispute'
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(60), unique=True)

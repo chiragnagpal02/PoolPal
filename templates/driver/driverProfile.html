@@ -152,11 +152,11 @@
   <!-- axios -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-  <!-- script -->
+  <!-- get driver info -->
   <script>
-    let driverId = 3;
+    let DID = 3;
 
-    axios.get(`http://127.0.0.1:5000/driver/get_driver_by_id/${driverId}`)
+    axios.get(`http://127.0.0.1:5000/driver/get_driver_by_id/${DID}`)
       .then((response) => {
         console.log(response.data);
         var driver = response.data.data.driver;
