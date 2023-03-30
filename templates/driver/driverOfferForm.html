@@ -210,44 +210,36 @@
         var geocoder = new google.maps.Geocoder();
 
         function getLatLng() {
-          return new Promise(resolve => {
-            setTimeout(function(){
-              var startLocation = document.getElementById('startLocation').value;
-              var allLatLng = [];
+          var startLocation = document.getElementById('startLocation').value;
+          var allLatLng = [];
 
-              geocoder.geocode({ 'address': startLocation }, function (results, status) {
-                if (status === 'OK') {
-                  var startlat = results[0].geometry.location.lat();
-                  allLatLng.push(startlat)
-                  var startlng = results[0].geometry.location.lng();
-                  allLatLng.push(startlng)
-                  // console.log('Latitude: ' + startlat);
-                  // console.log('Longitude: ' + startlng);
-                } else {
-                  console.log('Geocode was not successful for the following reason: ' + status);
-                }
-              });
+          geocoder.geocode({ 'address': startLocation }, function (results, status) {
+            if (status === 'OK') {
+              var startlat = results[0].geometry.location.lat();
+              allLatLng.push(startlat)
+              var startlng = results[0].geometry.location.lng();
+              allLatLng.push(startlng)
+              // console.log('Latitude: ' + startlat);
+              // console.log('Longitude: ' + startlng);
+            } else {
+              console.log('Geocode was not successful for the following reason: ' + status);
+            }
+          });
 
-              var endLocation = document.getElementById('endLocation').value;
+          var endLocation = document.getElementById('endLocation').value;
 
-              geocoder.geocode({ 'address': endLocation }, function (results, status) {
-                if (status === 'OK') {
-                  var endlat = results[0].geometry.location.lat();
-                  allLatLng.push(endlat)
-                  var endlng = results[0].geometry.location.lng();
-                  allLatLng.push(endlng)
-                  // console.log('Latitude: ' + endlat);
-                  // console.log('Longitude: ' + endlng);
-                } else {
-                  console.log('Geocode was not successful for the following reason: ' + status);
-                }
-              
-              resolve(allLatLng)
-              console.log(allLatLng.length)
-              }, 2000);
-            })
-          })
-      
+          geocoder.geocode({ 'address': endLocation }, function (results, status) {
+            if (status === 'OK') {
+              var endlat = results[0].geometry.location.lat();
+              allLatLng.push(endlat)
+              var endlng = results[0].geometry.location.lng();
+              allLatLng.push(endlng)
+              // console.log('Latitude: ' + endlat);
+              // console.log('Longitude: ' + endlng);
+            } else {
+              console.log('Geocode was not successful for the following reason: ' + status);
+            }
+          });
           // console.log(allLatLng)
           return allLatLng;
         }
@@ -266,19 +258,16 @@
       endLocation.addEventListener("keyup", handleKeyup);
 
       // Define the callback function to be executed on keyup
-      async function handleKeyup(event) {
-        console.log(initMap())
-        var allLatLng = await initMap();
+      function handleKeyup(event) {
+        console.log(getLatLng())
+        var allLatLng = initMap();
         console.log()
         console.log(typeof(allLatLng))
         var startLat = allLatLng[0];
-        console.log(startLat)
+        console.log (startLat)
         var startLng = allLatLng[1];
-        console.log(startLng)
         var endLat = allLatLng[2];
-        console.log(endLat)
         var endLng = allLatLng[3];
-        console.log(endLng)
         
         axios.get(`/api/v1/base_price/${startLat},${startLng}/${endLat},${endLng}`)
           .then(response => {
