@@ -78,6 +78,7 @@ CREATE TABLE `driver` (
   `DName` varchar(64) NOT NULL,
   `DGender` char(1) NOT NULL,
   `DEmail` varchar(64) NOT NULL,
+  `DPasswordHash` varchar(64) NOT NULL,
   `DVehicleNo` varchar(64) NOT NULL,
   `DLicenseNo` varchar(64) NOT NULL,
   `DLicenseExpiration` datetime DEFAULT NULL,
@@ -90,16 +91,16 @@ CREATE TABLE `driver` (
 -- Dumping data for table `driver`
 --
 
-INSERT INTO `driver` (`DID`, `DName`, `DGender`, `DEmail`, `DVehicleNo`, `DLicenseNo`, `DLicenseExpiration`, `DPhoneNo`, `DCar`, `DCapacity`) VALUES
-(1, 'Chirag Nagpal', 'M', 'chiragwork02@gmail.com', 'SG12344', '12340', '2030-10-12 00:00:00', 83606092, 'Innova', 5),
-(2, 'Bryan Adams', 'M', 'bryan@gmail.com', 'SG16657', '12341', '2023-10-12 00:00:00', 12345678, 'Tesla Model X', 7),
-(3, 'Dame Lillard', 'M', 'Dame@gmail.com', 'SG123657', '12342', '2045-10-23 00:00:00', 87654321, 'Celantra', 13),
-(4, 'dswda', 'F', 'dsdsd@gmail.com', 'SG12343657', '12343', '2045-10-23 00:00:00', 87654341, 'Celantra', 13),
-(5, 'Beauty', 'F', 'beauty@gmail.com', 'SG3657', '12344', '2094-10-23 00:00:00', 87654344, 'Celantra XYZ', 65),
-(6, 'r2', 'F', 'bryan@gmai.com', '1234234G', '123143', '2023-03-09 00:00:00', 22222222, 'Tesla Model X', 2),
-(7, 'Timmus', 'M', 't@gmail.com', '3421343', '2341234', '2023-12-09 00:00:00', 12344344, 'Innova', 9),
-(8, 'Timmus', 'M', 'timmus@gmail.com', '1234', 'G123455', '2023-03-29 00:00:00', 12345678, 'Tesla Model X', 123),
-(9, 'William', 'M', 'wl@gmai.com', '1234234G', '123143', '2023-03-25 00:00:00', 22222222, 'Tesla Model X', 1234);
+INSERT INTO `driver` (`DID`, `DName`, `DGender`, `DEmail`,`DPasswordHash`,`DVehicleNo`, `DLicenseNo`, `DLicenseExpiration`, `DPhoneNo`, `DCar`, `DCapacity`) VALUES
+(1, 'Chirag Nagpal', 'M', 'chiragwork02@gmail.com', "b'$2b$12$y0EzUA9Oec4ilB15U02vaOA5y31RlkPA4TqaMCtihQ.kA6yasI4XS'", 'SG12344', '12340', '2030-10-12 00:00:00', 83606092, 'Innova', 5),
+(2, 'Bryan Adams', 'M', 'bryan@gmail.com', "b'$2b$12$y0EzUA9Oec4ilB15U02vaOA5y31RlkPA4TqaMCtihQ.kA6yasI4XS'", 'SG16657', '12341', '2023-10-12 00:00:00', 12345678, 'Tesla Model X', 7),
+(3, 'Dame Lillard', 'M', 'Dame@gmail.com', "b'$2b$12$y0EzUA9Oec4ilB15U02vaOA5y31RlkPA4TqaMCtihQ.kA6yasI4XS'", 'SG123657', '12342', '2045-10-23 00:00:00', 87654321, 'Celantra', 13),
+(4, 'dswda', 'F', 'dsdsd@gmail.com', "b'$2b$12$y0EzUA9Oec4ilB15U02vaOA5y31RlkPA4TqaMCtihQ.kA6yasI4XS'", 'SG12343657', '12343', '2045-10-23 00:00:00', 87654341, 'Celantra', 13),
+(5, 'Beauty', 'F', 'beauty@gmail.com', "b'$2b$12$y0EzUA9Oec4ilB15U02vaOA5y31RlkPA4TqaMCtihQ.kA6yasI4XS'", 'SG3657', '12344', '2094-10-23 00:00:00', 87654344, 'Celantra XYZ', 65),
+(6, 'r2', 'F', 'bryan@gmai.com', "b'$2b$12$y0EzUA9Oec4ilB15U02vaOA5y31RlkPA4TqaMCtihQ.kA6yasI4XS'", '1234234G', '123143', '2023-03-09 00:00:00', 22222222, 'Tesla Model X', 2),
+(7, 'Timmus', 'M', 't@gmail.com', "b'$2b$12$y0EzUA9Oec4ilB15U02vaOA5y31RlkPA4TqaMCtihQ.kA6yasI4XS'", '3421343', '2341234', '2023-12-09 00:00:00', 12344344, 'Innova', 9),
+(8, 'Timmus', 'M', 'timmus@gmail.com', "b'$2b$12$y0EzUA9Oec4ilB15U02vaOA5y31RlkPA4TqaMCtihQ.kA6yasI4XS'", '1234', 'G123455', '2023-03-29 00:00:00', 12345678, 'Tesla Model X', 123),
+(9, 'William', 'M', 'wl@gmai.com', "b'$2b$12$y0EzUA9Oec4ilB15U02vaOA5y31RlkPA4TqaMCtihQ.kA6yasI4XS'", '1234234G', '123143', '2023-03-25 00:00:00', 22222222, 'Tesla Model X', 1234);
 
 -- --------------------------------------------------------
 
@@ -114,6 +115,7 @@ CREATE TABLE `passengers` (
   `PAge` int(11) NOT NULL,
   `PGender` char(1) NOT NULL,
   `PEmail` varchar(200) NOT NULL,
+  `PPasswordHash` varchar(200) NOT NULL,
   `PAddress` varchar(400) NOT NULL,
   `PPhone` int(11) NOT NULL,
   `PAccount_Created_At` datetime DEFAULT CURRENT_TIMESTAMP
@@ -123,8 +125,8 @@ CREATE TABLE `passengers` (
 -- Dumping data for table `passengers`
 --
 
-INSERT INTO `passengers` (`PID`, `PName`, `PUserName`, `PAge`, `PGender`, `PEmail`, `PAddress`, `PPhone`, `PAccount_Created_At`) VALUES
-(1, 'Adama Traore', 'Adamamu', 21, 'M', 'adam@gmail.com', '180 Bencoolen Street, 189646', 83606092, '2023-03-22 10:39:11');
+INSERT INTO `passengers` (`PID`, `PName`, `PUserName`, `PAge`, `PGender`, `PEmail`, `PPasswordHash`, `PAddress`, `PPhone`, `PAccount_Created_At`) VALUES
+(1, 'Adama Traore', 'Adamamu', 21, 'M', 'adam@gmail.com',"b'$2b$12$y0EzUA9Oec4ilB15U02vaOA5y31RlkPA4TqaMCtihQ.kA6yasI4XS'",'180 Bencoolen Street, 189646', 83606092, '2023-03-22 10:39:11');
 
 -- --------------------------------------------------------
 
@@ -151,7 +153,8 @@ CREATE TABLE `review` (
 CREATE TABLE `staff` (
   `SID` int(11) NOT NULL,
   `SName` varchar(100) NOT NULL,
-  `Gender` varchar(1) NOT NULL
+  `SEmail` varchar(100) NOT NULL,
+  `SPasswordHash` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -164,7 +167,7 @@ CREATE TABLE `User` (
   `Email` varchar(200) NOT NULL,
   `Role` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+INSERT INTO `User` (`Email`,`Role`) VALUES ('adam@gmail.com','Passenger');
 
 -- --------------------------------------------------------
 
@@ -268,7 +271,7 @@ ALTER TABLE `carpooling`
 ALTER TABLE `review`
   ADD CONSTRAINT `review_ibfk_1` FOREIGN KEY (`CPID`) REFERENCES `carpooling` (`CPID`),
   ADD CONSTRAINT `review_ibfk_2` FOREIGN KEY (`PID`) REFERENCES `passengers` (`PID`);
-COMMIT;
+/*COMMIT; */;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

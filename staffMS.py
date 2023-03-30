@@ -2,9 +2,14 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from os import environ
+import bcrypt
+import amqp_setup
+import pika
+import json
+import validators
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/PoolPal' or environ.get('dbURL') or 'mysql+mysqlconnector://root:root@localhost:3306/PoolPal'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 299}
 
@@ -18,15 +23,17 @@ class Staff(db.Model):
 
     SID = db.Column(db.Integer, primary_key=True, nullable=False)
     SName = db.Column(db.String(100), nullable=False)
-    Gender = db.Column(db.String(1), nullable=False)
+    SEmail = db.Column(db.String(1), nullable=False)
+    SPasswordHash = db.Column(db.String(100), nullable=False)
 
-    def __init__(self, SName,Gender):
+    def __init__(self, SName,SEmail,SPasswordHash):
         #self.SID = SID
         self.SName = SName
-        self.Gender = Gender
+        self.SEmail = SEmail
+        self.SPasswordHash = SPasswordHash
 
     def json(self):
-        return {"SID": self.SID, "SName": self.SName, "Gender" : self.Gender}
+        return {"SID": self.SID, "SName": self.SName, "SEmail" : self.SEmail, "SPasswordHash" : self.SPasswordHash}
 
 
 @app.route("/api/v1/staff/get_all_staff")
@@ -67,9 +74,30 @@ def find_by_sid(SID):
 
 @app.route("/api/v1/staff/create_staff/", methods=['POST'])
 def create_staff():
-    data = request.get_json()
-    staff = Staff(**data)
+    #data = request.get_json()
+    salt = bcrypt.gensalt()
+    SName = request.json.get('SName')
+    SEmail = request.json.get('SEmail')
+    SPassword = request.json.get('SPassword')
+    SPasswordHash = bcrypt.hashpw(SPassword.encode('utf-8'), salt)
+    staff = Staff(SName,SEmail,SPasswordHash)
 
+    # Check if a staff with the same email address already exists
+    existing_staff = Staff.query.filter_by(SEmail=SEmail).first()
+    if existing_staff:
+        return jsonify({
+            "code": 400,
+            "message": "A staff with this email address already exists."
+        }), 400
+
+    # Validate email address
+    if not validators.email(SEmail):
+        return jsonify({
+            "code": 400,
+            "message": "Invalid email.",
+            "email": f"{SEmail} is not a valid email."
+        }), 400
+    
     try:
         db.session.add(staff)
         db.session.commit()
@@ -80,6 +108,13 @@ def create_staff():
                 "message": "An error occurred creating the staff."
             }
         ), 500
+
+    add_user = {
+        "Email" : staff.SEmail,
+        "Role" : "Staff"
+    }
+
+    processAddUser(add_user)
 
     return jsonify(
         {
@@ -128,6 +163,18 @@ def update_staff(SID):
             }
         ), 500
 
+def processAddUser(user):
+    print('\n-----Invoking user microservice-----')
+    message = json.dumps(user)
+    amqp_setup.channel.basic_publish(exchange=amqp_setup.exchangename, routing_key="create.user", 
+            body=message, properties=pika.BasicProperties(delivery_mode = 2)) 
+    
+    return {
+        "code": 201,
+        "data": {
+            "user_result": user
+        }
+    }
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True, port=5007)
