@@ -1,10 +1,12 @@
 # call fuel api, get the distance between the 2 pairs of coordinates and caluculate the base price for the 
 # journey. Return the base price. 
-
 from geopy.distance import geodesic
+from flask_cors import CORS
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
+
+CORS(app)
 
 AVERAGE_SINGAPORE_FUEL_PRICES = 2.6 # per liter price
 AVERAGE_MILEAGE_SINGAPORE_CARS = 16 # kmpl
