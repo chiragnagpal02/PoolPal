@@ -114,6 +114,7 @@ CREATE TABLE `passengers` (
   `PAge` int(11) NOT NULL,
   `PGender` char(1) NOT NULL,
   `PEmail` varchar(200) NOT NULL,
+  `PPasswordHash` varchar(200) NOT NULL,
   `PAddress` varchar(400) NOT NULL,
   `PPhone` int(11) NOT NULL,
   `PAccount_Created_At` datetime DEFAULT CURRENT_TIMESTAMP
@@ -123,8 +124,8 @@ CREATE TABLE `passengers` (
 -- Dumping data for table `passengers`
 --
 
-INSERT INTO `passengers` (`PID`, `PName`, `PUserName`, `PAge`, `PGender`, `PEmail`, `PAddress`, `PPhone`, `PAccount_Created_At`) VALUES
-(1, 'Adama Traore', 'Adamamu', 21, 'M', 'adam@gmail.com', '180 Bencoolen Street, 189646', 83606092, '2023-03-22 10:39:11');
+INSERT INTO `passengers` (`PID`, `PName`, `PUserName`, `PAge`, `PGender`, `PEmail`, `PPasswordHash`, `PAddress`, `PPhone`, `PAccount_Created_At`) VALUES
+(1, 'Adama Traore', 'Adamamu', 21, 'M', 'adam@gmail.com',"b'$2b$12$y0EzUA9Oec4ilB15U02vaOA5y31RlkPA4TqaMCtihQ.kA6yasI4XS'",'180 Bencoolen Street, 189646', 83606092, '2023-03-22 10:39:11');
 
 -- --------------------------------------------------------
 
@@ -164,7 +165,7 @@ CREATE TABLE `User` (
   `Email` varchar(200) NOT NULL,
   `Role` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+INSERT INTO `User` (`Email`,`Role`) VALUES ('adam@gmail.com','Passenger');
 
 -- --------------------------------------------------------
 

@@ -5,10 +5,13 @@ from flask_cors import CORS
 import validators
 import bcrypt
 from datetime import datetime
+import amqp_setup
+import pika
+import json
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/PoolPal'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/PoolPal'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -170,12 +173,32 @@ def add_new_passenger():
     db.session.add(new_passenger)
     db.session.commit()
 
+    add_user = {
+        "Email" : new_passenger.PEmail,
+        "Role" : "Passenger"
+    }
+
+    processAddUser(add_user)
+
     return jsonify({
         "code": 200,
         "data": {
             "status": f"New passenger with ID {new_passenger.PID} has been added."
         }
     })
+
+def processAddUser(user):
+    print('\n-----Invoking user microservice-----')
+    message = json.dumps(user)
+    amqp_setup.channel.basic_publish(exchange=amqp_setup.exchangename, routing_key="create.user", 
+            body=message, properties=pika.BasicProperties(delivery_mode = 2)) 
+    
+    return {
+        "code": 201,
+        "data": {
+            "user_result": user
+        }
+    }
 
 if __name__ == '__main__':
     app.run(host= "0.0.0.0", debug=True, port=5001)
