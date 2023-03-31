@@ -83,8 +83,15 @@ def calculate_refund_amount(CPID, end_lat, end_long):
 
     refunded_price = (travelled_distance/carpool_distance) * passenger_price
 
+    # call here to that process CMS and then get a status as a reponse - 
+    # {"Status": "Success"} or {"Status": "Failed"}
+    # if status == "Success":
+    #     return jsonify({
+    #             "price": refunded_price
+
     return jsonify({
-        'price': refunded_price
+        'price': refunded_price, 
+        'status': 'Success'
     })
 
 

@@ -66,58 +66,45 @@ def get_all():
 
 @app.route("/api/v1/review/create_review/", methods=['POST'])
 def create_review():
-    CPID = request.json.get('CPID')
-    DID = request.json.get('DID')
-    PID = request.json.get('PID')
-    PRating = request.json.get('PRating')
-    DRating = request.json.get('DRating')
-    PDescription = request.json.get('PDescription')
-    DDescription = request.json.get('DDescription')
+    CPID = request.get_json()['CPID']
+    DID = request.get_json()['DID']
+    PID = request.get_json()['PID']
+    PRating = request.get_json()['PRating']
+    DRating = request.get_json()['DRating']
+    PDescription = request.get_json()['PDescription']
+    DDescription = request.get_json()['DDescription']
+    review = Review(CPID, DID, PID, PRating, DRating, PDescription, DDescription)
 
-    
-    if (Review.query.filter_by(CPID=CPID).first()):
-        return jsonify(
-            {
-                "code": 400,
-                "data": {
-                    "CPID": CPID
-                },
-                "message": "Review already exists."
-            }
-        ), 400
-
-    
-    review = Review(
-        CPID=CPID,
-        DID=DID,
-        PID=PID,
-        PRating=PRating,
-        DRating=DRating,
-        PDescription=PDescription,
-        DDescription=DDescription
-    )
-
-    try:
-        db.session.add(review)
-        db.session.commit()
-
-    except:
-        return jsonify(
-            {
-                "code": 500,
-                "data": {
-                    "CPID": CPID
-                },
-                "message": "An error occurred creating the review."
-            }
-        ), 500
+    if not Review.query.filter_by(CPID=CPID).first():
+        try:
+            db.session.add(review)
+            db.session.commit()
+            return jsonify(
+                {
+                    "code": 200,
+                    "data": review.json()
+                }
+            ), 200
+        except Exception as e:
+            return jsonify(
+                {
+                    "code": 500,
+                    "data": {
+                        "CPID": CPID
+                    },
+                    "message": "An error occurred while creating the review. " + str(e)
+                }
+            ), 500
 
     return jsonify(
         {
-            "code": 201,
-            "data": review.json()
+            "code": 400,
+            "data": {
+                "status": "Review Already Exists",
+
+            }
         }
-    ), 201
+    ), 400
 
 
 @app.route("/api/v1/review/update_review/<int:CPID>", methods=['PUT'])
