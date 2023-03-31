@@ -102,6 +102,30 @@
 
   <!-- getting carpools by did -->
   <script>
+    // delete carpool when click on the button
+    function deleteCarpool(cpid) {
+      axios.delete(`http://127.0.0.1:5002/api/v1/carpool/remove_carpool/${cpid}`)
+        .then(response => {
+          console.log('Resource deleted successfully.');
+          window.location.reload();
+        })
+        .catch(error => {
+          console.error('Error deleting resource:', error);
+        });
+    }
+
+    // end carpool
+    function endCarpool(cpid) {
+      axios.put(`http://127.0.0.1:5002/api/v1/carpool/update_carpool_status/${cpid}`)
+        .then(response => {
+          console.log('Resource deleted successfully.');
+          window.location.reload();
+        })
+        .catch(error => {
+          console.error('Error deleting resource:', error);
+        });
+    }
+
     let DID = 1;
 
     axios.get(`http://127.0.0.1:5700/get_carpools_with_passengers/${DID}`)
@@ -142,7 +166,7 @@
               carpoolData += `</p>`
               // cancel
               carpoolData += `<div class="d-flex justify-content-center">`
-              carpoolData += `<button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100" @click="deleteCarpool(${carpools[i].CPID})">Cancel</button>`
+              carpoolData += `<button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100" onclick="deleteCarpool(${carpools[i].CPID})">Cancel</button>`
               carpoolData += `</div>`
               // dispute
               carpoolData += `<div class="d-flex justify-content-center">`
@@ -150,21 +174,12 @@
               carpoolData += `</div>`
               // end trip --> change to inactive
               carpoolData += `<div class="d-flex justify-content-center">`
-              carpoolData += `<button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100">End Carpool</button>`
+              carpoolData += `<button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100" onclick="endCarpool(${carpools[i].CPID})">End Carpool</button>`
               carpoolData += `</div>`
               carpoolData += `</div>`
               carpoolData += `</div>`
             }
-            // delete carpool when click on the button
-            function deleteCarpool(cpid) {
-              axios.delete(`http://127.0.0.1:5002/api/v1/carpool/remove_carpool/${cpid}`)
-                .then(response => {
-                  console.log('Resource deleted successfully.');
-                })
-                .catch(error => {
-                  console.error('Error deleting resource:', error);
-                });
-            }
+
           }
           if (carpoolData != '') {
             document.getElementById("upcomingRides").innerHTML = carpoolData;
