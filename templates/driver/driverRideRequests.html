@@ -110,7 +110,7 @@
           var carpools = response.data;
           var carpoolData = '';
           for (var i = 0; i < carpools.length; i++) {
-            if (carpools[i].Status == "Active"){
+            if (carpools[i].Status == "Active") {
               // carpool details
               carpoolData += `<div class="row my-4">`
               carpoolData += `<div class="card pb-4">`
@@ -133,7 +133,7 @@
                   }
                 }
               }
-              
+
               // if no passenger
               else {
                 console.log(carpools[i].passengers.length)
@@ -142,7 +142,7 @@
               carpoolData += `</p>`
               // cancel
               carpoolData += `<div class="d-flex justify-content-center">`
-              carpoolData += `<button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100">Cancel</button>`
+              carpoolData += `<button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100" @click="deleteCarpool(${carpools[i].CPID})">Cancel</button>`
               carpoolData += `</div>`
               // dispute
               carpoolData += `<div class="d-flex justify-content-center">`
@@ -155,8 +155,18 @@
               carpoolData += `</div>`
               carpoolData += `</div>`
             }
+            // delete carpool when click on the button
+            function deleteCarpool(cpid) {
+              axios.delete(`http://127.0.0.1:5002/api/v1/carpool/remove_carpool/${cpid}`)
+                .then(response => {
+                  console.log('Resource deleted successfully.');
+                })
+                .catch(error => {
+                  console.error('Error deleting resource:', error);
+                });
+            }
           }
-          if (carpoolData != ''){
+          if (carpoolData != '') {
             document.getElementById("upcomingRides").innerHTML = carpoolData;
           }
         }

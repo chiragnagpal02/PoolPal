@@ -10,8 +10,8 @@ import uuid
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://poolpal@localhost:3306/PoolPal'
-# app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/PoolPala'
+app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 299}
 
@@ -115,7 +115,7 @@ def add_new_passenger():
     return jsonify({
         "code": 200,
         "data": {
-            "status": f"New passenger with ID {new_carpool.CPID} has been added."
+            "status": f"New Carpool with ID {new_carpool.CPID} has been added."
         }
     })
 
@@ -188,7 +188,7 @@ def update_carpool_capacity(CPID):
         }
     }), 200
     
-    
+# do we still need this????
 @app.route("/api/v1/carpool/update_passenger_price/<CPID>", methods=['PUT'])
 def update_passenger_price(CPID):
     CPID = int(CPID)
@@ -202,9 +202,39 @@ def update_passenger_price(CPID):
         }
     }), 200
 
-# delete carpool
 # update status to "Not Active"
+@app.route("/api/v1/carpool/update_carpool_status/<CPID>", methods=['PUT'])
+def update_carpool_status(CPID):
+    CPID = int(CPID)
+    carpool = Carpool.query.filter_by(CPID=CPID).first()
+    carpool.Status = "Not Active"
+    db.session.commit()
+    return jsonify({
+        "code": 200,
+        "data": {
+            "status": f"Carpool {CPID} status has been updated."
+        }
+    }), 200
 
+# delete carpool
+@app.route("/api/v1/carpool/remove_carpool/<CPID>", methods=['DELETE'])
+def remove_carpool(CPID):
+    carpool = Carpool.query.filter_by(CPID=CPID).first()
+    if carpool:
+        db.session.delete(carpool)
+        db.session.commit()
+        return jsonify(
+            {
+                'code': 200,
+                'message': f'Carpool has been removed'
+            }
+        ), 200
+    
+    else:
+        return jsonify({
+            "code": 404,
+            "message": "The carpool does not exist."
+        }), 404
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True, port=5002)
