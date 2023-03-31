@@ -183,6 +183,23 @@ CREATE TABLE IF NOT EXISTS dispute (
   PRIMARY KEY (id)
 );
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users for videos`
+--
+
+CREATE TABLE IF NOT EXISTS feedback (
+  feedbackID INTEGER AUTO_INCREMENT,
+  username varchar(64) NOT NULL,
+  email varchar(64) NOT NULL,
+  phoneNo int,
+  rating int,
+  feedbackDesc varchar(256), 
+  PRIMARY KEY (feedbackID)
+);
+
+
 
 --
 -- Indexes for dumped tables

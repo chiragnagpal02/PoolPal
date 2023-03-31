@@ -16,29 +16,28 @@ def index():
     return render_template("form.html")
 
 @app.route("/result", methods=['POST', 'GET'])
-# def result():
-#     if request.method == "POST":
-#         msg = Message(request.form.get("Subject"), 
-#                       sender=request.form.get("Email"), 
-#                       recipients=['poolpalesd@gmail.com'])
-#         msg.body = request.form.get("Body")
-#         mail.send(msg)
-#         return render_template("result.html", result="Success!")
-#     else:
-#         return render_template("result.html", result="Failure.") 
-
 def result():
     if request.method == "POST":
-        sender_email = request.form.get("Email")
-        recipient_email = 'poolpalesd@gmail.com'  
         msg = Message(request.form.get("Subject"), 
-                      sender=sender_email, 
-                      recipients=[recipient_email])
+                      sender=request.form.get("Email"), 
+                      recipients=['poolpalesd@gmail.com'])
         msg.body = request.form.get("Body")
         mail.send(msg)
         return render_template("result.html", result="Success!")
     else:
-        return render_template("result.html", result="Failure.")
+        return render_template("result.html", result="Failure.") 
+
+# def result():
+#     if request.method == "POST":
+#         recipient_email = 'poolpalesd@gmail.com'  
+#         msg = Message(request.form.get("Subject"), 
+#                       sender=request.form.get("Email"), 
+#                       recipients=[recipient_email])
+#         msg.body = request.form.get("Body")
+#         mail.send(msg)
+#         return render_template("result.html", result="Success!")
+#     else:
+#         return render_template("result.html", result="Failure.")
 
     
 if __name__ == '__main__':
