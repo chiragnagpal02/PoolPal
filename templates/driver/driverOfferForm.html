@@ -114,19 +114,25 @@
           <!-- start location -->
           <div class="my-2">
             <label for="startLocation" class="form-label">Start Location</label>
-            <input type="text" class="form-control" id="startLocation" required>
+            <input type="text" class="form-control" id="startLocation" placeholder="Enter Postal Code" required>
           </div>
 
           <!-- end location -->
           <div class="my-2">
             <label for="endLocation" class="form-label">End Location</label>
-            <input type="text" class="form-control" id="endLocation" required>
+            <input type="text" class="form-control" id="endLocation" placeholder="Enter Postal Code" required>
           </div>
 
           <!-- date and time -->
           <div class="my-2">
-            <label for="datetime-local" class="form-label">Date and Time</label>
-            <input type="datetime" class="form-control" id="datetime" required>
+            <label for="datetime" class="form-label">Date and Time</label>
+            <input type="datetime-local" class="form-control" id="datetime" required>
+          </div>
+
+          <!-- capacity -->
+          <div class="my-2">
+            <label for="capacity" class="form-label">Capacity</label>
+            <input type="number" class="form-control" id="capacity" required>
           </div>
 
           <!-- base price -->
@@ -146,16 +152,18 @@
             <label for="totalprice" class="form-label">Total Price</label>
             <input type="number" class="form-control" id="totalprice" readonly>
           </div>
-          <button type="submit" class="btn btn-outline-dark my-4 w-100 bg-white">Offer</button>
+          <button type="submit" id="offer" class="btn btn-outline-dark my-4 w-100 bg-white">Offer</button>
         </form>
+         <!-- success message -->
+        <div class="row text-center" style="display: none;" id="success"></div>
       </div>
     </div>
 
     <!-- map -->
-    <div class="row">
+    <div class="row" style="display: none;" id="route">
       <h3 class="my-3 text-center">Your Route</h3>
     </div>
-    <div id="map"></div>
+    <div id="map" style="display: none;"></div>
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -211,7 +219,7 @@
 
         function getLatLng() {
           return new Promise(resolve => {
-            setTimeout(function(){
+            setTimeout(function () {
               var startLocation = document.getElementById('startLocation').value;
               var allLatLng = [];
 
@@ -241,13 +249,12 @@
                 } else {
                   console.log('Geocode was not successful for the following reason: ' + status);
                 }
-              
-              resolve(allLatLng)
-              console.log(allLatLng.length)
+
+                resolve(allLatLng)
               }, 2000);
             })
           })
-      
+
           // console.log(allLatLng)
           return allLatLng;
         }
@@ -256,39 +263,87 @@
 
       // pricing
 
-
-      // Get references to both input fields
       const startLocation = document.getElementById("startLocation");
       const endLocation = document.getElementById("endLocation");
-
-      // Add an onkeyup event listener to both input fields
+      const driverFee = document.getElementById("driverfee");
       startLocation.addEventListener("keyup", handleKeyup);
       endLocation.addEventListener("keyup", handleKeyup);
+      driverFee.addEventListener("keyup", handleKeyup)
 
       // Define the callback function to be executed on keyup
       async function handleKeyup(event) {
-        console.log(initMap())
         var allLatLng = await initMap();
-        console.log()
-        console.log(typeof(allLatLng))
         var startLat = allLatLng[0];
-        console.log(startLat)
         var startLng = allLatLng[1];
-        console.log(startLng)
         var endLat = allLatLng[2];
-        console.log(endLat)
         var endLng = allLatLng[3];
-        console.log(endLng)
-        
-        axios.get(`/api/v1/base_price/${startLat},${startLng}/${endLat},${endLng}`)
+
+        // updating the prices
+        axios.get(`http://127.0.0.1:5101/api/v1/base_price/${startLat},${startLng}/${endLat},${endLng}`)
           .then(response => {
-            var baseprice = response.data;
+            // driver fee
+            var driverFee = document.getElementById("driverfee").value;
+            // base price
+            var baseprice = response.data.price;
             console.log(baseprice)
+            document.getElementById("baseprice").value = baseprice;
+            // total price
+            var totalPrice = Number(driverFee) + Number(baseprice);
+            document.getElementById("totalprice").value = totalPrice;
           })
           .catch(error => {
             console.log(error);
           });
       }
+
+      // push to add carpool
+      let DID = 1; //CHANGE
+
+      const offer = document.querySelector('#offer')
+      const route = document.querySelector("#route")
+      const map = document.querySelector("#map")
+      const success = document.querySelector("#success")
+
+      offer.addEventListener('click', async () => {
+
+        // calculating passenger price
+        var totalPrice = document.getElementById("totalprice").value;
+        var capacity = document.getElementById("capacity").value;
+        var passengerPrice = totalPrice / capacity;
+        // lat and lng
+        var allLatLng = await initMap();
+        var startLat = allLatLng[0];
+        var startLng = allLatLng[1];
+        var endLat = allLatLng[2];
+        var endLng = allLatLng[3];
+
+        axios.post("http://127.0.0.1:5002/api/v1/carpool/add_new_carpool", {
+          "DID": DID,
+          "CarpoolPrice": totalPrice,
+          "PassengerPrice": passengerPrice,
+          "CPStartLocation": document.getElementById("startLocation").value,
+          "CPStartLatitude": startLat,
+          "CPStartLongitude": startLng,
+          "CPEndLocation": document.getElementById("endLocation").value,
+          "CPEndLatitude": endLat,
+          "CPEndLongitude": endLng,
+          "Status": "Active",
+          "Capacity_remaining": capacity,
+        })
+          .then(function (response) {
+            console.log(response);
+            // route and map appear when button is clicked
+            route.style.display = 'block';
+            map.style.display = 'block';
+            console.log(response.data.data.status)
+            document.getElementById("success").innerHTML = response.data.data.status
+            success.style.display = 'block';
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+
+      });
     </script>
 
     <!-- axios -->

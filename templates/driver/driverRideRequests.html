@@ -100,7 +100,7 @@
         </div>
         <!-- dispute -->
         <div class="d-flex justify-content-center">
-          <button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100"><a href="http://127.0.0.1:8001/auth/login" target="_blank" class="nav-link routing">Open Dispute Ticket</a></button>
+          <button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100 p-0"><a href="http://127.0.0.1:8001/auth/login" target="_blank" class="nav-link routing">Open Dispute Ticket</a></button>
         </div>
       </div>
     </div>
@@ -112,83 +112,10 @@
   <!-- getting carpools by did -->
   <script>
     let DID = 1;
-    let CPID = 1;
 
-    axios.all([
-      axios.get(`http://127.0.0.1:5002/api/v1/carpool/get_carpool_by_driver_id/${DID}`),
-      axios.get(`http://127.0.0.1:5010/api/v1/carpeople/get_passengers/${CPID}`),
-    ])
-      .then(axios.spread(function (carpool, passenger) {
-        console.log(carpool.data)
-        console.log(passenger.data)
+    axios.get('')
 
-        // get passenger name by cpid
-        var PNameList = [];
-        var passengers = passenger.data
-        for (let i = 0; i < passengers.length; i++) {
-          var PID = passengers[i].PID
-          axios.get(`http://127.0.0.1:5001/api/v1/passenger/get_passenger_by_id/${PID}`)
-            .then(response => {
-              console.log(response.data)
-              var name = response.data.data.passenger.PName;
-              PNameList.push(name)
-
-              // get carpool by did
-              var carpoolNum = 0;
-              var totalCarpoolPrice = 0;
-              var averageEarnings = 0
-
-              if (carpool.data.data.carpools.length != 0) {
-                var carpools = carpool.data.data.carpools;
-
-                var carpoolData = '';
-
-                // not active
-                carpools.forEach(function (carpools) {
-                  if (carpools.Status == 'Active') {
-                    carpoolData += `<div class="row my-4">`
-                    carpoolData += `<div class="card">`
-                    carpoolData += `<p class="card-text px-2 py-4" style="text-align:left;">`
-                    carpoolData += `Carpool ID: ${carpools.CPID}<br>`
-                    carpoolData += `Start Location: ${carpools.CPStartLocation}<br>`
-                    carpoolData += `End Location: ${carpools.CPEndLocation}<br>`
-                    carpoolData += `Date and Time: ${carpools.dateTime}<br>`
-                    carpoolData += `Price: ${carpools.CarpoolPrice}<br>`
-                    carpoolData += `Passenger(s): `
-                    // listing the passengers
-                    for (i = 0; i < PNameList.length; i++) {
-                      if (i != PNameList.length - 1) {
-                        carpoolData += `${PNameList[i]}, `
-                      }
-                      else {
-                        carpoolData += `${PNameList[i]}`
-                      }
-                    }
-                    carpoolData += `</p>`
-                    carpoolData += `</div>`
-                    carpoolData += `</div>`
-                    document.getElementById('pastRides').innerHTML = carpoolData;
-
-                    carpoolNum += 1;
-                    totalCarpoolPrice += carpools.CarpoolPrice * carpools.capacity;
-                  }
-                })
-              }
-              document.getElementById('carpoolNum').innerHTML = carpoolNum;
-              document.getElementById('totalEarnings').innerHTML = totalCarpoolPrice;
-              if (carpoolNum != 0 || totalCarpoolPrice != 0) {
-                averageEarnings = totalCarpoolPrice / carpoolNum;
-              }
-              document.getElementById('averageEarnings').innerHTML = averageEarnings;
-            })
-            .catch(error => {
-              console.error(error);
-            });
-        }
-      }))
-      .catch(function (error) {
-        console.log(error);
-      })
+    
   </script>
 
   <!-- Bootstrap Bundle with Popper -->

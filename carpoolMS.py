@@ -6,10 +6,11 @@ from flask_cors import CORS
 import validators
 from datetime import datetime
 # import jwt
+import uuid
 
 
 app = Flask(__name__)
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/PoolPal'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/PoolPala'
 app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 299}
@@ -76,7 +77,9 @@ class Carpool(db.Model):
 def add_new_passenger():
     DID = request.json.get('DID')
     CarpoolPrice = request.json.get('CarpoolPrice')
+    DriverFee = request.json.get('DriveFee')
     PassengerPrice = request.json.get('PassengerPrice')
+    DateTime = request.json.get('DateTime')
     CPStartLocation = request.json.get('CPStartLocation')
     CPStartLatitude = request.json.get('CPStartLatitude')
     CPStartLongitude = request.json.get('CPStartLongitude')
@@ -85,11 +88,17 @@ def add_new_passenger():
     CPEndLocation = request.json.get('CPEndLocation')
     Status = request.json.get('Status')
     Capacity_remaining = request.json.get('Capacity_remaining')
-
+    
+    # Generate a unique ID
+    new_cpid = str(uuid.uuid4())
+    
     new_carpool = Carpool(
+        CPID=new_cpid,
         DID=DID, 
         CarpoolPrice=CarpoolPrice,
+        DriverFee = DriverFee,
         PassengerPrice=PassengerPrice,
+        DateTime = DateTime,
         CPStartLocation=CPStartLocation,
         CPStartLatitude=CPStartLatitude,
         CPStartLongitude=CPStartLongitude,
