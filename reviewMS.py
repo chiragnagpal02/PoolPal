@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from os import environ
+import requests
 
 app = Flask(__name__)
 
@@ -12,7 +13,6 @@ app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 299}
 
 db = SQLAlchemy(app)
 CORS(app)
-
 
 class Review(db.Model):
     __tablename__ = 'review'
@@ -35,7 +35,13 @@ class Review(db.Model):
         self.DDescription = DDescription
 
     def json(self):
-        return {"CPID": self.CPID, "DID": self.DID, "PID": self.PID, "PRating": self.PRating, "DRating": self.DRating, "PDescription": self.PDescription, "DDescription": self.DDescription}
+        return {"CPID": self.CPID, 
+                "DID": self.DID, 
+                "PID": self.PID, 
+                "PRating": self.PRating, 
+                "DRating": self.DRating, 
+                "PDescription": self.PDescription, 
+                "DDescription": self.DDescription}
 
 
 @app.route("/api/v1/review/get_all_reviews")
@@ -58,8 +64,17 @@ def get_all():
     ), 404
 
 
-@app.route("/api/v1/review/create_review/<int:CPID>", methods=['POST'])
-def create_review(CPID):
+@app.route("/api/v1/review/create_review/", methods=['POST'])
+def create_review():
+    CPID = request.json.get('CPID')
+    DID = request.json.get('DID')
+    PID = request.json.get('PID')
+    PRating = request.json.get('PRating')
+    DRating = request.json.get('DRating')
+    PDescription = request.json.get('PDescription')
+    DDescription = request.json.get('DDescription')
+
+    
     if (Review.query.filter_by(CPID=CPID).first()):
         return jsonify(
             {
@@ -71,12 +86,21 @@ def create_review(CPID):
             }
         ), 400
 
-    data = request.get_json()
-    review = Review(CPID, **data)
+    
+    review = Review(
+        CPID=CPID,
+        DID=DID,
+        PID=PID,
+        PRating=PRating,
+        DRating=DRating,
+        PDescription=PDescription,
+        DDescription=DDescription
+    )
 
     try:
         db.session.add(review)
         db.session.commit()
+
     except:
         return jsonify(
             {

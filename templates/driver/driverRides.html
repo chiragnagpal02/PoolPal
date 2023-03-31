@@ -149,7 +149,7 @@
     let reviewpid;
     // submit review
     function submitReview(cpid) {
-      axios.post(`http://127.0.0.1:5006/api/v1/review/create_review/${cpid}`, {
+      axios.post(`http://127.0.0.1:5006/api/v1/review/create_review/`, {
         "CPID": cpid,
         "DID": DID,
         "PID": reviewpid,
@@ -174,7 +174,7 @@
       document.getElementById("myForm").style.display = "none";
     }
 
-    axios.get(`http://192.168.1.24:5700/get_carpools_with_passengers/${DID}`)
+    axios.get(`http://127.0.0.1:5700/get_carpools_with_passengers/${DID}`)
       .then(function (response) {
         if (response.data.length != 0) {
           var carpools = response.data;
