@@ -84,6 +84,9 @@
 
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 import stripe
+import amqp_setup
+import pika
+import json
 
 
 app = Flask(__name__)
@@ -103,11 +106,19 @@ def index():
 
 @app.route("/api/v1/payments/success")
 def success():
+    session_id = request.args.get("session_id")
+    CPID = request.args.get("CPID")
+    PID = request.args.get("PID")
+    processAddPaymentLogs(session_id,CPID,PID)
     return render_template("success.html")
 
 
 @app.route("/api/v1/payments/cancelled")
 def cancelled():
+    session_id = request.args.get("session_id")
+    CPID = request.args.get("CPID")
+    PID = request.args.get("PID")
+    processAddPaymentLogs(session_id,CPID,PID)
     return render_template("cancelled.html")
 
 
@@ -117,8 +128,8 @@ def get_publishable_key():
     return jsonify(stripe_config)
 
 
-@app.route("/api/v1/payments/create-checkout-session/<int:amount>")
-def create_checkout_session(amount):
+@app.route("/api/v1/payments/create-checkout-session/<int:amount>/<int:CPID>/<int:PID>")
+def create_checkout_session(amount,CPID,PID):
     amount_in_sgd = amount*100
     stripe.api_key = stripe_keys["secret_key"]
 
@@ -146,15 +157,32 @@ def create_checkout_session(amount):
                 'quantity': 1,
             }],
             mode='payment',
-            success_url='http://127.0.0.1:5004/api/v1/payments/success?session_id={CHECKOUT_SESSION_ID}',
-            cancel_url='http://127.0.0.1:5004/api/v1/payments/cancelled',
+            success_url='http://127.0.0.1:5004/api/v1/payments/success?session_id={CHECKOUT_SESSION_ID}&CPID=' + str(CPID) + '&PID=' + str(PID),
+            cancel_url='http://127.0.0.1:5004/api/v1/payments/cancelled?session_id={CHECKOUT_SESSION_ID}&CPID=' + str(CPID) + '&PID=' + str(PID),
             )
-        
         return redirect(checkout_session.url)
     except Exception as e:
         print(e)
         return jsonify(error=str(e)), 403
+
+def processAddPaymentLogs(session_id,CPID,PID):
+    print('\n-----Invoking Payment log microservice-----')
+    payment_details = {
+        "session_id" : session_id,
+        "CPID" : CPID,
+        "PID" : PID
+    }
+    print(payment_details)
+    message = json.dumps(payment_details)
+    amqp_setup.channel.basic_publish(exchange=amqp_setup.exchangename, routing_key="create.payment", 
+            body=message, properties=pika.BasicProperties(delivery_mode = 2)) 
     
+    return {
+        "code": 201,
+        "data": {
+            "payment_logs_result": payment_details
+        }
+    }
 
 if __name__ == '__main__':
     app.run(host= "0.0.0.0", debug=True, port=5004)
