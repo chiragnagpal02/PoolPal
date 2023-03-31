@@ -289,7 +289,7 @@
             document.getElementById("baseprice").value = baseprice;
             // total price
             var totalPrice = Number(driverFee) + Number(baseprice);
-            document.getElementById("totalprice").value = totalPrice;
+            document.getElementById("totalprice").value = totalPrice.toFixed(2);
           })
           .catch(error => {
             console.log(error);

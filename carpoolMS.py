@@ -202,10 +202,10 @@ def update_passenger_price(CPID):
         }
     }), 200
 
+# delete carpool
+# update status to "Not Active"
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True, port=5002)
 
-
-
-# Create carpool APIs for retriving records by CPID, DID, PID
