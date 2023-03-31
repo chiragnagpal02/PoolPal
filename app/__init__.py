@@ -14,7 +14,7 @@ def create_app():
     app = Flask(__name__)
 
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/PoolPal'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://poolpal@localhost:3306/PoolPal'
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.environ.get(
         'SQLALCHEMY_TRACK_MODIFICATIONS')

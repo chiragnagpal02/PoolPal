@@ -51,49 +51,10 @@
 
     /* Add styles to the form container */
     .form-container {
-      max-width: 300px;
+      max-width: 400px;
       padding: 10px;
       background-color: white;
-    }
-
-    /* Full-width input fields */
-    .form-container input[type=text],
-    .form-container input[type=password] {
-      width: 100%;
-      padding: 15px;
-      margin: 5px 0 22px 0;
-      border: none;
-      background: #f1f1f1;
-    }
-
-    /* When the inputs get focus, do something */
-    .form-container input[type=text]:focus,
-    .form-container input[type=password]:focus {
-      background-color: #ddd;
-      outline: none;
-    }
-
-    /* Set a style for the submit/login button */
-    .form-container .btn {
-      background-color: #04AA6D;
-      color: white;
-      padding: 16px 20px;
-      border: none;
-      cursor: pointer;
-      width: 100%;
-      margin-bottom: 10px;
-      opacity: 0.8;
-    }
-
-    /* Add a red background color to the cancel button */
-    .form-container .cancel {
-      background-color: red;
-    }
-
-    /* Add some hover effects to buttons */
-    .form-container .btn:hover,
-    .open-button:hover {
-      opacity: 1;
+      padding-right: 30px;
     }
   </style>
 
@@ -182,7 +143,36 @@
 
   <!-- getting carpools by did -->
   <script>
+    // driver id TO BE CHANGED
     let DID = 1;
+
+    let reviewpid;
+    // submit review
+    function submitReview(cpid) {
+      axios.post(`http://127.0.0.1:5006/api/v1/review/create_review/${cpid}`, {
+        "CPID": cpid,
+        "DID": DID,
+        "PID": reviewpid,
+        "PRating": rating,
+        "DRating": null,
+        "PDescription": description,
+        "DDescription": null, 
+      })
+        .then(response => {
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    }
+    // open pop up
+    function openForm() {
+      document.getElementById("myForm").style.display = "block";
+    }
+    // close pop up
+    function closeForm() {
+      document.getElementById("myForm").style.display = "none";
+    }
 
     axios.get(`http://192.168.1.24:5700/get_carpools_with_passengers/${DID}`)
       .then(function (response) {
@@ -194,7 +184,7 @@
           var rideNum = 0;
           // for each carpool
           for (var i = 0; i < carpools.length; i++) {
-            if (carpools[i].Status == "Active") {
+            if (carpools[i].Status == "Not Active") {
               var earningsPerRide = carpools[i].passengers.length * carpools[i].PassengerPrice;
               totalEarnings += earningsPerRide;
               rideNum += 1;
@@ -231,13 +221,23 @@
               // pop up
               carpoolData += `<div class="form-popup" id="myForm">`
               carpoolData += `<form action="/action_page.php" class="form-container">`
-              carpoolData += `<h1>Login</h1>`
-              carpoolData += `<label for="email"><b>Email</b></label>`
-              carpoolData += `<input type="text" placeholder="Enter Email" name="email" required>`
-              carpoolData += `<label for="psw"><b>Password</b></label>`
-              carpoolData += `<input type="password" placeholder="Enter Password" name="psw" required>`
-              carpoolData += `<button type="submit" class="btn">Login</button>`
-              carpoolData += `<button type="button" class="btn cancel" onclick="closeForm()">Close</button>`
+              carpoolData += `<h4 class="text-center">Review</h4>`
+              // passengers
+              carpoolData += `<label for="passenger" class="form-label m-2">Write a review for:</label>`
+              carpoolData += `<select class="form-control m-2" id="reviewPassengers">`
+              carpoolData += `<option> --Choose a Passenger-- </option>`
+              for (var k = 0; k < carpools[i].passengers.length; k++) {
+                carpoolData += `<option id="${carpools[i].passengers[k].PID}">${carpools[i].passengers[k].name}</option>`
+              }
+              carpoolData += `</select>`
+              // rating
+              carpoolData += `<label for="rating" class="form-label m-2">Rating (1 to 5)</label>`
+              carpoolData += `<input type="number" class="form-control m-2" id="rating" min="1" max="5" required>`
+              // description
+              carpoolData += `<label for="description" class="form-label m-2">Description</label>`
+              carpoolData += `<input type="text" class="form-control m-2" id="description" required>`
+              carpoolData += `<button type="button" class="btn btn-outline-dark m-2 mt-4 w-100" onclick="closeForm(); submitReview(${carpools[i].CPID})">Submit</button>`
+              carpoolData += `<button type="button" class="btn btn-outline-dark m-2 w-100" onclick="closeForm()">Cancel</button>`
               carpoolData += `</form>`
               carpoolData += `</div>`
             }
@@ -249,18 +249,20 @@
         document.getElementById("totalEarnings").innerHTML = totalEarnings;
         document.getElementById("carpoolNum").innerHTML = rideNum;
         document.getElementById("averageEarnings").innerHTML = totalEarnings / rideNum;
+
+        // defining for the review
+        var rating = document.getElementById("rating");
+        var description = document.getElementById("description");
+
+        const select = document.getElementById('reviewPassengers');
+        select.addEventListener('change', () => {
+          reviewpid = event.target.value
+        });
+
       })
       .catch(function (error) {
         console.log(error);
       })
-
-    function openForm() {
-      document.getElementById("myForm").style.display = "block";
-    }
-
-    function closeForm() {
-      document.getElementById("myForm").style.display = "none";
-    }
   </script>
 
   <!-- Bootstrap Bundle with Popper -->

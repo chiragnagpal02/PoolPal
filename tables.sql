@@ -199,6 +199,19 @@ CREATE TABLE IF NOT EXISTS feedback (
   PRIMARY KEY (feedbackID)
 );
 
+-- Table structure for table `users for videos`
+--
+
+CREATE TABLE IF NOT EXISTS paymentlogs (
+  logsID INTEGER AUTO_INCREMENT,
+  intentID varchar(200) NOT NULL,
+  sessionID varchar(200) NOT NULL,
+  Amount int NOT NULL,
+  CPID int NOT NULL,
+  PID int NOT NULL,
+  Status varchar(200) NOT NULL, 
+  PRIMARY KEY (logsID)
+);
 
 
 --
