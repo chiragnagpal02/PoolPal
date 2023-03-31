@@ -28,13 +28,72 @@
     }
 
     /* body css */
-    body{
+    body {
       background-color: honeydew;
     }
+
     .background {
       padding: 5% 20%;
       width: 100%;
       height: 100%;
+    }
+
+    /* pop up */
+    /* The popup form - hidden by default */
+    .form-popup {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      right: 15px;
+      border: 3px solid #f1f1f1;
+      z-index: 9;
+    }
+
+    /* Add styles to the form container */
+    .form-container {
+      max-width: 300px;
+      padding: 10px;
+      background-color: white;
+    }
+
+    /* Full-width input fields */
+    .form-container input[type=text],
+    .form-container input[type=password] {
+      width: 100%;
+      padding: 15px;
+      margin: 5px 0 22px 0;
+      border: none;
+      background: #f1f1f1;
+    }
+
+    /* When the inputs get focus, do something */
+    .form-container input[type=text]:focus,
+    .form-container input[type=password]:focus {
+      background-color: #ddd;
+      outline: none;
+    }
+
+    /* Set a style for the submit/login button */
+    .form-container .btn {
+      background-color: #04AA6D;
+      color: white;
+      padding: 16px 20px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      margin-bottom: 10px;
+      opacity: 0.8;
+    }
+
+    /* Add a red background color to the cancel button */
+    .form-container .cancel {
+      background-color: red;
+    }
+
+    /* Add some hover effects to buttons */
+    .form-container .btn:hover,
+    .open-button:hover {
+      opacity: 1;
     }
   </style>
 
@@ -135,7 +194,7 @@
           var rideNum = 0;
           // for each carpool
           for (var i = 0; i < carpools.length; i++) {
-            if (carpools[i].Status == "Active"){
+            if (carpools[i].Status == "Active") {
               var earningsPerRide = carpools[i].passengers.length * carpools[i].PassengerPrice;
               totalEarnings += earningsPerRide;
               rideNum += 1;
@@ -149,35 +208,41 @@
               carpoolData += `<b>Price per Passenger ($):</b> ${carpools[i].PassengerPrice}<br>`
               carpoolData += `<b>Passenger(s):</b> `
               // making the passenger list
-              if (carpools[i].passengers.length != 0) {
-                for (var j = 0; j < carpools[i].passengers.length; j++) {
-                  // if not last
-                  if (j != carpools[i].passengers.length - 1) {
-                    carpoolData += `${carpools[i].passengers[j].name}, `
-                  }
-                  // if last
-                  else {
-                    carpoolData += `${carpools[i].passengers[j].name} <br>`
-                  }
+              for (var j = 0; j < carpools[i].passengers.length; j++) {
+                // if not last
+                if (j != carpools[i].passengers.length - 1) {
+                  carpoolData += `${carpools[i].passengers[j].name}, `
+                }
+                // if last
+                else {
+                  carpoolData += `${carpools[i].passengers[j].name} <br>`
                 }
               }
-              
-              // if no passenger
-              else {
-                console.log(carpools[i].passengers.length)
-                carpoolData += 'No passenger yet.<br>'
-              }
+
               carpoolData += `<b>Earnings from this Carpool:</b> ${earningsPerRide} <br>`
               carpoolData += `</p>`
               // review
               carpoolData += `<div class="d-flex justify-content-center">`
-              carpoolData += `<button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100">Review</button>`
+              carpoolData += `<button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100" onclick="openForm()">Review</button>`
               carpoolData += `</div>`
               carpoolData += `</div>`
+              carpoolData += `</div>`
+
+              // pop up
+              carpoolData += `<div class="form-popup" id="myForm">`
+              carpoolData += `<form action="/action_page.php" class="form-container">`
+              carpoolData += `<h1>Login</h1>`
+              carpoolData += `<label for="email"><b>Email</b></label>`
+              carpoolData += `<input type="text" placeholder="Enter Email" name="email" required>`
+              carpoolData += `<label for="psw"><b>Password</b></label>`
+              carpoolData += `<input type="password" placeholder="Enter Password" name="psw" required>`
+              carpoolData += `<button type="submit" class="btn">Login</button>`
+              carpoolData += `<button type="button" class="btn cancel" onclick="closeForm()">Close</button>`
+              carpoolData += `</form>`
               carpoolData += `</div>`
             }
           }
-          if (carpoolData != ''){
+          if (carpoolData != '') {
             document.getElementById("pastRides").innerHTML = carpoolData;
           }
         }
@@ -188,6 +253,14 @@
       .catch(function (error) {
         console.log(error);
       })
+
+    function openForm() {
+      document.getElementById("myForm").style.display = "block";
+    }
+
+    function closeForm() {
+      document.getElementById("myForm").style.display = "none";
+    }
   </script>
 
   <!-- Bootstrap Bundle with Popper -->
