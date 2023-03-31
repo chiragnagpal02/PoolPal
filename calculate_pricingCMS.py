@@ -24,6 +24,10 @@ def calculate_distance(start_lat, start_long, end_lat, end_long):
 
     return geodesic(starting_coordinates, ending_coordinates).km
 
+@app.route("/api/v1/calculate_price_between_points/<start_lat>,<start_long>/<end_lat>,<end_long>", methods=['GET'])
+def get_price_between_points(start_lat, start_long, end_lat, end_long):
+    return calculate_distance(start_lat, start_long, end_lat, end_long)
+
 
 @app.route("/api/v1/base_price/<start_lat>,<start_long>/<end_lat>,<end_long>", methods=['GET'])
 def get_base_price(start_lat, start_long, end_lat, end_long):
