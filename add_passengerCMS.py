@@ -62,7 +62,7 @@ def process_payment(CPID, DID, PID, PEmail):
     print(status_from_carpeople)
 
     passenger_price = int(get_passenger_price(CPID))
-    return redirect(f"http://127.0.0.1:5004/api/v1/payments/create-checkout-session/{passenger_price}")
+    return redirect(f"http://127.0.0.1:5004/api/v1/payments/create-checkout-session/{passenger_price}/{CPID}/{PID}")
 
 
 
