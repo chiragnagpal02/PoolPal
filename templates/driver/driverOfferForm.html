@@ -125,8 +125,8 @@
 
           <!-- date and time -->
           <div class="my-2">
-            <label for="datetime-local" class="form-label">Date and Time</label>
-            <input type="datetime" class="form-control" id="datetime" required>
+            <label for="datetime" class="form-label">Date and Time</label>
+            <input type="datetime-local" class="form-control" id="datetime" required>
           </div>
 
           <!-- base price -->
@@ -146,7 +146,7 @@
             <label for="totalprice" class="form-label">Total Price</label>
             <input type="number" class="form-control" id="totalprice" readonly>
           </div>
-          <button type="submit" class="btn btn-outline-dark my-4 w-100 bg-white">Offer</button>
+          <button type="submit" id="offer" class="btn btn-outline-dark my-4 w-100 bg-white">Offer</button>
         </form>
       </div>
     </div>
@@ -211,7 +211,7 @@
 
         function getLatLng() {
           return new Promise(resolve => {
-            setTimeout(function(){
+            setTimeout(function () {
               var startLocation = document.getElementById('startLocation').value;
               var allLatLng = [];
 
@@ -241,13 +241,13 @@
                 } else {
                   console.log('Geocode was not successful for the following reason: ' + status);
                 }
-              
-              resolve(allLatLng)
-              console.log(allLatLng.length)
+
+                resolve(allLatLng)
+                console.log(allLatLng.length)
               }, 2000);
             })
           })
-      
+
           // console.log(allLatLng)
           return allLatLng;
         }
@@ -256,14 +256,12 @@
 
       // pricing
 
-
-      // Get references to both input fields
       const startLocation = document.getElementById("startLocation");
       const endLocation = document.getElementById("endLocation");
-
-      // Add an onkeyup event listener to both input fields
+      const driverFee = document.getElementById("driverfee");
       startLocation.addEventListener("keyup", handleKeyup);
       endLocation.addEventListener("keyup", handleKeyup);
+      driverFee.addEventListener("keyup", handleKeyup)
 
       // Define the callback function to be executed on keyup
       async function handleKeyup(event) {
@@ -273,11 +271,15 @@
         var endLat = allLatLng[2];
         var endLng = allLatLng[3];
 
+        // base price
         axios.get(`http://127.0.0.1:5101/api/v1/base_price/${startLat},${startLng}/${endLat},${endLng}`)
-          .then(response => {
+          .then(response => { 
+            // driver fee
+            var driverFee = document.getElementById("driverfee").value;
+            // base price
             var baseprice = response.data.price;
             document.getElementById("baseprice").value = baseprice;
-            var driverFee = document.getElementById("driverfee").value;
+            // total price
             var totalPrice = Number(driverFee) + Number(baseprice);
             document.getElementById("totalprice").value = totalPrice;
           })
