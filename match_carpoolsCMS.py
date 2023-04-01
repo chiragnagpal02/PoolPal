@@ -15,6 +15,7 @@ CORS(app)
 
 THRESHOLD_DISTANC_KMS = 1
 CARPOOLS_URL = 'http://127.0.0.1:5002/api/v1/carpool/get_all_carpools'
+CARPEOPLE_URL = 'http://127.0.0.1:5010/api/v1/carpeople'
 
 # Passenger chooses date, start location and end location
 # Have to check for 3 factors -> start location,  and date
@@ -74,19 +75,45 @@ def match_carpools(start_coords, end_coords):
     distance = geodesic(start_coords, end_coords).km
     return distance
 
-def send_matching_carpools(start_lat, start_lng, end_lat, end_lng, formatted_date, start_time_str):
+def send_matching_carpools(start_lat, start_lng, end_lat, end_lng, formatted_date, start_time_str, pid):
     carpools, statuses = get_all_existing_carpools(start_lat, start_lng, end_lat, end_lng, formatted_date, start_time_str)
     final_carpools = []
+    carpeople = get_all_carpeople(pid)
     for i in carpools:
-        cpid = i['CPID']
-        status = statuses[cpid]
+        iCPID = i['CPID']
+        status = statuses[iCPID]
 
-        if status:
-            final_carpools.append(i)
+        for j in carpeople:
+            jCPID = j["CPID"]
+
+            if status and jCPID != iCPID:
+                final_carpools.append(i)
     
     return final_carpools 
 
 @app.route('/api/v1/matching/get_matching_carpools/', methods=['POST'])
+def get_matching_carpools():
+
+    start_lat = request.json.get('start_lat')
+    start_lng = request.json.get('start_lng')
+    end_lat = request.json.get('end_lat')
+    end_lng = request.json.get('end_lng')
+    time = request.json.get('time')
+    date = request.json.get('date')
+    pid = request.json.get('pid')
+
+    print(date)
+    formatted_date = datetime.strptime(date, "%Y-%m-%d")
+    date_final = formatted_date.date()
+    print(time)
+
+    carpools = send_matching_carpools(float(start_lat), float(start_lng), float(end_lat), float(end_lng), date_final, time, pid)
+    print(carpools)
+    return jsonify(
+        {
+            "carpools": carpools
+        }
+    )
 def get_matching_carpools():
 
     start_lat = request.json.get('start_lat')
@@ -108,6 +135,21 @@ def get_matching_carpools():
         }
     )
 
+@app.route('/api/v1/match/get_all_carpeople/<int:PID>', methods=['GET'])
+def get_all_carpeople(PID):
+    url = f'{CARPEOPLE_URL}/get_carpeople/{PID}'
+    response = requests.get(url)
+    print(f"Get carpeople by pid : {response}")
+    all = response.json()
+    print(f"Get Passenger Price : {all}")
+
+    try:
+        return all
+
+    except Exception as e:
+        print(f"Failed to decode JSON response: {e}")
+        return None
+    
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True, port=5100)
 
