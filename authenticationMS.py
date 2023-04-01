@@ -1,5 +1,6 @@
 import os
 import pathlib
+
 import requests
 from flask import Flask, session, abort, redirect, request, render_template
 from google.oauth2 import id_token
@@ -7,19 +8,18 @@ from google_auth_oauthlib.flow import Flow
 from pip._vendor import cachecontrol
 import google.auth.transport.requests
 
-
 app = Flask("Google Login App")
-app.secret_key = "CodeSpecialist.com"
+app.secret_key = "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" # make sure this matches with that's in client_secret.json
 
-os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
+os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1" # to allow Http traffic for local dev
 
-GOOGLE_CLIENT_ID = "235687597029-1pssrogrsf6n3odj3irhn0b7gsdrfct0.apps.googleusercontent.com"
+GOOGLE_CLIENT_ID = "61080199721-is7gst30prt4ar80iahnt1bdquq2gu6b.apps.googleusercontent.com"
 client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "client_secret.json")
 
 flow = Flow.from_client_secrets_file(
     client_secrets_file=client_secrets_file,
     scopes=["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email", "openid"],
-    redirect_uri="http://127.0.0.1:5000/callback"
+    redirect_uri="http://127.0.0.1:5450/callback"
 )
 
 
@@ -29,7 +29,6 @@ def login_is_required(function):
             return abort(401)  # Authorization required
         else:
             return function()
-
     return wrapper
 
 
@@ -58,9 +57,15 @@ def callback():
         audience=GOOGLE_CLIENT_ID
     )
 
+    # session['id_info'] = id_info
+    session['id_info'] = id_info
+    session['email'] = id_info.get("email")     
     session["google_id"] = id_info.get("sub")
     session["name"] = id_info.get("name")
-    return redirect("/protected_area")
+    session["picture"] = id_info.get("picture")
+
+
+    return render_template("driver/driverHomepage.html", email=session['email'], id_info=session['id_info'], name=session['name'], picture=session['picture'])
 
 
 @app.route("/logout")
@@ -71,14 +76,14 @@ def logout():
 
 @app.route("/")
 def index():
-    return render_template("login.html")
+    return "Hello World <a href='/login'><button>Login</button></a>"
 
 
 @app.route("/protected_area")
 @login_is_required
 def protected_area():
-    return f"Hello {session['name']}! <br/> <a href='/logout'><button>Logout</button></a>"
+    return f"Hello {session['email']}! <br/> <a href='/logout'><button>Logout</button></a>"
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5450, debug=True)

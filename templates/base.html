@@ -1,17 +1,36 @@
 <!-- templates/base.html -->
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Flask + Stripe Checkout</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
-    <script src="https://js.stripe.com/v3/"></script>  <!-- new -->
-    <script src="{{ url_for('static', filename='main.js') }}"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-  </head>
-  <body>
-    {% block content %}{% endblock %}
-  </body>
-</html>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+
+    <!-- logo -->
+    <a href="driverHomepage.html" class="navbar-brand mx-2 routing">
+      <img src="../../static/logo.png" alt="Logo" width="50" height="50" class="d-inline-block align-text-top">
+    </a>
+
+    <!-- nav items -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item">
+          <a href="driverHomepage.html" class="nav-link routing">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="driverOfferForm.html" class="nav-link routing">Offer A Ride</a>
+        </li>
+        <li class="nav-item">
+          <a href="driverRideRequests.html"  class="nav-link routing">Upcoming Rides</a>
+        </li>
+        <li class="nav-item">
+          <a href="driverRides.html" class="nav-link routing">Ride History</a>
+        </li>
+        <li class="nav-item">
+          <a href="driverProfile.html" class="nav-link routing">Profile</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
