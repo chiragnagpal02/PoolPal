@@ -5,9 +5,11 @@ import requests
 from flask_cors import CORS
 from datetime import datetime, timedelta
 from geopy.distance import geodesic
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+CORS(app)
 
 CORS(app)
 
@@ -90,6 +92,7 @@ def get_matching_carpools():
     end_lng = request.json.get('end_lng')
     Start_time = request.json.get('time')
     date = request.json.get('date')
+    print(date)
     formatted_date = datetime.strptime(date, "%Y-%m-%d")
     date_final = formatted_date.date()
     print(Start_time)
