@@ -4,9 +4,11 @@ from flask import Flask, request, jsonify
 import requests
 from datetime import datetime, timedelta
 from geopy.distance import geodesic
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+CORS(app)
 
 THRESHOLD_DISTANC_KMS = 2
 CARPOOLS_URL = 'http://127.0.0.1:5002/api/v1/carpool/get_all_carpools'
@@ -87,13 +89,18 @@ def get_matching_carpools():
     end_lng = request.json.get('end_lng')
     Start_time = request.json.get('time')
     date = request.json.get('date')
+    print(date)
     formatted_date = datetime.strptime(date, "%Y-%m-%d")
     date_final = formatted_date.date()
     print(Start_time)
 
     carpools = send_matching_carpools(float(start_lat), float(start_lng), float(end_lat), float(end_lng), date_final, Start_time)
     print(carpools)
-    return jsonify(carpools)
+    return jsonify(
+        {
+            "carpools": carpools
+        }
+    )
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True, port=5100)
