@@ -9,11 +9,12 @@ from flask_cors import CORS
 
 
 app = Flask(__name__)
-CORS(app)
 
 CORS(app)
+
 
 THRESHOLD_DISTANC_KMS = 1
+
 CARPOOLS_URL = 'http://127.0.0.1:5002/api/v1/carpool/get_all_carpools'
 CARPEOPLE_URL = 'http://127.0.0.1:5010/api/v1/carpeople/get_all_passengers'
 
