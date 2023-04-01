@@ -3,7 +3,7 @@ import requests
 
 app = Flask(__name__)
 
-CARPOOL_API_BASE_URL = 'http://127.0.0.1:5002/api/v1/carpool/'
+CARPOOL_API_BASE_URL = 'http://127.0.0.1:5002/api/v1/carpool'
 CARPEOPLE_API_BASE_URL = 'http://127.0.0.1:5010/api/v1/carpeople'
 PAYMENTS_API_BASE_URL = 'http://127.0.0.1:5004/api/v1/payments/create-checkout-session/'
 
@@ -14,6 +14,7 @@ def get_passenger_price(CPID):
     #     }
     url = f'{CARPOOL_API_BASE_URL}/get_carpool_by_id/{CPID}'
     response = requests.get(url)
+    print(f"Get carpool by id : {response}")
     passenger_price = response.json()['data']['carpool']['PassengerPrice']
     print(f"Get Passenger Price : {passenger_price}")
 
