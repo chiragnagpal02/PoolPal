@@ -67,8 +67,7 @@ def callback():
 
     return render_template("driver/driverHomepage.html", email=session['email'], id_info=session['id_info'], name=session['name'], picture=session['picture'])
 
-{{ name }}
-{{ email }} 
+
 @app.route("/logout")
 def logout():
     session.clear()
