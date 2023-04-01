@@ -153,16 +153,18 @@
         "CPID": cpid,
         "DID": DID,
         "PID": reviewpid,
-        "PRating": rating,
-        "DRating": null,
-        "PDescription": description,
-        "DDescription": null, 
+        "PRating": rating.value,
+        "DRating": 1,
+        "PDescription": description.value,
+        "DDescription": "Good Passenger", 
       })
         .then(response => {
           console.log(response);
         })
         .catch(error => {
           console.log(error);
+          console.log(rating.value);
+          console.log();
         })
     }
     // open pop up
