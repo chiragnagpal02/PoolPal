@@ -93,7 +93,8 @@ def calculate_refund_amount(CPID, PID, end_lat, end_long):
     #             "price": refunded_price
 
     return jsonify({
-        'price': refunded_price
+        'price': refunded_price,
+        'status': process_refund_status
     })
 
 
