@@ -13,7 +13,7 @@ CORS(app)
 
 CORS(app)
 
-THRESHOLD_DISTANC_KMS = 2
+THRESHOLD_DISTANC_KMS = 10000
 CARPOOLS_URL = 'http://127.0.0.1:5002/api/v1/carpool/get_all_carpools'
 
 # Passenger chooses date, start location and end location
@@ -31,6 +31,7 @@ def get_all_existing_carpools(start_lat, start_lng, end_lat, end_lng, formatted_
     for i in carpools:
         # Convert carpool date string to datetime object
         date = i['DateTime']
+        capacity = i['Capacity_remaining']
         datetime_obj = datetime.strptime(date, '%a, %d %b %Y %H:%M:%S %Z')
         to_compare_date = datetime_obj.date()
 
@@ -59,7 +60,9 @@ def get_all_existing_carpools(start_lat, start_lng, end_lat, end_lng, formatted_
            (to_compare_date == formatted_date) and \
            (start_time >= lower_time) and \
            (start_time <= upper_time):
-            statuses[cpid] = True
+            statuses[cpid] = True and \
+            capacity > 0
+            
         else:
             statuses[cpid] = False
 
@@ -90,14 +93,14 @@ def get_matching_carpools():
     start_lng = request.json.get('start_lng')
     end_lat = request.json.get('end_lat')
     end_lng = request.json.get('end_lng')
-    Start_time = request.json.get('time')
+    time = request.json.get('time')
     date = request.json.get('date')
     print(date)
     formatted_date = datetime.strptime(date, "%Y-%m-%d")
     date_final = formatted_date.date()
-    print(Start_time)
+    print(time)
 
-    carpools = send_matching_carpools(float(start_lat), float(start_lng), float(end_lat), float(end_lng), date_final, Start_time)
+    carpools = send_matching_carpools(float(start_lat), float(start_lng), float(end_lat), float(end_lng), date_final, time)
     print(carpools)
     return jsonify(
         {

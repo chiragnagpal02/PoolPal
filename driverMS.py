@@ -6,8 +6,8 @@ from flask_cors import CORS
 import validators
 from datetime import datetime
 import bcrypt
-import amqp_setup
-import pika
+# import amqp_setup
+# import pika
 import json
 
 

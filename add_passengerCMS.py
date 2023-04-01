@@ -46,8 +46,12 @@ def add_passenger_to_carpeople(CPID, DID, PID, PEmail):
 
 
     
-@app.route('/add_passenger/<int:CPID>/<int:DID>/<int:PID>/<string:PEmail>')
-def process_payment(CPID, DID, PID, PEmail):
+@app.route('/add_passenger/', methods=['POST'])
+def process_payment():
+    CPID = request.json.get('CPID')
+    DID = request.json.get('DID')
+    PID = request.json.get('PID')
+    PEmail = request.json.get('PEmail')
     print(CPID)
     status_code, status_from_carpeople = add_passenger_to_carpeople(CPID, DID, PID, PEmail)
     if status_code is None:
