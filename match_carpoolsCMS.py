@@ -90,14 +90,14 @@ def get_matching_carpools():
     start_lng = request.json.get('start_lng')
     end_lat = request.json.get('end_lat')
     end_lng = request.json.get('end_lng')
-    Start_time = request.json.get('time')
+    time = request.json.get('time')
     date = request.json.get('date')
     print(date)
     formatted_date = datetime.strptime(date, "%Y-%m-%d")
     date_final = formatted_date.date()
-    print(Start_time)
+    print(time)
 
-    carpools = send_matching_carpools(float(start_lat), float(start_lng), float(end_lat), float(end_lng), date_final, Start_time)
+    carpools = send_matching_carpools(float(start_lat), float(start_lng), float(end_lat), float(end_lng), date_final, time)
     print(carpools)
     return jsonify(
         {
