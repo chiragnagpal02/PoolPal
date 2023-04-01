@@ -15,12 +15,21 @@ CORS(app)
 
 THRESHOLD_DISTANC_KMS = 1
 CARPOOLS_URL = 'http://127.0.0.1:5002/api/v1/carpool/get_all_carpools'
-CARPEOPLE_URL = 'http://127.0.0.1:5010/api/v1/carpeople'
+CARPEOPLE_URL = 'http://127.0.0.1:5010/api/v1/carpeople/get_all_passengers'
 
 # Passenger chooses date, start location and end location
 # Have to check for 3 factors -> start location,  and date
 
-def get_all_existing_carpools(start_lat, start_lng, end_lat, end_lng, formatted_date, start_time_str):
+def give_carpools_with_PID(PID):
+    CPIDs = []
+    all_carpools = requests.get(CARPEOPLE_URL).json()
+    for i in all_carpools:
+        if i['PID'] == PID:
+            CPIDs.append(i['CPID'])
+    return CPIDs
+
+
+def get_all_existing_carpools(start_lat, start_lng, end_lat, end_lng, formatted_date, start_time_str, PID):
     response = requests.get(CARPOOLS_URL)
     statuses = {}
     passenger_start_coords = (start_lat, start_lng)
@@ -29,10 +38,20 @@ def get_all_existing_carpools(start_lat, start_lng, end_lat, end_lng, formatted_
     print(passenger_start_time)
 
     carpools = response.json()['data']['carpools']
+
+    non_showable_carpools = give_carpools_with_PID(PID)
+
+    final_carpools = []
+
     for i in carpools:
         # Convert carpool date string to datetime object
+
+        if i['CPID'] in non_showable_carpools:
+            continue
+
         date = i['DateTime']
         capacity = i['Capacity_remaining']
+
         datetime_obj = datetime.strptime(date, '%a, %d %b %Y %H:%M:%S %Z')
         to_compare_date = datetime_obj.date()
 
@@ -50,46 +69,33 @@ def get_all_existing_carpools(start_lat, start_lng, end_lat, end_lng, formatted_
 
         start_distance = match_carpools(start_coords, passenger_start_coords)
         end_distance = match_carpools(end_coords, passenger_end_coords)
-        print(f"CARPOOL DATE - {to_compare_date}")
-        print(f"PASSENGER DATE - {formatted_date}")
-        print((to_compare_date == formatted_date))
+
+        # print(f"CARPOOL DATE - {to_compare_date}")
+        # print(f"PASSENGER DATE - {formatted_date}")
+        # print((to_compare_date == formatted_date))
+
         # Check if carpool start and end locations are within 1 km of passenger locations,
         # carpool date is the same as passenger date, and carpool start time is within 2 hours
         # of passenger start time
+
         if (start_distance < THRESHOLD_DISTANC_KMS) and \
            (end_distance < THRESHOLD_DISTANC_KMS) and \
            (to_compare_date == formatted_date) and \
            (start_time >= lower_time) and \
-           (start_time <= upper_time):
-            statuses[cpid] = True and \
-            capacity > 0
+           (start_time <= upper_time) and \
+           (capacity > 0):
             
-        else:
-            statuses[cpid] = False
-
-    return carpools, statuses
-
+            final_carpools.append(i)
+            
         
 
+    return final_carpools
+
+        
 def match_carpools(start_coords, end_coords):
     distance = geodesic(start_coords, end_coords).km
     return distance
 
-def send_matching_carpools(start_lat, start_lng, end_lat, end_lng, formatted_date, start_time_str, pid):
-    carpools, statuses = get_all_existing_carpools(start_lat, start_lng, end_lat, end_lng, formatted_date, start_time_str)
-    final_carpools = []
-    carpeople = get_all_carpeople(pid)
-    for i in carpools:
-        iCPID = i['CPID']
-        status = statuses[iCPID]
-
-        for j in carpeople:
-            jCPID = j["CPID"]
-
-            if status and jCPID != iCPID:
-                final_carpools.append(i)
-    
-    return final_carpools 
 
 @app.route('/api/v1/matching/get_matching_carpools/', methods=['POST'])
 def get_matching_carpools():
@@ -100,55 +106,26 @@ def get_matching_carpools():
     end_lng = request.json.get('end_lng')
     time = request.json.get('time')
     date = request.json.get('date')
-    pid = request.json.get('pid')
+    PID = request.json.get('PID')
 
     print(date)
+
     formatted_date = datetime.strptime(date, "%Y-%m-%d")
+
     date_final = formatted_date.date()
+
     print(time)
 
-    carpools = send_matching_carpools(float(start_lat), float(start_lng), float(end_lat), float(end_lng), date_final, time, pid)
-    print(carpools)
-    return jsonify(
-        {
-            "carpools": carpools
-        }
-    )
-def get_matching_carpools():
+    carpools = get_all_existing_carpools(float(start_lat), float(start_lng), float(end_lat), float(end_lng), date_final, time, PID)
 
-    start_lat = request.json.get('start_lat')
-    start_lng = request.json.get('start_lng')
-    end_lat = request.json.get('end_lat')
-    end_lng = request.json.get('end_lng')
-    time = request.json.get('time')
-    date = request.json.get('date')
-    print(date)
-    formatted_date = datetime.strptime(date, "%Y-%m-%d")
-    date_final = formatted_date.date()
-    print(time)
-
-    carpools = send_matching_carpools(float(start_lat), float(start_lng), float(end_lat), float(end_lng), date_final, time)
     print(carpools)
+
     return jsonify(
         {
             "carpools": carpools
         }
     )
 
-@app.route('/api/v1/match/get_all_carpeople/<int:PID>', methods=['GET'])
-def get_all_carpeople(PID):
-    url = f'{CARPEOPLE_URL}/get_carpeople/{PID}'
-    response = requests.get(url)
-    print(f"Get carpeople by pid : {response}")
-    all = response.json()
-    print(f"Get Passenger Price : {all}")
-
-    try:
-        return all
-
-    except Exception as e:
-        print(f"Failed to decode JSON response: {e}")
-        return None
     
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True, port=5100)
