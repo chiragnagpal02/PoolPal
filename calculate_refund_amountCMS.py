@@ -84,7 +84,7 @@ def calculate_refund_amount(CPID, PID, end_lat, end_long):
 
     refunded_price = (travelled_distance/carpool_distance) * passenger_price
 
-    process_refund_status = f"{PROCESS_REFUND_API_URL}/{refunded_price}/{CPID}, {PID}"
+    process_refund_status = f"{PROCESS_REFUND_API_URL}/{refunded_price}/{CPID}/{PID}"
 
     # call here to that process CMS and then get a status as a reponse - 
     # {"Status": "Success"} or {"Status": "Failed"}
