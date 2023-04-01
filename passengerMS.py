@@ -106,6 +106,25 @@ def get_passenger_by_id(passenger_id):
         }
     ), 404
 
+@app.route('/api/v1/passenger/get_passenger_by_name/<passenger_name>')
+def get_passenger_by_name(passenger_name):
+    passenger = Passengers.query.filter_by(PName=passenger_name).first()
+    if passenger:
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "passenger": passenger.json()
+                }
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": f"There is no passenger with passenger name : {passenger_name}."
+        }
+    ), 404
+
 @app.route('/api/v1/passenger/get_passenger_by_username/<username>')
 def get_passenger_by_username(username):
     passenger = Passengers.query.filter_by(PUserName=username).first()

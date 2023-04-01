@@ -86,9 +86,14 @@ def calculate_refund_amount(CPID, PID, end_lat, end_long):
 
     process_refund_status = f"{PROCESS_REFUND_API_URL}/{refunded_price}/{CPID}, {PID}"
 
+    # call here to that process CMS and then get a status as a reponse - 
+    # {"Status": "Success"} or {"Status": "Failed"}
+    # if status == "Success":
+    #     return jsonify({
+    #             "price": refunded_price
+
     return jsonify({
-        'price': refunded_price,
-        "refund_status": process_refund_status
+        'price': refunded_price
     })
 
 

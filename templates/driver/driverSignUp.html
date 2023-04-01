@@ -96,6 +96,7 @@
                 <input type="number" class="form-control" id="DCapacity" placeholder="Enter capacity" required>
               </div>
               <button type="submit" class="btn btn-outline-dark mt-3 mb-3 w-100">Submit</button>
+              <a href="login.html" class="btn btn-outline-dark mt-3 mb-3 w-100">Go to Login</a>
             </form>
           </div>
         </div>
@@ -119,7 +120,7 @@
         const licenseExpiration = document.querySelector('#DLicenseExpiration').value;
         const car = document.querySelector('#DCar').value;
         const capacity = document.querySelector('#DCapacity').value;
-        axios.post('http://127.0.0.1:5000/driver/add_driver', {
+        axios.post('http://127.0.0.1:5000/api/v1/driver/add_driver', {
           DName: name,
           DGender: gender,
           DEmail: email,
