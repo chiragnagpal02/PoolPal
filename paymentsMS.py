@@ -184,5 +184,19 @@ def processAddPaymentLogs(session_id,CPID,PID):
         }
     }
 
+@app.route('/api/v1/payments/refund/<int:intentID>/<int:refundedAmount>', methods=['POST'])
+def refund(intentID, refundedAmount):
+    # payment_intent_id = request.form.get('payment_intent_id')
+    # amount = request.form.get('amount')
+
+    try:
+        refund = stripe.Refund.create(
+            payment_intent=intentID,
+            amount=int(refundedAmount) * 100,
+        )
+        return jsonify(refund)
+    except Exception as e:
+        return jsonify(error=str(e)), 403
+
 if __name__ == '__main__':
     app.run(host= "0.0.0.0", debug=True, port=5004)
