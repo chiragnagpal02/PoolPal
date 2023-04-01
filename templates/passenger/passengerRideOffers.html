@@ -275,7 +275,7 @@
         });
 
       // update capacity
-      axios.put(`http://127.0.0.1:5002/api/v1/carpool/update_carpool_capacity/${CPID}`)
+      axios.put(`http://127.0.0.1:5002/api/v1/carpool/update_carpool_capacity/${cpid}`)
         .then(response => {
           console.log(response.data);
         })
@@ -283,16 +283,6 @@
           console.error(error);
         });
 
-    }
-
-    // when select button is clicked --> change to selected
-    function changeButton(buttonid) {
-      const button = document.getElementById(`select${carpoolNum}`);
-
-      button.addEventListener("click", () => {
-        button.textContent = "Already Selected";
-        button.disabled = true;
-      });
     }
 
     // find matching carpool
@@ -311,7 +301,7 @@
         end_lat: endLat,
         end_lng: endLng,
         time: document.getElementById("time").value,
-        date: document.getElementById("date").value
+        date: document.getElementById("date").value,
 
       })
         .then(function (response) {
@@ -320,10 +310,11 @@
           carpoolList.style.display = 'block';
           console.log(response.data);
 
+          var carpoolNum = 0;
+
           // making the cards for the carpool
           if (response.data.carpools.length != 0) {
             var carpoolData = '';
-            var carpoolNum = 0;
             var matchedCarpools = response.data.carpools;
             for (var i = 0; i < response.data.carpools.length; i++) {
               // for differentiation of the select button
@@ -353,15 +344,18 @@
               carpoolData += `<b>Remaining Capacity:</b> ${matchedCarpools[i].Capacity_remaining}`;
               carpoolData += `</p>`;
               carpoolData += `<div class="d-flex justify-content-center">`;
-              // button id
-              var buttonid = `select${carpoolNum}`;
-              carpoolData += `<button type="submit" id=${buttonid} class="btn btn-outline-dark m-4 mt-0 w-100 bg-white" onclick="changeButton(${buttonid});selectCarpool(${matchedCarpools[i].CPID}, ${matchedCarpools[i].DID})">Select</button>`;
+              var buttonid = `select${carpoolNum}` //button id
+              carpoolData += `<button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100 bg-white" onclick="selectCarpool(${matchedCarpools[i].CPID}, ${matchedCarpools[i].DID})">`
+              // carpoolData += `<a href= "passengerRides.html" class="routing">Select</a>`
+              carpoolData += `Select`
+              carpoolData += `</button>`;
               carpoolData += `</div>`;
               carpoolData += `</div>`;
               carpoolData += `</div>`;
               carpoolData += `</div>`;
             }
             document.getElementById("matchingCarpools").innerHTML = carpoolData;
+
           }
         })
         .catch(function (error) {
