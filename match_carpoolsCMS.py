@@ -41,6 +41,8 @@ def get_all_existing_carpools(start_lat, start_lng, end_lat, end_lng, formatted_
 
     non_showable_carpools = give_carpools_with_PID(PID)
 
+    final_carpools = []
+
     for i in carpools:
         # Convert carpool date string to datetime object
 
@@ -80,35 +82,20 @@ def get_all_existing_carpools(start_lat, start_lng, end_lat, end_lng, formatted_
            (end_distance < THRESHOLD_DISTANC_KMS) and \
            (to_compare_date == formatted_date) and \
            (start_time >= lower_time) and \
-           (start_time <= upper_time):
-            statuses[cpid] = True and \
-            capacity > 0
+           (start_time <= upper_time) and \
+           (capacity > 0):
             
-        else:
-            statuses[cpid] = False
+            final_carpools.append(i)
+            
+        
 
-    return carpools, statuses
+    return final_carpools
 
         
 def match_carpools(start_coords, end_coords):
     distance = geodesic(start_coords, end_coords).km
     return distance
 
-def send_matching_carpools(start_lat, start_lng, end_lat, end_lng, formatted_date, start_time_str, PID):
-    carpools, statuses = get_all_existing_carpools(start_lat, start_lng, end_lat, end_lng, formatted_date, start_time_str, PID)
-    final_carpools = []
-
-    for i in carpools:
-        iCPID = i['CPID']
-        status = statuses[iCPID]
-
-        for j in carpeople:
-            jCPID = j["CPID"]
-
-            if status and jCPID != iCPID:
-                final_carpools.append(i)
-    
-    return final_carpools 
 
 @app.route('/api/v1/matching/get_matching_carpools/', methods=['POST'])
 def get_matching_carpools():
@@ -122,56 +109,23 @@ def get_matching_carpools():
     PID = request.json.get('PID')
 
     print(date)
+
     formatted_date = datetime.strptime(date, "%Y-%m-%d")
+
     date_final = formatted_date.date()
+
     print(time)
 
-    carpools = send_matching_carpools(float(start_lat), float(start_lng), float(end_lat), float(end_lng), date_final, time, PID)
-    print(carpools)
-    return jsonify(
-        {
-            "carpools": carpools
-        }
-    )
-def get_matching_carpools():
-
-    start_lat = request.json.get('start_lat')
-    start_lng = request.json.get('start_lng')
-    end_lat = request.json.get('end_lat')
-    end_lng = request.json.get('end_lng')
-    time = request.json.get('time')
-    date = request.json.get('date')
-    PID = request.json.get('PID')
-
-    print(date)
-    formatted_date = datetime.strptime(date, "%Y-%m-%d")
-    date_final = formatted_date.date()
-    print(time)
-
-    carpools = send_matching_carpools(float(start_lat), float(start_lng), float(end_lat), float(end_lng), date_final, time, PID)
+    carpools = get_all_existing_carpools(float(start_lat), float(start_lng), float(end_lat), float(end_lng), date_final, time, PID)
 
     print(carpools)
-    
+
     return jsonify(
         {
             "carpools": carpools
         }
     )
 
-@app.route('/api/v1/match/get_all_carpeople/<int:PID>', methods=['GET'])
-def get_all_carpeople(PID):
-    url = f'{CARPEOPLE_URL}/get_carpeople/{PID}'
-    response = requests.get(url)
-    print(f"Get carpeople by pid : {response}")
-    all = response.json()
-    print(f"Get Passenger Price : {all}")
-
-    try:
-        return all
-
-    except Exception as e:
-        print(f"Failed to decode JSON response: {e}")
-        return None
     
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True, port=5100)
