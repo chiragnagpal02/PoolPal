@@ -84,8 +84,8 @@
 
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 import stripe
-import amqp_setup
-import pika
+# import amqp_setup
+# import pika
 import json
 from flask_cors import CORS
 
@@ -198,9 +198,11 @@ def refund(intentID, refundedAmount):
         )
         if refund.status == 'succeeded':
             print('Refund was successful!')
+            return jsonify(refund.status)
         else:
             print('Refund failed!')
-        return jsonify(refund)
+            return jsonify(refund.status)
+        # return jsonify(refund)
     except Exception as e:
         return jsonify(error=str(e)), 403
 
