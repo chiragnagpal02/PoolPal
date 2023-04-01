@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify, redirect
 import requests
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 CARPOOL_API_BASE_URL = 'http://127.0.0.1:5002/api/v1/carpool'
 CARPEOPLE_API_BASE_URL = 'http://127.0.0.1:5010/api/v1/carpeople'

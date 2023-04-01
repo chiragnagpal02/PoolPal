@@ -13,7 +13,7 @@ CORS(app)
 
 CORS(app)
 
-THRESHOLD_DISTANC_KMS = 10000
+THRESHOLD_DISTANC_KMS = 1
 CARPOOLS_URL = 'http://127.0.0.1:5002/api/v1/carpool/get_all_carpools'
 
 # Passenger chooses date, start location and end location

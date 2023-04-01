@@ -84,12 +84,15 @@
 
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 import stripe
-import amqp_setup
-import pika
+# import amqp_setup
+# import pika
 import json
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+CORS(app)
+
 
 stripe_keys = {
   'secret_key': 'sk_test_51MmIrBFHZFAE1pQVPwD4MzJnsitPPloEFrl3YTqCIiivuil5dTQtRsmKhdnpZn4I7iWtk49Xzp16yEq3Rle2ze9x003p7jB5rR',
