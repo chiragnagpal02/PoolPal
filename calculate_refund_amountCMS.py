@@ -5,6 +5,7 @@ from geopy.distance import geodesic
 app = Flask(__name__)
 
 CARPOOL_API_BASE_URL = 'http://127.0.0.1:5002/api/v1/carpool/'
+PROCESS_REFUND_API_URL = 'http://127.0.0.1:5120/process_refund/<int:refundAmount>/<int:CPID>/<int:PID>'
 
 def get_carpool_distance(CPID):
     # payload = {
@@ -71,8 +72,8 @@ def calculate_distance(start_lat, start_long, end_lat, end_long):
     return geodesic(starting_coordinates, ending_coordinates).km
 
 
-@app.route('/api/v1/calculate_refund_amount/<end_lat>,<end_long>', methods=['GET'])
-def calculate_refund_amount(CPID, end_lat, end_long):
+@app.route('/api/v1/calculate_refund_amount/<int:CPID>/<int:PID>/<end_lat>,<end_long>', methods=['GET'])
+def calculate_refund_amount(CPID, PID, end_lat, end_long):
     
     # Calculates travelled distance
     travelled_distance = get_travelled_distance(CPID, end_lat, end_long)
@@ -83,8 +84,11 @@ def calculate_refund_amount(CPID, end_lat, end_long):
 
     refunded_price = (travelled_distance/carpool_distance) * passenger_price
 
+    process_refund_status = f"{PROCESS_REFUND_API_URL}/{refunded_price}/{CPID}, {PID}"
+
     return jsonify({
-        'price': refunded_price
+        'price': refunded_price,
+        "refund_status": process_refund_status
     })
 
 

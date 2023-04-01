@@ -142,6 +142,23 @@ def find_by_id(intentID):
         }
     ), 404
 
+@app.route("/api/v1/paymentlogs/get_paymentlogs_by_CPID/<int:CPID>")
+def find_by_CPID(CPID):
+    payment = PaymentLogs.query.filter_by(CPID=CPID).first()
+    if payment:
+        return jsonify(
+            {
+                "code": 200,
+                "data": payment.json()
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": "Payment Log not found."
+        }
+    ), 404
+
 if __name__ == "__main__":  # execute this program only if it is run as a script (not by 'import')
     print("\nThis is " + os.path.basename(__file__), end='')
     print(": monitoring routing key '{}' in exchange '{}' ...".format(monitorBindingKey, amqp_setup.exchangename))
