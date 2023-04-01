@@ -132,7 +132,7 @@
             <label for="time" class="form-label">Time</label>
             <input type="time" class="form-control" id="time" required>
           </div>
-          <button type="submit" class="btn btn-outline-dark my-4 w-100 bg-white">Find</button>
+          <button type="submit" id="find" class="btn btn-outline-dark my-4 w-100 bg-white">Find</button>
         </form>
       </div>
     </div>
@@ -171,8 +171,13 @@
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
 
+  <!-- axios -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
   <!-- map script -->
+  <!-- Load the Google Maps API -->
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAu5xYBC5OCuZImTFY1xt81NdOnhP0IB_g&callback=initMap"></script>
   <script>
     function initMap() {
       // Initialize the map
@@ -210,61 +215,75 @@
             directionsRenderer.setDirections(result);
           }
         });
-
-        // Create Geocoder object
-        const geocoder = new google.maps.Geocoder();
-
-        // Geocode start location
-        geocoder.geocode({ address: startLocation }, function (results, status) {
-          if (status === google.maps.GeocoderStatus.OK) {
-            // Get latitude and longitude of start location
-            const startLat = results[0].geometry.location.lat();
-            // allLatLng["startLat"] = startLat;
-            const startLng = results[0].geometry.location.lng();
-            // allLatLng["startLng"] = startLng;
-
-            // Log start location latitude and longitude
-            console.log('Start Location:', startLat, startLng);
-          } else {
-            console.error('Geocode error:', status);
-          }
-        });
-
-        // Geocode end location
-        geocoder.geocode({ address: endLocation }, function (results, status) {
-          if (status === google.maps.GeocoderStatus.OK) {
-            var endLatLng = {};
-            // Get latitude and longitude of end location
-            var endLat = results[0].geometry.location.lat();
-            endLatLng['endLat'] = endLat;
-            var endLng = results[0].geometry.location.lng();
-            endLatLng['endLng'] = endLng;
-
-            // Log end location latitude and longitude
-            console.log('End Location:', endLat, endLng);
-          } else {
-            console.error('Geocode error:', status);
-          }
-        });
       });
-    }
-  </script>
+      // get lat and lng
+      var geocoder = new google.maps.Geocoder();
 
-  <!-- find matching carpool -->
-  <script>
-    console.log(initMap())
-    axios.get(`http://127.0.0.1:5001/api/v1/matching/get_matching_carpools/${startLat}, ${startLng}, ${endLat}, ${endLng}/`)
+      function getLatLng() {
+        return new Promise(resolve => {
+          setTimeout(function () {
+            var startLocation = document.getElementById('startLocation').value;
+            var allLatLng = [];
+
+            geocoder.geocode({ 'address': startLocation }, function (results, status) {
+              if (status === 'OK') {
+                var startlat = results[0].geometry.location.lat();
+                allLatLng.push(startlat)
+                var startlng = results[0].geometry.location.lng();
+                allLatLng.push(startlng)
+                // console.log('Latitude: ' + startlat);
+                // console.log('Longitude: ' + startlng);
+              } else {
+                console.log('Geocode was not successful for the following reason: ' + status);
+              }
+            });
+
+            var endLocation = document.getElementById('endLocation').value;
+
+            geocoder.geocode({ 'address': endLocation }, function (results, status) {
+              if (status === 'OK') {
+                var endlat = results[0].geometry.location.lat();
+                allLatLng.push(endlat)
+                var endlng = results[0].geometry.location.lng();
+                allLatLng.push(endlng)
+                // console.log('Latitude: ' + endlat);
+                // console.log('Longitude: ' + endlng);
+              } else {
+                console.log('Geocode was not successful for the following reason: ' + status);
+              }
+
+              resolve(allLatLng)
+            }, 2000);
+          })
+        })
+        // console.log(allLatLng)
+        return allLatLng;
+      }
+      return getLatLng()
+    }
+
+    // find matching carpool
+    const find = document.querySelector('#find');
+
+    find.addEventListener('click', async () => {
+      var allLatLng = await initMap();
+      var startLat = allLatLng[0];
+      var startLng = allLatLng[1];
+      var endLat = allLatLng[2];
+      var endLng = allLatLng[3];
+
+      axios.get(`http://127.0.0.1:5001/api/v1/matching/get_matching_carpools/${startLat}, ${startLng}, ${endLat}, ${endLng}/`)
       .then(function (response) {
         console.log(response.data);
       })
       .catch(function (error) {
         console.log(error);
       });
+
+    });
+
   </script>
 
-  <!-- Load the Google Maps API -->
-  <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAu5xYBC5OCuZImTFY1xt81NdOnhP0IB_g&callback=initMap"></script>
 </body>
 
 </html>
