@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask import current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from os import environ
@@ -13,6 +14,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://poolpal@localhos
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 299}
 
+app.app_context().push()
 
 db = SQLAlchemy(app)
 CORS(app)
@@ -175,6 +177,43 @@ def processAddUser(user):
             "user_result": user
         }
     }
+
+def processFindUser(user):
+    print('\n-----Invoking user microservice-----')
+    message = json.dumps(user)
+    amqp_setup.channel.basic_publish(exchange=amqp_setup.exchangename, routing_key="find.user", 
+            body=message, properties=pika.BasicProperties(delivery_mode = 2)) 
+    
+    return {
+        "code": 201,
+        "data": {
+            "user_result": user
+        }
+    }
+
+@app.route("/api/v1/staff/get_staff_by_email/<string:SEmail>")
+def find_by_semail(SEmail):
+    staff = Staff.query.filter_by(SEmail=SEmail).first()
+    userEmail= {
+            "Email" : SEmail
+        }
+    user = processFindUser(userEmail)
+    if staff and user:
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "staff": staff.json(),
+                    "user" : user["data"]["user_result"]
+                }
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": "Staff not found."
+        }
+    ), 404
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True, port=5007)

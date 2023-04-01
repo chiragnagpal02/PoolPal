@@ -45,13 +45,18 @@ def receiveUserLog():
 
 def callback(channel, method, properties, body): # required signature for the callback; no return
     print("\nReceived a user by " + __file__)
-    processUserLog(json.loads(body))
+    routing_key = method.routing_key
+    print("Received a message with routing key:", routing_key)
+    processUserLog(json.loads(body),routing_key)
     print() # print a new line feed
 
-def processUserLog(user):
+def processUserLog(user,routing_key):
     print("Recording an user log:")
     print(user)
-    print(create_user(user["Email"],user["Role"]))
+    if (routing_key == "create.user") :
+        print(create_user(user["Email"],user["Role"]))
+    else :
+        print(find_by_email(user))
 
 @app.route("/user")
 def get_all():
@@ -150,6 +155,25 @@ def update_user(Email,Role):
                 "message": "An error occurred while updating the user. " + str(e)
             }
         ), 500
+
+@app.route("/api/v1/user/get_user_by_email/<string:Email>")
+def find_by_email(user):
+    Email = user["Email"]
+    print(Email)
+    user = User.query.filter_by(Email=Email).first()
+    if user:
+        return jsonify(
+            {
+                "code": 200,
+                "data": user.json()
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": "User not found."
+        }
+    ), 404
 
 if __name__ == '__main__':
     print("\nThis is " + os.path.basename(__file__), end='')
