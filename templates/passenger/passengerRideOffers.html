@@ -139,30 +139,16 @@
 
     <!-- map -->
     <div class="row">
-      <h3 class="my-3 text-center" style="display: none;">Your Route</h3>
+      <h3 class="my-3 text-center" id="route" style="display: none;">Your Route</h3>
     </div>
     <div id="map" style="display: none;"></div>
 
     <!-- available / rides to choose from -->
-    <div class="container-fluid">
+    <div class="container-fluid" id="carpoolList" style="display: none;">
       <div class="row">
         <h3 class="my-3 text-center">Ride Offers</h3>
       </div>
-      <div class="row my-4">
-        <div class="card">
-          <p class="card-text p-4" style="text-align:left;">
-            Starting Location: <br>
-            Destination: <br>
-            Date: <br>
-            Time: <br>
-            Driver Name: <br>
-            Price: <br>
-          </p>
-          <div class="d-flex justify-content-center">
-            <button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100 bg-white">Accept</button>
-          </div>
-        </div>
-      </div>
+      <div id="matchingCarpools"></div>
     </div>
   </div>
 
@@ -262,6 +248,12 @@
       return getLatLng()
     }
 
+    // function to select carpool 
+    function selectCarpool(){
+      // add passenger
+      axios/add_passenger/<int:CPID>/<int:DID>/<int:PID>/<string:PEmail>
+    }
+
     // find matching carpool
     const find = document.querySelector('#find');
 
@@ -281,19 +273,58 @@
         date: document.getElementById("date").value
 
       })
-      .then(function (response) {
-        console.log(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-        console.log(document.getElementById("time").value)
-        console.log(document.getElementById("date").value)
-        console.log(startLat)
-        console.log(endLat)
-      });
+        .then(function (response) {
+          route.style.display = 'block';
+          map.style.display = 'block';
+          carpoolList.style.display = 'block';
+          console.log(response.data);
 
-    });
+          // making the cards for the carpool
+          if (response.data.carpools.length != 0) {
+            var carpoolData = '';
+            var matchedCarpools = response.data.carpools;
+            for (var i = 0; i < response.data.carpools.length; i++) {
+              // function to get driver name
+              let drivername;
+              axios.get(`http://127.0.0.1:5000/api/v1/driver/get_driver_by_id/${matchedCarpools[i].DID}`)
+                .then(response1 => {
+                  console.log(response1.data);
+                  drivername = response1.data.data.driver.DName;
 
+                  console.log(drivername)
+                  // adding to html
+                  carpoolData += `<div class="row my-4">`;
+                  carpoolData += `<div class="card">`;
+                  carpoolData += `<p class="card-text p-4 pb-0 mb-0" style="text-align:left;">`;
+                  carpoolData += `<b>Start Location:</b> ${matchedCarpools[i].CPStartLocation} <br>`;
+                  carpoolData += `<b>End Location:</b> ${matchedCarpools[i].CPEndLocation} <br>`;
+                  carpoolData += `<b>Date and Time:</b> ${matchedCarpools[i].DateTime}<br>`;
+                  carpoolData += `<b>Driver Name:</b> ${drivername}<br>`;
+                  carpoolData += `<b>Price:</b> ${matchedCarpools[i].PassengerPrice}</b>  <br>`;
+                  carpoolData += `<b>Remaining Capacity:</b> ${matchedCarpools[i].Capacity_remaining}`;
+                  carpoolData += `</p>`;
+                  carpoolData += `<div class="d-flex justify-content-center">`;
+                  carpoolData += `<button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100 bg-white" onclick="selectCarpool()">Select</button>`;
+                  carpoolData += `</div>`;
+                  carpoolData += `</div>`;
+                  carpoolData += `</div>`;
+                  carpoolData += `</div>`;
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+            }
+            document.getElementById("matchingCarpools").innerHTML = carpoolData;
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+          console.log(document.getElementById("time").value)
+          console.log(document.getElementById("date").value)
+          console.log(startLat)
+          console.log(endLat)
+        })
+    })
   </script>
 
 </body>
