@@ -76,5 +76,22 @@ def find_by_CPID_PID(CPID,PID):
         }
     ), 404
 
+@app.route("/api/v1/paymentlog/get_CPID_PID/<string:intent_id>")
+def find_by_intent_id(intent_id):
+    paymentlog = PaymentLogs1.query.filter_by(intentID=intent_id).first()
+    if paymentlog:
+        return jsonify(
+            {
+                "code": 200,
+                "data": paymentlog.json()
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": "Payment log not found."
+        }
+    ), 404
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True, port=5055)
