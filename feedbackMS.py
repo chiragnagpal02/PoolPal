@@ -17,7 +17,7 @@ CORS(app)
 class Feedback(db.Model):
     __tablename__ = 'feedback'
 
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
+    feedbackID = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
     username = db.Column(db.String(64))
     email = db.Column(db.String(64))
     phoneNo = db.Column(db.Integer)
@@ -36,7 +36,7 @@ class Feedback(db.Model):
 
     def json(self):
         return {
-            "id": self.id,
+            "feedbackID": self.feedbackID,
             "username": self.username,
             "email": self.email,
             "phoneNo": self.phoneNo,
@@ -51,15 +51,14 @@ def home():
 
 @app.route('/api/v1/feedback/create_feedback', methods=['POST'])
 def create_feedback():
-    id = request.get_json()['id']
-    username = request.json.get()['nameInput']
-    email = request.json.get()['emailInput']
-    phoneNo = request.json.get()['phoneNoInput']
-    rating = request.json.get()['ratingInput']
-    feedbackDesc = request.json.get()['feedbackDesc']
+    #id = request.get_json()['id']
+    username = request.json.get('nameInput')
+    email = request.json.get('emailInput')
+    phoneNo = request.json.get('phoneNoInput')
+    rating = request.json.get('ratingInput')
+    feedbackDesc = request.json.get('feedbackDesc')
     
     new_feedback = Feedback(
-        id,
         username,
         email,
         phoneNo,
