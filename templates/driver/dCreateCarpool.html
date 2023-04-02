@@ -318,6 +318,7 @@
 
         route.style.display = 'block';
         map.style.display = 'block';
+        success.style.display = 'block';
 
         axios.post("http://127.0.0.1:5002/api/v1/carpool/add_new_carpool", {
           "DID": DID,
@@ -338,10 +339,10 @@
       
             console.log(response.data.data.status)
             document.getElementById("success").innerHTML = response.data.data.status
-            success.style.display = 'block';
           })
           .catch(function (error) {
             console.log(error);
+            document.getElementById("success").innerHTML = error
           })
 
       });
