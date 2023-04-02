@@ -17,6 +17,7 @@ THRESHOLD_DISTANC_KMS = 1
 
 CARPOOLS_URL = 'http://127.0.0.1:5002/api/v1/carpool/get_all_carpools'
 CARPEOPLE_URL = 'http://127.0.0.1:5010/api/v1/carpeople/get_all_passengers'
+DRIVER_URL = 'http://127.0.0.1:5000/api/v1/driver/get_driver_by_id/'
 
 # Passenger chooses date, start location and end location
 # Have to check for 3 factors -> start location,  and date
@@ -109,6 +110,7 @@ def get_matching_carpools():
     date = request.json.get('date')
     PID = request.json.get('PID')
 
+
     print(date)
 
     formatted_date = datetime.strptime(date, "%Y-%m-%d")
@@ -119,6 +121,12 @@ def get_matching_carpools():
 
     carpools = get_all_existing_carpools(float(start_lat), float(start_lng), float(end_lat), float(end_lng), date_final, time, PID)
 
+    for carpool in carpools:
+        DID = carpool['DID']
+        url = DRIVER_URL + DID
+        driver_details = requests.get(url).json()['data']['driver']
+        carpool['driver'] = driver_details
+
     print(carpools)
 
     return jsonify(
@@ -126,7 +134,6 @@ def get_matching_carpools():
             "carpools": carpools
         }
     )
-
     
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True, port=5100)
