@@ -263,7 +263,7 @@
             .then(response4 => {
               var price = response4.data
               console.log(price);
-              window.open(`http://127.0.0.1:5004/api/v1/payments/create-checkout-session/${price}/${cpid}/${pid}`, "blank");
+              window.open(`http://127.0.0.1:5004/api/v1/payments/create-checkout-session/${price}/${cpid}/${pid}`, "_blank");
             })
             .catch(error => {
               console.error(error);
