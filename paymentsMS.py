@@ -112,7 +112,7 @@ def success():
     CPID = request.args.get("CPID")
     PID = request.args.get("PID")
     processAddPaymentLogs(session_id,CPID,PID)
-    return render_template("success.html")
+    return render_template("success.html", message = "You are added to the carpool!")
 
 
 @app.route("/api/v1/payments/cancelled")

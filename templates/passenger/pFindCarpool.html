@@ -250,6 +250,7 @@
       return getLatLng()
     }
     // pid TO BE CHANGED
+
     var pid = 1;
 
     // function to select carpool
@@ -261,7 +262,7 @@
           // add passenger
           axios.get(`http://127.0.0.1:5110/add_passenger/${cpid}/${did}/${pid}/${response3.data.data.passenger.PEmail}`)
             .then(response4 => {
-              var price = response4.data
+              var price = parseInt(response4.data)
               console.log(price);
               window.open(`http://127.0.0.1:5004/api/v1/payments/create-checkout-session/${price}/${cpid}/${pid}`, "_blank");
             })
