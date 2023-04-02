@@ -52,9 +52,12 @@ class Feedback(db.Model):
             }
     
 
+@app.route('/')
+def home():
+    return render_template("/feedback.html")
+
 # @app.route('/feedback/create', methods=['POST'])
 @app.route('/api/v1/feedback/create_feedback', methods=['POST'])
-
 def create_feedback():
     # form_data = json.loads(list(request.form.keys())[0])
     name = request.json.get('nameInput')
@@ -100,3 +103,6 @@ def create_feedback():
             "data": feedback.json()
         }
     ), 201
+
+if __name__ == '__main__': 
+    app.run(host="0.0.0.0", debug=True, port=5008)
