@@ -78,7 +78,6 @@ def callback():
             return render_template("passenger/pHome.html", email=session['email'], id_info=session['id_info'], name=session['name'], picture=session['picture'])
 
     else:
-        return render_template("SignUp.html")
         return render_template("signup.html")
 
 @app.route("/protected_area")
