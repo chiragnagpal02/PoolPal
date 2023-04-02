@@ -4,7 +4,7 @@ from geopy.distance import geodesic
 
 app = Flask(__name__)
 
-CARPOOL_API_BASE_URL = 'http://127.0.0.1:5002/api/v1/carpool/'
+CARPOOL_API_BASE_URL = 'http://127.0.0.1:5002/api/v1/carpool'
 PROCESS_REFUND_API_URL = 'http://127.0.0.1:5120/api/v1/process_refund'
 
 def get_carpool_distance(CPID):
