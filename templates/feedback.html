@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        /* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;900&display=swap'); */
+
+*, body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+    height: 100%;
+    background-color: #152733;
+    overflow: hidden;
+}
+
+
+.form-holder {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      min-height: 100vh;
+}
+
+.form-holder .form-content {
+    position: relative;
+    text-align: center;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    align-items: center;
+    padding: 60px;
+}
+
+.form-content .form-items {
+    border: 3px solid #fff;
+    padding: 40px;
+    display: inline-block;
+    width: 100%;
+    min-width: 540px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    text-align: left;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+}
+
+.form-content h3 {
+    color: #fff;
+    text-align: left;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.form-content h3.form-title {
+    margin-bottom: 30px;
+}
+
+.form-content p {
+    color: #fff;
+    text-align: left;
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 20px;
+    margin-bottom: 30px;
+}
+
+
+.form-content label, .was-validated .form-check-input:invalid~.form-check-label, .was-validated .form-check-input:valid~.form-check-label{
+    color: #fff;
+}
+
+.form-content input[type=text], .form-content input[type=password], .form-content input[type=email], .form-content select {
+    width: 100%;
+    padding: 9px 20px;
+    text-align: left;
+    border: 0;
+    outline: 0;
+    border-radius: 6px;
+    background-color: #fff;
+    font-size: 15px;
+    font-weight: 300;
+    color: #8D8D8D;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    margin-top: 16px;
+}
+
+
+.btn-primary{
+    background-color: #6C757D;
+    outline: none;
+    border: 0px;
+     box-shadow: none;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active{
+    background-color: #495056;
+    outline: none !important;
+    border: none !important;
+     box-shadow: none;
+}
+
+.form-content textarea {
+    position: static !important;
+    width: 100%;
+    padding: 8px 20px;
+    border-radius: 6px;
+    text-align: left;
+    background-color: #fff;
+    border: 0;
+    font-size: 15px;
+    font-weight: 300;
+    color: #8D8D8D;
+    outline: none;
+    resize: none;
+    height: 120px;
+    -webkit-transition: none;
+    transition: none;
+    margin-bottom: 14px;
+}
+
+.form-content textarea:hover, .form-content textarea:focus {
+    border: 0;
+    background-color: #ebeff8;
+    color: #8D8D8D;
+}
+
+.mv-up{
+    margin-top: -9px !important;
+    margin-bottom: 8px !important;
+}
+
+.invalid-feedback{
+    color: #ff606e;
+}
+
+.valid-feedback{
+   color: #2acc80;
+}
+
+    </style>
+</head>
+<body>
+    
+    <div class="form-body">
+        <div class="row">
+            <div class="form-holder">
+                <div class="form-content">
+                    <div class="form-items">
+                        <h3>Staff Busy? Drop us an Email!`</h3>
+                        <p>Fill in the data below.</p>
+                        
+                        <form id="feedback-form">
+                            <div class="modal-body">
+                                <div class="alert alert-success"  id="feedback-success" style="display: none;">Feedback Submitted Successfully.</div>
+                                <div class="alert alert-danger" id="feedback-fail" style="display: none;">Feedback Submit Unsuccessful.</div>
+                                <div class="form-group">
+                                  <label for="nameInput">Name: </label>
+                                  <input type="text" class="form-control" id="nameInput" value="{{ current_user.username }}" name="nameInput" placeholder="Enter name" required>
+                                </div>
+                                <div class="form-group">
+                                  <label for="emailInput">Email: </label>
+                                  <input type="email" class="form-control" id="emailInput" value="{{ current_user.email }}" name="emailInput" placeholder="Enter email">
+                                </div>
+                          
+                                <div class="form-group">
+                                  <label for="phoneNoInput">Mobile Number: </label>
+                                  <input type="text" class="form-control" id="phoneNoInput" name="phoneNoInput" placeholder="Enter mobile number">
+                                </div>
+                      
+                                <div class="form-group">
+                                  <label for="ratingInput">Rating: </label>
+                                  <select class="form-control" id="ratingInput" name="ratingInput">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                  </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                  <label for="feedbackDesc">Message:</label>
+                                  <textarea class="form-control" id="feedbackDesc" name="feedbackDesc" rows="3"></textarea>
+                                </div>
+                            </div>
+                              Dispute Resolved?
+                              <!-- If resolved, kill page -->
+                              <button type="button" onclick="window.close();" class="btn btn-secondary" data-dismiss="modal">Yes</button>
+                              <!-- else refund -->
+                              <button type="submit" class="btn btn-primary">No</button>
+                            </form>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script>
+    const config = {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  };
+
+  const submitForm = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = {};
+    formData.forEach((value, key) => data[key] = value);
+    try {
+      console.log(data)
+      const response = await axios.post('/feedback/create', data, config);
+        document.getElementById("feedback-fail").style.display = "none";
+        document.getElementById("feedback-success").style.display = "block";
+        setTimeout(() => {
+          location.reload();
+        }, 2000);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+      document.getElementById("feedback-success").style.display = "none";
+      document.getElementById("feedback-fail").style.display = "block";
+    }
+  }
+  
+</script>
+</html>

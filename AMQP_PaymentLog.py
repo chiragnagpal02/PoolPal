@@ -84,7 +84,12 @@ def receivePaymentLog():
 
 def callback(channel, method, properties, body): # required signature for the callback; no return
     print("\nReceived an payment log by " + __file__)
-    processPaymentLog(json.loads(body))
+    routing_key = method.routing_key
+    print("Received a message with routing key:", routing_key)
+    if (routing_key == "create.payment") :
+        processPaymentLog(json.loads(body))
+    else :
+        processRefundLog(json.loads(body))
     print() # print a new line feed
 
 def processPaymentLog(session_id):
@@ -92,6 +97,11 @@ def processPaymentLog(session_id):
     print(session_id)
     retrievefromStripe(session_id)
     #print(create_payment(order))
+
+def processRefundLog(intent_id):
+    print("Recording a refund log:")
+    print(intent_id)
+    retrieverefundfromStripe(intent_id)
 
 def retrievefromStripe(session_id):
     # Retrieve the Checkout Session
@@ -102,6 +112,20 @@ def retrievefromStripe(session_id):
     amount = checkout_session["amount_total"] / 100
     print(create_payment(checkout_session["payment_intent"],session_id_str,amount,CPID_str,PID_str,checkout_session["payment_status"]))
 
+def retrieverefundfromStripe(intent_id):
+    # Retrieve the Checkout Session
+    IntentID = intent_id["intent_id"]
+    intent = stripe.PaymentIntent.retrieve(IntentID)
+    print(intent)
+    total_amount = intent["amount"]/100
+    status = intent["status"]
+    URL = "http://localhost:5055/api/v1/paymentlog/get_CPID_PID/" + IntentID
+    result = invoke_http(URL, method='GET')
+    CPID = result["data"]["CPID"]
+    PID = result["data"]["PID"]
+    session_id = result["data"]["sessionID"]
+    print(result)
+    print(create_payment(IntentID,session_id,total_amount,CPID,PID,status)) 
 
 @app.route("/api/v1/paymentlogs/add_new", methods=['POST'])
 def create_payment(intentID,sessionID,Amount,CPID,PID,Status):
