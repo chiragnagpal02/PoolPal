@@ -10,6 +10,7 @@ import google.auth.transport.requests
 
 app = Flask("Google Login App")
 app.secret_key = "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" # make sure this matches with that's in client_secret.json
+USERMS_URL = "http://127.0.0.1:5016/api/v1/user"
 
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1" # to allow Http traffic for local dev
 
@@ -36,7 +37,8 @@ def login_is_required(function):
 def login():
     authorization_url, state = flow.authorization_url()
     session["state"] = state
-    return redirect(authorization_url)
+    next_url = request.args.get("next") or "/"
+    return redirect(authorization_url + f"&next={next_url}")
 
 
 @app.route("/callback")
@@ -64,21 +66,33 @@ def callback():
     session["name"] = id_info.get("name")
     session["picture"] = id_info.get("picture")
 
+    email_id = session['email']
+    url = f"{USERMS_URL}/get_user_by_email/{email_id}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        role = response.json()['data']['Role']
+        if role == "Driver":
+            return render_template("driver/driverHomepage.html", email=session['email'], id_info=session['id_info'], name=session['name'], picture=session['picture'])
+        elif role == "Passenger":
+            return render_template("passenger/passengerHomepage.html", email=session['email'], id_info=session['id_info'], name=session['name'], picture=session['picture'])
+        else: #admin
+            return render_template("admin/adminHomepage.html", email=session['email'], id_info=session['id_info'], name=session['name'], picture=session['picture'])
 
-    return render_template("driver/driverHomepage.html", email=session['email'], id_info=session['id_info'], name=session['name'], picture=session['picture'])
-
+    else:
+        return render_template("login.html")
 
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect("/")
 
-
 @app.route("/")
 def index():
-    return render_template("login.html")
+    return render_template("login.html", message="You have not registered yet as any role!")
 
-
+@app.route("/signup")
+def signup():
+    return render_template("SignUp.html")
 
 @app.route("/protected_area")
 @login_is_required
