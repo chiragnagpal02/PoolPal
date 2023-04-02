@@ -75,32 +75,79 @@ def callback():
             return render_template("driver/dHome.html", email=session['email'], id_info=session['id_info'], name=session['name'], picture=session['picture'])
         
         elif role == "Passenger":
-            return render_template("passenger/passengerHomepage.html", email=session['email'], id_info=session['id_info'], name=session['name'], picture=session['picture'])
-        
-        else: #admin
-            return render_template("admin/adminHomepage.html", email=session['email'], id_info=session['id_info'], name=session['name'], picture=session['picture'])
+            return render_template("passenger/pHome.html", email=session['email'], id_info=session['id_info'], name=session['name'], picture=session['picture'])
 
     else:
-        return render_template("login.html")
-
-@app.route("/logout")
-def logout():
-    session.clear()
-    return redirect("/")
-
-@app.route("/")
-def index():
-    return render_template("login.html", message="You have not registered yet as any role!")
-
-@app.route("/signup")
-def signup():
-    return render_template("SignUp.html")
+        return render_template("signup.html")
 
 @app.route("/protected_area")
 @login_is_required
 def protected_area():
     return f"Hello {session['email']}! <br/> <a href='/logout'><button>Logout</button></a>"
 
+# our html pages
+@app.route("/")
+def index():
+    return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
+
+@app.route("/signup")
+def signup():
+    return render_template("SignUp.html")
+
+# driver
+@app.route("/dSignUp")
+def dsignup():
+    return render_template("driver/dSignUp.html")
+
+@app.route("/dCreateCarpool")
+def dCreateCarpool():
+    return render_template("driver/dCreateCarpool.html")
+
+@app.route("/dHome")
+def dHome():
+    return render_template("driver/dHome.html")
+
+@app.route("/dPastRides")
+def dPastRides():
+    return render_template("driver/dPastRides.html")
+
+@app.route("/dProfile")
+def dProfile():
+    return render_template("driver/dProfile.html")
+
+@app.route("/dUpcoming")
+def dUpcoming():
+    return render_template("driver/dUpcoming.html")
+
+# passenger
+@app.route("/pSignUp")
+def psignup():
+    return render_template("passenger/pSignUp.html")
+
+@app.route("/pFindCarpool")
+def pFindCarpool():
+    return render_template("passenger/pFindCarpool.html")
+
+@app.route("/pHome")
+def pHome():
+    return render_template("passenger/pHome.html")
+
+@app.route("/pPastRides")
+def pPastRides():
+    return render_template("passenger/pPastRides.html")
+
+@app.route("/pProfile")
+def pProfile():
+    return render_template("passenger/pProfile.html")
+
+@app.route("/pUpcoming")
+def pUpcoming():
+    return render_template("passenger/pUpcoming.html")
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5450, debug=True)
