@@ -9,6 +9,7 @@ CORS(app)
 CARPEOPLE_API_URL = "http://127.0.0.1:5010/api/v1/carpeople/"
 CARPOOL_API_URL = "http://127.0.0.1:5002/api/v1/carpool/"
 PASSENGER_API_URL = "http://127.0.0.1:5001/api/v1/passenger/"
+DRIVER_API_URL = "http://127.0.0.1:5000/api/v1/driver/"
 
 def get_carpools_by_driver(DID):
     url = f"{CARPOOL_API_URL}/get_carpool_by_driver_id/{DID}"
@@ -52,12 +53,24 @@ def get_carpool_by_passenger(PID):
     
     url1 = f"{CARPEOPLE_API_URL}/get_all_by_PID/{PID}"
     url2 = f"{CARPOOL_API_URL}/get_all_carpools"
+    url3 = f"{DRIVER_API_URL}/get_driver_by_id/"
 
     passengers = requests.get(url1).json()
     carpool_json = requests.get(url2)
     carpools = carpool_json.json()['data']['carpools']
+    
     CPIDs = [passenger['CPID'] for passenger in passengers]
-    all_carpools = [cp for cp in carpools if cp['CPID'] in CPIDs]
+    
+    all_carpools = []
+
+    for carpool in carpools:
+        if carpool['CPID'] in CPIDs:
+            DID = carpool['DID']
+            final_url = url3 + str(DID)
+            driver = requests.get(final_url).json()['data']['driver']
+            carpool['driver'] = driver
+            all_carpools.append(carpool)
+
     return jsonify(all_carpools)
 
 if __name__ == "__main__":
