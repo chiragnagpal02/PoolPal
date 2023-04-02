@@ -115,11 +115,23 @@
           <div class="d-flex justify-content-center">
             <div class="w-100 mb-5 mt-2">
               <form id="refund">
+
+                <!-- start location -->
+                <div class="my-2">
+                  <label for="startLocation" class="form-label">Start Location</label>
+                  <input type="text" class="form-control" id="startLocation" placeholder="" readonly>
+                </div>
       
                 <!-- end location -->
                 <div class="my-2">
                   <label for="endLocation" class="form-label">End Location</label>
                   <input type="text" class="form-control" id="endLocation" placeholder="Enter Postal Code" required>
+                </div>
+
+                <!-- refund price -->
+                <div class="my-2">
+                  <label for="refundPrice" class="form-label">Calculated Refund Price</label>
+                  <input type="text" class="form-control" id="refundPrice" readonly>
                 </div>
     
                 <button type="submit" id="refund" class="btn btn-outline-dark my-4 w-100 bg-white">Refund Now!</button>
@@ -231,17 +243,13 @@
               var endLng = allLatLng[3];
       
               // updating the prices
+              // axios.get(`http://127.0.0.1:5115/api/v1/calculate_refund_amount/<int:CPID>/<int:PID>/<end_lat>,<end_long>`)
               axios.get(`http://127.0.0.1:5101/api/v1/base_price/${startLat},${startLng}/${endLat},${endLng}`)
                 .then(response => {
-                  // driver fee
-                  var driverFee = document.getElementById("driverfee").value;
-                  // base price
-                  var baseprice = response.data.price;
-                  console.log(baseprice)
-                  document.getElementById("baseprice").value = baseprice;
-                  // total price
-                  var totalPrice = Number(driverFee) + Number(baseprice);
-                  document.getElementById("totalprice").value = totalPrice.toFixed(2);
+                  // refund fee
+                  var refundFee = response.data.price;
+                  console.log(refundFee)
+                  document.getElementById("refundPrice").value = refundFee;
                 })
                 .catch(error => {
                   console.log(error);
@@ -251,17 +259,16 @@
             // push to add carpool
             let DID = 1; //CHANGE
       
-            const offer = document.querySelector('#offer')
+            const refund = document.querySelector('#refund')
             const route = document.querySelector("#route")
             const map = document.querySelector("#map")
             const success = document.querySelector("#success")
       
-            offer.addEventListener('click', async () => {
+            refund.addEventListener('click', async () => {
       
-              // calculating passenger price
-              var totalPrice = document.getElementById("totalprice").value;
-              var capacity = document.getElementById("capacity").value;
-              var passengerPrice = totalPrice / capacity;
+              // calculating refund price
+              var refundPrice = document.getElementById("refundPrice").value;
+              
               // lat and lng
               var allLatLng = await initMap();
               var startLat = allLatLng[0];
@@ -272,7 +279,8 @@
               route.style.display = 'block';
               map.style.display = 'block';
               success.style.display = 'block';
-      
+
+              // not sure what to do here
               axios.post("http://127.0.0.1:5002/api/v1/carpool/add_new_carpool", {
                 "DID": DID,
                 "CarpoolPrice": totalPrice,
