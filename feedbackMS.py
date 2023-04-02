@@ -7,7 +7,10 @@ import json
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://poolpal@localhost:3306/PoolPal' 
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://poolpal@localhost:3306/PoolPal'
+
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 299}
 
 db = SQLAlchemy(app)
@@ -16,11 +19,11 @@ CORS(app)
 
 class Feedback(db.Model):
     __tablename__ = 'feedback'
-    PID = db.Column(db.Integer(11), nullable=False)
+    PID = db.Column(db.Integer, nullable=False)
     username = db.Column(db.String(64), nullable=False)
-    email = db.column(db.String(64), nullable=False)
-    phoneNo = db.Column(db.Integer(11), nullable=False)
-    rating = db.Column(db.Integer(11), nullable=False)
+    email = db.Column(db.String(64), nullable=False)
+    phoneNo = db.Column(db.Integer, nullable=False)
+    rating = db.Column(db.Integer, nullable=False)
     feedbackDesc = db.Column(db.String(256), nullable=False)
 
 
