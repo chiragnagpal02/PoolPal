@@ -243,7 +243,7 @@
               var endLng = allLatLng[3];
       
               // updating the prices
-              // axios.get(`http://127.0.0.1:5115/api/v1/calculate_refund_amount/<int:CPID>/<int:PID>/<end_lat>,<end_long>`)
+              // axios.get(`http://127.0.0.1:5115/api/v1/calculate_refund_amount/<int:CPID>/<end_lat>,<end_long>`)
               axios.get(`http://127.0.0.1:5101/api/v1/base_price/${startLat},${startLng}/${endLat},${endLng}`)
                 .then(response => {
                   // refund fee
@@ -280,7 +280,7 @@
               map.style.display = 'block';
               success.style.display = 'block';
 
-              // not sure what to do here
+              // axios.post('http://127.0.0.1:5120/api/v1/process_refund/<float:refundedAmount>/<int:CPID>/<int:PID>')
               axios.post("http://127.0.0.1:5002/api/v1/carpool/add_new_carpool", {
                 "DID": DID,
                 "CarpoolPrice": totalPrice,
