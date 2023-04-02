@@ -103,7 +103,7 @@ stripe.api_key = stripe_keys["secret_key"]
 
 @app.route('/api/v1/payments/')
 def index():
-    return render_template('index.html', key=stripe_keys['publishable_key'])
+    return render_template('/stripe/index.html', key=stripe_keys['publishable_key'])
 
 
 @app.route("/api/v1/payments/success")
@@ -112,7 +112,7 @@ def success():
     CPID = request.args.get("CPID")
     PID = request.args.get("PID")
     processAddPaymentLogs(session_id,CPID,PID)
-    return render_template("success.html", message = "You are added to the carpool!")
+    return render_template("/stripe/success.html")
 
 
 @app.route("/api/v1/payments/cancelled")
@@ -121,7 +121,7 @@ def cancelled():
     CPID = request.args.get("CPID")
     PID = request.args.get("PID")
     processAddPaymentLogs(session_id,CPID,PID)
-    return render_template("cancelled.html")
+    return render_template("/stripe/cancelled.html")
 
 
 @app.route("/api/v1/payments/config")
