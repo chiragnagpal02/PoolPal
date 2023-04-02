@@ -250,7 +250,7 @@
       return getLatLng()
     }
     // pid TO BE CHANGED
-    var pid = 5;
+    var pid = 1;
 
     // function to select carpool
     function selectCarpool(cpid, did) {
@@ -263,6 +263,7 @@
             .then(response4 => {
               var price = response4.data
               console.log(price);
+              window.open(`http://127.0.0.1:5004/api/v1/payments/create-checkout-session/${price}/${cpid}/${pid}`, "blank");
             })
             .catch(error => {
               console.error(error);
@@ -344,7 +345,7 @@
               carpoolData += `<b>Start Location:</b> ${matchedCarpools[i].CPStartLocation} <br>`;
               carpoolData += `<b>End Location:</b> ${matchedCarpools[i].CPEndLocation} <br>`;
               carpoolData += `<b>Date and Time:</b> ${matchedCarpools[i].DateTime}<br>`;
-              carpoolData += `<b>Driver Name:</b> ${drivername}<br>`;
+              carpoolData += `<b>Driver Name:</b> ${matchedCarpools[i].driver.DName}<br>`;
               carpoolData += `<b>Price:</b> ${matchedCarpools[i].PassengerPrice}</b>  <br>`;
               carpoolData += `<b>Remaining Capacity:</b> ${matchedCarpools[i].Capacity_remaining}`;
               carpoolData += `</p>`;
