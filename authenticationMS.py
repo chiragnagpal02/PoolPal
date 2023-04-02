@@ -95,6 +95,29 @@ def logout():
     session.clear()
     return redirect("/")
 
+@app.route("/")
+def index():
+    return render_template("login.html", message="You have not registered yet as any role!")
+
+@app.route("/signup")
+def signup():
+    return render_template("SignUp.html")
+
+@app.route("/protected_area")
+@login_is_required
+def protected_area():
+    return f"Hello {session['email']}! <br/> <a href='/logout'><button>Logout</button></a>"
+
+# our html pages
+@app.route("/")
+def index():
+    return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
+
 @app.route("/signup")
 def signup():
     return render_template("SignUp.html")
