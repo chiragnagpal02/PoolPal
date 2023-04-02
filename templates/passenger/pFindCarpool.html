@@ -250,7 +250,7 @@
       return getLatLng()
     }
     // pid TO BE CHANGED
-    var pid = 1;
+    var pid = 5;
 
     // function to select carpool
     function selectCarpool(cpid, did) {
@@ -259,14 +259,10 @@
         .then(response3 => {
           console.log(response3.data);
           // add passenger
-          axios.post(`http://127.0.0.1:5110/add_passenger/`, {
-            CPID: cpid,
-            DID: did,
-            PID: pid,
-            PEmail: response3.data.data.passenger.PEmail
-          })
+          axios.get(`http://127.0.0.1:5110/add_passenger/${cpid}/${did}/${pid}/${response3.data.data.passenger.PEmail}`)
             .then(response4 => {
-              console.log(response4.data);
+              var price = response4.data
+              console.log(price);
             })
             .catch(error => {
               console.error(error);
@@ -301,6 +297,11 @@
       var endLat = allLatLng[2];
       var endLng = allLatLng[3];
 
+      route.style.display = 'block';
+      map.style.display = 'block';
+      carpoolList.style.display = 'block';
+          // console.log(response.data);
+
       axios.post(`http://127.0.0.1:5100/api/v1/matching/get_matching_carpools/`, {
         start_lat: startLat,
         start_lng: startLng,
@@ -309,17 +310,14 @@
         time: document.getElementById("time").value,
         date: document.getElementById("date").value,
         PID: pid
-
       })
         .then(function (response) {
-          route.style.display = 'block';
-          map.style.display = 'block';
-          carpoolList.style.display = 'block';
-          console.log(response.data);
-
+          
           var carpoolNum = 0;
 
           // making the cards for the carpool
+          console.log(response.data);
+
           if (response.data.carpools.length != 0) {
             var carpoolData = '';
             var matchedCarpools = response.data.carpools;

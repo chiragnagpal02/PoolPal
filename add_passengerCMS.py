@@ -47,12 +47,12 @@ def add_passenger_to_carpeople(CPID, DID, PID, PEmail):
 
 
     
-@app.route('/add_passenger/', methods=['POST'])
-def process_payment():
-    CPID = request.json.get('CPID')
-    DID = request.json.get('DID')
-    PID = request.json.get('PID')
-    PEmail = request.json.get('PEmail')
+@app.route('/add_passenger/<CPID>/<DID>/<PID>/<PEmail>', methods=['GET'])
+def process_payment(CPID, DID, PID, PEmail):
+    # CPID = request.json.get('CPID')
+    # DID = request.json.get('DID')
+    # PID = request.json.get('PID')
+    # PEmail = request.json.get('PEmail')
     print(CPID)
     status_code, status_from_carpeople = add_passenger_to_carpeople(CPID, DID, PID, PEmail)
     if status_code is None:
@@ -67,15 +67,10 @@ def process_payment():
     
     print(status_from_carpeople)
 
-    passenger_price = int(get_passenger_price(CPID))
-    return redirect(f"http://127.0.0.1:5004/api/v1/payments/create-checkout-session/{passenger_price}/{CPID}/{PID}")
-
-
-
-
-
-
-
+    passenger_price = float(get_passenger_price(CPID))
+    # return redirect(f"http://127.0.0.1:5004/api/v1/payments/create-checkout-session/{passenger_price}/{CPID}/{PID}")
+    print(passenger_price)
+    return jsonify(passenger_price)
 
 
 

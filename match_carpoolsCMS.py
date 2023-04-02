@@ -13,7 +13,7 @@ app = Flask(__name__)
 CORS(app)
 
 
-THRESHOLD_DISTANC_KMS = 5
+THRESHOLD_DISTANC_KMS = 2
 
 CARPOOLS_URL = 'http://127.0.0.1:5002/api/v1/carpool/get_all_carpools'
 CARPEOPLE_URL = 'http://127.0.0.1:5010/api/v1/carpeople/get_all_passengers'
@@ -47,6 +47,9 @@ def get_all_existing_carpools(start_lat, start_lng, end_lat, end_lng, formatted_
 
     for i in carpools:
         # Convert carpool date string to datetime object
+        # print()
+        # print(i)
+        # print()
 
         if i['CPID'] in non_showable_carpools:
             continue
@@ -89,6 +92,7 @@ def get_all_existing_carpools(start_lat, start_lng, end_lat, end_lng, formatted_
            (start_time <= upper_time) and \
            (capacity > 0):
             
+            print(i)
             final_carpools.append(i)
             
         
@@ -131,7 +135,9 @@ def get_matching_carpools():
 
     carpools = get_all_existing_carpools(float(start_lat), float(start_lng), float(end_lat), float(end_lng), date_final, time, PID)
 
-    # print(carpools)
+    print()
+    print(carpools)
+    print()
 
     if len(carpools) == 0:
         return jsonify(
