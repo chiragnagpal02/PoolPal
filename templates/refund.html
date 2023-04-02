@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+      
+    
+        <!-- page name -->
+        <title>Driver Create Carpool</title>
+      
+        <!-- css -->
+        <style>
+          /* nav css */
+          .nav-item {
+            margin-inline-end: 30px;
+            text-align: center;
+            margin-bottom: 15px;
+          }
+      
+          .routing {
+            color: black;
+            text-decoration: none;
+          }
+      
+          /* body css */
+          body {
+            width: 100%;
+            height: 100%;
+            background-color: honeydew;
+          }
+      
+          .content {
+            padding: 5% 20%;
+          }
+      
+          /* map css */
+          #map {
+            height: 300px;
+            margin-bottom: 30px;
+            margin-top: 25px;
+          }
+        </style>
+      
+      </head>
+
+
+      <body>
+        <!-- nav -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <div class="container-fluid">
+      
+            <!-- logo -->
+            <a href="dHome.html" class="navbar-brand mx-2 routing">
+              <img src="../static/logo.png" alt="Logo" width="50" height="50" class="d-inline-block align-text-top">
+            </a>
+      
+            <!-- nav items -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end align-items-center" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a href="dHome.html" class="nav-link routing">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a href="dCreateCarpool.html" class="nav-link routing">Offer A Ride</a>
+                </li>
+                <li class="nav-item">
+                  <a href="dUpcoming.html" class="nav-link routing">Upcoming Rides</a>
+                </li>
+                <li class="nav-item">
+                  <a href="dPastRides.html" class="nav-link routing">Ride History</a>
+                </li>
+                <li class="nav-item">
+                  <a href="dProfile.html" class="nav-link routing">Profile</a>
+                </li>
+                <li class="nav-item">
+                  <a href="/logout" class="nav-link routing"><button class="btn btn-sm btn-outline-dark">Log Out</button></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      
+        <!-- body -->
+        <div class="content">
+      
+          <!-- form title -->
+          <div class="row">
+            <h3 class="my-3 text-center">Refund</h3>
+          </div>
+      
+          <!-- enter details of request through form -->
+          <div class="d-flex justify-content-center">
+            <div class="w-100 mb-5 mt-2">
+              <form id="refund">
+      
+                <!-- end location -->
+                <div class="my-2">
+                  <label for="endLocation" class="form-label">End Location</label>
+                  <input type="text" class="form-control" id="endLocation" placeholder="Enter Postal Code" required>
+                </div>
+      
+             
+      
+             
+                <button type="submit" id="refund" class="btn btn-outline-dark my-4 w-100 bg-white">Refund Now!</button>
+              </form>
+               <!-- success message -->
+              <div class="row text-center" style="display: none;" id="success"></div>
+            </div>
+          </div>
+      
+      
+          <!-- Bootstrap Bundle with Popper -->
+          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+      
+         
+          <!-- axios -->
+          <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+      
+          
+      </body>
+      
+      </html>
