@@ -1,10 +1,8 @@
-from functools import wraps
-from flask import Flask, abort, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 from os import environ
 from flask_cors import CORS
 import json
-
 
 app = Flask(__name__)
 
@@ -57,23 +55,14 @@ class Feedback(db.Model):
 def home():
     return render_template("/feedback.html")
 
-# @app.route('/feedback/create', methods=['POST'])
 @app.route('/api/v1/feedback/create_feedback', methods=['POST'])
 def create_feedback():
     # form_data = json.loads(list(request.form.keys())[0])
-    name = request.json.get('nameInput')
+    username = request.json.get('nameInput')
     email = request.json.get('emailInput')
     phone_number = request.json.get('phoneNoInput')
     rating = request.json.get('ratingInput')
     feedbackDesc = request.json.get('feedbackDesc')
-
-    # if (Feedback.query.filter_by(email=email).first()):
-    #     return jsonify(
-    #         {
-    #             "code": 400,
-    #             "message": "Feedback already exists."
-    #         }
-    #     ), 400
     
     existing_feedback = Feedback.query.filter_by(email=email).first()
     if existing_feedback:
@@ -83,7 +72,7 @@ def create_feedback():
         }), 400
 
     new_feedback = Feedback(
-        name,
+        username,
         email,
         phone_number,
         rating,
@@ -94,25 +83,11 @@ def create_feedback():
     db.session.add(new_feedback)
     db.session.commit()
 
-  
-    # except:
-    #     db.session.rollback()
-    #     return jsonify(
-    #         {
-    #             "code": 500,
-    #             "data": {
-    #                 "feedbackID": feedback.id
-    #             },
-    #             "message": "An error occurred creating the feedback."
-    #         }
-    #     ), 500
-
     return {
-    "code": 201,
-    "data": {
-        "user_result"
+        "code": 201,
+        "data": new_feedback
     }
-    }
+
 
 
 if __name__ == '__main__': 
