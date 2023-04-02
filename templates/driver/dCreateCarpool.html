@@ -301,7 +301,7 @@
       const success = document.querySelector("#success")
 
       offer.addEventListener('click', async () => {
-
+        event.preventDefault();
         // calculating passenger price
         var totalPrice = document.getElementById("totalprice").value;
         var capacity = document.getElementById("capacity").value;
@@ -312,6 +312,9 @@
         var startLng = allLatLng[1];
         var endLat = allLatLng[2];
         var endLng = allLatLng[3];
+
+        route.style.display = 'block';
+        map.style.display = 'block';
 
         axios.post("http://127.0.0.1:5002/api/v1/carpool/add_new_carpool", {
           "DID": DID,
@@ -329,8 +332,6 @@
           .then(function (response) {
             console.log(response);
             // route and map appear when button is clicked
-            route.style.display = 'block';
-            map.style.display = 'block';
             console.log(response.data.data.status)
             document.getElementById("success").innerHTML = response.data.data.status
             success.style.display = 'block';
@@ -340,7 +341,9 @@
           })
 
       });
+
     </script>
+    
 
     <!-- axios -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
