@@ -11,7 +11,7 @@
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
   <!-- page name -->
-  <title>Passenger Profile</title>
+  <title>Driver Profile</title>
 
   <!-- css -->
   <style>
@@ -61,10 +61,9 @@
     <div class="container-fluid">
 
       <!-- logo -->
-      <a href="passengerHomepage.html" class="navbar-brand mx-2 routing">
+      <a href="dHome.html" class="navbar-brand mx-2 routing">
         <img src="../../static/logo.png" alt="Logo" width="50" height="50" class="d-inline-block align-text-top">
       </a>
-
 
       <!-- nav items -->
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -74,16 +73,19 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mx-auto">
           <li class="nav-item">
-            <a href="passengerHomepage.html" class="nav-link routing">Home</a>
+            <a href="dHome.html" class="nav-link routing">Home</a>
           </li>
           <li class="nav-item">
-            <a href="passengerRideOffers.html" class="nav-link routing">Ride Offers</a>
+            <a href="dCreateCarpool.html" class="nav-link routing">Offer A Ride</a>
           </li>
           <li class="nav-item">
-            <a href="passengerRides.html" class="nav-link routing">Ride History</a>
+            <a href="dUpcoming.html" class="nav-link routing">Upcoming Rides</a>
           </li>
           <li class="nav-item">
-            <a href="passengerProfile.html"class="nav-link routing">Profile</a>
+            <a href="dPastRides.html" class="nav-link routing">Ride History</a>
+          </li>
+          <li class="nav-item">
+            <a href="dProfile.html" class="nav-link routing">Profile</a>
           </li>
         </ul>
       </div>
@@ -96,21 +98,11 @@
       <div class="card shadow-sm">
         <h3 class="text-center pt-5 pb-3" id="name"></h3>
         <div class="card-body d-flex align-items-center justify-content-center">
-          <table class="table w-75" >
-            <tr>
-              <th width="49%">Username</th>
-              <td width="2%">:</td>
-              <td id="username"></td>
-            </tr>
+          <table class="table w-75">
             <tr>
               <th width="49%">Gender</th>
               <td width="2%">:</td>
               <td id="gender"></td>
-            </tr>
-            <tr>
-              <th width="49%">Age</th>
-              <td width="2%">:</td>
-              <td id="age"></td>
             </tr>
             <tr>
               <th width="49%">Email</th>
@@ -123,14 +115,29 @@
               <td id="phoneNo"></td>
             </tr>
             <tr>
-              <th width="49%">Address</th>
+              <th width="49%">License Number</th>
               <td width="2%">:</td>
-              <td id="address"></td>
+              <td id="licenseNo"></td>
             </tr>
             <tr>
-              <th width="49%">Account Creation Date</th>
+              <th width="49%">License Expiration</th>
               <td width="2%">:</td>
-              <td id="creation"></td>
+              <td id="licenseExpiry"></td>
+            </tr>
+            <tr>
+              <th width="49%">Vehicle Model</th>
+              <td width="2%">:</td>
+              <td id="model"></td>
+            </tr>
+            <tr>
+              <th width="49%">Vehicle Plate Number</th>
+              <td width="2%">:</td>
+              <td id="vehicleNo"></td>
+            </tr>
+            <tr>
+              <th width="49%">Vehicle Capacity</th>
+              <td width="2%">:</td>
+              <td id="capacity"></td>
             </tr>
           </table>
         </div>
@@ -145,23 +152,24 @@
   <!-- axios -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-  <!-- script -->
+  <!-- get driver info -->
   <script>
-    let passengerId = 1;
+    let DID = 1;
 
-    axios.get(`http://127.0.0.1:5001/api/v1/get_passenger_by_id/${passengerId}`)
+    axios.get(`http://127.0.0.1:5000/api/v1/driver/get_driver_by_id/${DID}`)
       .then((response) => {
         console.log(response.data);
-        var passenger = response.data.data.passenger;
+        var driver = response.data.data.driver;
 
-        document.getElementById('name').innerHTML = passenger.PName;
-        document.getElementById('username').innerHTML = passenger.PUserName;
-        document.getElementById('gender').innerHTML = passenger.PGender;
-        document.getElementById('age').innerHTML = passenger.PAge;
-        document.getElementById('email').innerHTML = passenger.PEmail;
-        document.getElementById('phoneNo').innerHTML = passenger.PPhone;
-        document.getElementById('address').innerHTML = passenger.PAddress;
-        document.getElementById('creation').innerHTML = passenger.PAccount_Created_At;
+        document.getElementById('name').innerHTML = driver.DName;
+        document.getElementById('gender').innerHTML = driver.DGender;
+        document.getElementById('email').innerHTML = driver.DEmail;
+        document.getElementById('phoneNo').innerHTML = driver.DPhoneNo;
+        document.getElementById('licenseNo').innerHTML = driver.DLicenseNo;
+        document.getElementById('licenseExpiry').innerHTML = driver.DLicenseExpiration;
+        document.getElementById('model').innerHTML = driver.DCar;
+        document.getElementById('vehicleNo').innerHTML = driver.DVehicleNo;
+        document.getElementById('capacity').innerHTML = driver.DCapacity;
       })
       .catch((error) => {
         console.log(error);

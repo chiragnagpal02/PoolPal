@@ -6,12 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
   <!-- page name -->
-  <title>Passenger Rides</title>
+  <title>Admin Current Disputes</title>
 
   <!-- css -->
   <style>
@@ -44,10 +45,9 @@
     <div class="container-fluid">
 
       <!-- logo -->
-      <a href="passengerHomepage.html" class="navbar-brand mx-2 routing">
-        <img src="../../static/logo.png" alt="Logo" width="50" height="50" class="d-inline-block align-text-top">
+      <a href="aHome.html" class="navbar-brand mx-2 routing">
+        <img src="../assets/logo.png" alt="Logo" width="50" height="50" class="d-inline-block align-text-top">
       </a>
-
 
       <!-- nav items -->
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -57,31 +57,27 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mx-auto">
           <li class="nav-item">
-            <a href="passengerHomepage.html" class="nav-link routing">Home</a>
+            <a href="aHome.html"  class="nav-link routing">Home</a>
           </li>
           <li class="nav-item">
-            <a href="passengerRideOffers.html" class="nav-link routing">Ride Offers</a>
+            <a href="aCurrentDisputes.html" class="nav-link routing">Current Disputes</a>
           </li>
-          <li class="nav-item">
-            <a href="passengerRides.html" class="nav-link routing">Ride History</a>
-          </li>
-          <li class="nav-item">
-            <a href="passengerProfile.html"class="nav-link routing">Profile</a>
-          </li>
+          <!-- <li class="nav-item">
+            <a href="resolvedDisputes.html" class="nav-link routing">Dispute History</a>
+          </li> -->
         </ul>
       </div>
     </div>
   </nav>
 
   <!-- body -->
-  <div class="container-fluid background text-center">
+  <div class="container-fluid background">
     <div class="row">
-      <h3 class="my-3">Upcoming Rides</h3>
+      <h3 class="my-3 text-center">Current Disputes</h3>
     </div>
     <div class="row my-4">
       <div class="card">
         <p class="card-text p-4" style="text-align:left;">
-          Carpool ID: <br>
           Starting Location: <br>
           Destination: <br>
           Date: <br>
@@ -89,35 +85,13 @@
           Driver Name: <br>
           Price: <br>
         </p>
-
         <div class="d-flex justify-content-center">
-          <button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100">Contact Customer Support</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- past rides -->
-    <div class="row">
-      <h3 class="my-3">Past Rides</h3>
-    </div>
-    <div class="row my-4">
-      <div class="card">
-        <p class="card-text p-4" style="text-align:left;">
-          Carpool ID: <br>
-          Starting Location: <br>
-          Destination: <br>
-          Date: <br>
-          Time: <br>
-          Driver Name: <br>
-          Price: <br>
-        </p>
-
-        <div class="d-flex justify-content-center">
-          <button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100">Review</button>
+          <button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100">Accept</button>
         </div>
       </div>
     </div>
   </div>
+
   <!-- Bootstrap Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

@@ -11,7 +11,7 @@
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
   <!-- page name -->
-  <title>Admin Homepage</title>
+  <title>Passenger Past Rides</title>
 
   <!-- css -->
   <style>
@@ -66,9 +66,10 @@
     <div class="container-fluid">
 
       <!-- logo -->
-      <a href="driverHomepage.html" class="navbar-brand mx-2 routing">
+      <a href="pHome.html" class="navbar-brand mx-2 routing">
         <img src="../../static/logo.png" alt="Logo" width="50" height="50" class="d-inline-block align-text-top">
       </a>
+
 
       <!-- nav items -->
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -78,19 +79,19 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mx-auto">
           <li class="nav-item">
-            <a href="driverHomepage.html" class="nav-link routing">Home</a>
+            <a href="pHome.html" class="nav-link routing">Home</a>
           </li>
           <li class="nav-item">
-            <a href="driverOfferForm.html" class="nav-link routing">Offer A Ride</a>
+            <a href="pFindCarpool.html" class="nav-link routing">Find Carpool</a>
           </li>
           <li class="nav-item">
-            <a href="driverRideRequests.html" class="nav-link routing">Upcoming Rides</a>
+            <a href="pUpcoming.html" class="nav-link routing">Upcoming Rides</a>
           </li>
           <li class="nav-item">
-            <a href="driverRides.html" class="nav-link routing">Ride History</a>
+            <a href="pPastRides.html" class="nav-link routing">Ride History</a>
           </li>
           <li class="nav-item">
-            <a href="driverProfile.html" class="nav-link routing">Profile</a>
+            <a href="pProfile.html" class="nav-link routing">Profile</a>
           </li>
         </ul>
       </div>
@@ -115,8 +116,7 @@
 
   <script>
     // pid TO BE CHANGED
-    let PID = 1;
-
+    let pid = 1;
     let rating;
     let description;
     // submit review
@@ -135,8 +135,8 @@
         })
         .catch(error => {
           console.log(error);
-          console.log(rating.value);
-          console.log();
+          console.log(rating);
+          console.log(description);
         })
     }
     // open pop up
@@ -148,8 +148,9 @@
       document.getElementById(`myForm${popupID}`).style.display = "none";
     }
 
-    axios.get(`http://127.0.0.1:5700/get_carpools_with_passengers/${DID}`)
+    axios.get(`http://127.0.0.1:5700/get_carpools_by_passenger/${pid}`)
       .then(function (response) {
+        console.log(response)
         if (response.data.length != 0) {
           var carpools = response.data;
           var carpoolData = '';
@@ -166,7 +167,7 @@
               carpoolData += `<b>End Location:</b> ${carpools[i].CPEndLocation}<br>`
               carpoolData += `<b>Date and Time:</b> ${carpools[i].DateTime} <br>`
               carpoolData += `<b>Price ($):</b> ${carpools[i].PassengerPrice}<br>`
-              carpoolData += `<b>Driver:</b> `
+              carpoolData += `<b>Driver:</b> ${carpools[i].DID}`
               carpoolData += `</p>`
               // review
               carpoolData += `<div class="d-flex justify-content-center">`
@@ -185,7 +186,7 @@
               // description
               carpoolData += `<label for="description" class="form-label m-2">Description</label>`
               carpoolData += `<input type="text" class="form-control m-2" id="description" required>`
-              carpoolData += `<button type="button" class="btn btn-outline-dark m-2 mt-4 w-100" onclick="closeForm(${rideNum}); submitReview(${carpools[i].CPID})">Submit</button>`
+              carpoolData += `<button type="button" class="btn btn-outline-dark m-2 mt-4 w-100" onclick="closeForm(${rideNum}); submitReview(${carpools[i].CPID}, ${carpools[i].DID})">Submit</button>`
               carpoolData += `<button type="button" class="btn btn-outline-dark m-2 w-100" onclick="closeForm(${rideNum})">Cancel</button>`
               carpoolData += `</form>`
               carpoolData += `</div>`
@@ -202,6 +203,7 @@
           document.getElementById("rating"),
           document.getElementById("description")
         ];
+        console.log(document.getElementById("rating").value)
         for (let i = 0; i < formField.length; i++) {
           formField[i].addEventListener('change', () => {
             // rating
