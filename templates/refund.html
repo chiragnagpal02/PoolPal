@@ -154,6 +154,7 @@
                 event.preventDefault(); // Prevent form submission
       
                 // Get the start and end locations
+                // Get start location through CPID
                 var startLocation = document.getElementById('startLocation').value;
                 var endLocation = document.getElementById('endLocation').value;
       
@@ -282,17 +283,17 @@
 
               // axios.post('http://127.0.0.1:5120/api/v1/process_refund/<float:refundedAmount>/<int:CPID>/<int:PID>')
               axios.post("http://127.0.0.1:5002/api/v1/carpool/add_new_carpool", {
-                "DID": DID,
-                "CarpoolPrice": totalPrice,
-                "PassengerPrice": passengerPrice,
-                "CPStartLocation": document.getElementById("startLocation").value,
-                "CPStartLatitude": startLat,
-                "CPStartLongitude": startLng,
-                "CPEndLocation": document.getElementById("endLocation").value,
-                "CPEndLatitude": endLat,
-                "CPEndLongitude": endLng,
-                "Status": "Active",
-                "Capacity_remaining": capacity,
+                // "DID": DID,
+                // "CarpoolPrice": totalPrice,
+                // "PassengerPrice": passengerPrice,
+                // "CPStartLocation": document.getElementById("startLocation").value,
+                // "CPStartLatitude": startLat,
+                // "CPStartLongitude": startLng,
+                // "CPEndLocation": document.getElementById("endLocation").value,
+                // "CPEndLatitude": endLat,
+                // "CPEndLongitude": endLng,
+                // "Status": "Active",
+                // "Capacity_remaining": capacity,
               })
                 .then(function (response) {
                   console.log(response);
