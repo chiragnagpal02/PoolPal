@@ -84,7 +84,7 @@ def create_feedback():
         "code": 201,
         "data": new_feedback.json()
         }
-    )
+    ), 201
 
 
 
