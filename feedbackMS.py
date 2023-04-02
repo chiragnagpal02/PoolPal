@@ -19,7 +19,8 @@ CORS(app)
 
 class Feedback(db.Model):
     __tablename__ = 'feedback'
-    PID = db.Column(db.Integer, nullable=False)
+
+    id = db.Column(db.Integer, autoincrement=True)
     username = db.Column(db.String(64), nullable=False)
     email = db.Column(db.String(64), nullable=False)
     phoneNo = db.Column(db.Integer, nullable=False)
@@ -28,7 +29,7 @@ class Feedback(db.Model):
 
 
     __table_args__ = (
-            db.PrimaryKeyConstraint('PID', 'email'),
+            db.PrimaryKeyConstraint('id', 'email'),
             {},
     
     )
@@ -43,7 +44,7 @@ class Feedback(db.Model):
 
     def json(self):
         return {
-            "PID": self.PID,
+            "id": self.id,
             "username": self.username,
             "email": self.email,
             "phoneNo": self.phoneNo,
@@ -64,45 +65,55 @@ def create_feedback():
     email = request.json.get('emailInput')
     phone_number = request.json.get('phoneNoInput')
     rating = request.json.get('ratingInput')
-    description = request.json.get('feedbackDesc')
+    feedbackDesc = request.json.get('feedbackDesc')
 
-    if (Feedback.query.filter_by(email=email).first()):
-        return jsonify(
-            {
-                "code": 400,
-                "message": "Feedback already exists."
-            }
-        ), 400
+    # if (Feedback.query.filter_by(email=email).first()):
+    #     return jsonify(
+    #         {
+    #             "code": 400,
+    #             "message": "Feedback already exists."
+    #         }
+    #     ), 400
+    
+    existing_feedback = Feedback.query.filter_by(email=email).first()
+    if existing_feedback:
+        return jsonify({
+            "code": 400,
+            "message": "Feedback already exists."
+        }), 400
 
-    feedback = Feedback(
-        name=name,
-        email=email,
-        phone_number=phone_number,
-        rating=rating,
-        feedback_description=description
+    new_feedback = Feedback(
+        name,
+        email,
+        phone_number,
+        rating,
+        feedbackDesc
     )
 
-    try:
-        db.session.add(feedback)
-        db.session.commit()
-    except:
-        db.session.rollback()
-        return jsonify(
-            {
-                "code": 500,
-                "data": {
-                    "feedbackID": feedback.id
-                },
-                "message": "An error occurred creating the feedback."
-            }
-        ), 500
 
-    return jsonify(
-        {
-            "code": 201,
-            "data": feedback.json()
-        }
-    ), 201
+    db.session.add(new_feedback)
+    db.session.commit()
+
+  
+    # except:
+    #     db.session.rollback()
+    #     return jsonify(
+    #         {
+    #             "code": 500,
+    #             "data": {
+    #                 "feedbackID": feedback.id
+    #             },
+    #             "message": "An error occurred creating the feedback."
+    #         }
+    #     ), 500
+
+    return {
+    "code": 201,
+    "data": {
+        "user_result"
+    }
+    }
+
 
 if __name__ == '__main__': 
     app.run(host="0.0.0.0", debug=True, port=5008)
