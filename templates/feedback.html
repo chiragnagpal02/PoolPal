@@ -226,7 +226,7 @@ html, body {
     </div>
 
 </body>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 <script>
     const config = {
     headers: {
@@ -241,7 +241,7 @@ html, body {
     formData.forEach((value, key) => data[key] = value);
     try {
       console.log(data)
-      const response = await axios.post('/feedback/create', data, config);
+      const response = await axios.post('/api/v1/feedback/create_feedback', data, config);
         document.getElementById("feedback-fail").style.display = "none";
         document.getElementById("feedback-success").style.display = "block";
         setTimeout(() => {
