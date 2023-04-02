@@ -39,13 +39,26 @@ def get_passenger_name(PID):
     pname = content.json()['data']['passenger']['PName']
     return pname
 
-@app.route("/get_carpools_with_passengers/<int:DID>")
+@app.route("/get_carpools_by_driver/<int:DID>")
 def get_carpools_with_passengers(DID):
     carpools = get_carpools_by_driver(DID)
     print(len(carpools))
     final_return_carpools = get_passengers_for_carpool(carpools)
     # print(result)
     return final_return_carpools
+
+@app.route("/get_carpools_by_passenger/<int:PID>")
+def get_carpool_by_passenger(PID):
+    
+    url1 = f"{CARPEOPLE_API_URL}/get_all_by_PID/{PID}"
+    url2 = f"{CARPOOL_API_URL}/get_all_carpools"
+
+    passengers = requests.get(url1).json()
+    carpool_json = requests.get(url2)
+    carpools = carpool_json.json()['data']['carpools']
+    CPIDs = [passenger['CPID'] for passenger in passengers]
+    all_carpools = [cp for cp in carpools if cp['CPID'] in CPIDs]
+    return jsonify(all_carpools)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True, port=5700)
