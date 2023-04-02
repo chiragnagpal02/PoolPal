@@ -67,8 +67,7 @@ def callback():
 
     return render_template("driver/driverHomepage.html", email=session['email'], id_info=session['id_info'], name=session['name'], picture=session['picture'])
 
-{{ name }}
-{{ email }} 
+
 @app.route("/logout")
 def logout():
     session.clear()
@@ -77,7 +76,8 @@ def logout():
 
 @app.route("/")
 def index():
-    return "Hello World <a href='/login'><button>Login</button></a>"
+    return render_template("login.html")
+
 
 
 @app.route("/protected_area")

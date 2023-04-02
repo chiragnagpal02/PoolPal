@@ -59,6 +59,11 @@ def get_passengers(CPID):
     passengers = Carpeople.query.filter_by(CPID=CPID).all()
     return jsonify([passenger.json() for passenger in passengers])
 
+@app.route("/api/v1/carpeople/get_all_by_PID/<PID>", methods=['GET'])
+def get_all_by_PID(PID):
+    passengers = Carpeople.query.filter_by(PID=PID).all()
+    return jsonify([passenger.json() for passenger in passengers])
+
 @app.route("/api/v1/carpeople/remove_passenger/<CPID>/<DID>/<PID>", methods=['DELETE'])
 def remove_passenger(CPID, DID, PID):
     passenger = Carpeople.query.filter_by(CPID=CPID, DID=DID, PID=PID).first()

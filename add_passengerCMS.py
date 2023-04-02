@@ -48,7 +48,7 @@ def add_passenger_to_carpeople(CPID, DID, PID, PEmail):
 
     
 @app.route('/add_passenger/', methods=['POST'])
-def process_payment(CPID, DID, PID, PEmail):
+def process_payment():
     CPID = request.json.get('CPID')
     DID = request.json.get('DID')
     PID = request.json.get('PID')
