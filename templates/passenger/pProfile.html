@@ -165,7 +165,7 @@
   <script>
     let passengerId = 1;
 
-    axios.get(`http://127.0.0.1:5001/api/v1/get_passenger_by_id/${passengerId}`)
+    axios.get(`http://127.0.0.1:5001/api/v1/passenger/get_passenger_by_id/${passengerId}`)
       .then((response) => {
         console.log(response.data);
         var passenger = response.data.data.passenger;
