@@ -5,7 +5,7 @@ from geopy.distance import geodesic
 app = Flask(__name__)
 
 CARPOOL_API_BASE_URL = 'http://127.0.0.1:5002/api/v1/carpool/'
-PROCESS_REFUND_API_URL = 'http://127.0.0.1:5120/process_refund/<int:refundAmount>/<int:CPID>/<int:PID>'
+PROCESS_REFUND_API_URL = 'http://127.0.0.1:5120/api/v1/process_refund'
 
 def get_carpool_distance(CPID):
     # payload = {
@@ -74,6 +74,8 @@ def calculate_distance(start_lat, start_long, end_lat, end_long):
 
 @app.route('/api/v1/calculate_refund_amount/<int:CPID>/<int:PID>/<end_lat>,<end_long>', methods=['GET'])
 def calculate_refund_amount(CPID, PID, end_lat, end_long):
+
+    refunded_process_status = False
     
     # Calculates travelled distance
     travelled_distance = get_travelled_distance(CPID, end_lat, end_long)
@@ -84,7 +86,17 @@ def calculate_refund_amount(CPID, PID, end_lat, end_long):
 
     refunded_price = (travelled_distance/carpool_distance) * passenger_price
 
-    process_refund_status = f"{PROCESS_REFUND_API_URL}/{refunded_price}/{CPID}/{PID}"
+    url = f"{PROCESS_REFUND_API_URL}/{refunded_price}/{CPID}/{PID}"
+
+    response = requests.get(url)
+
+    if response.status_code == 200:
+    # process the response data
+        refunded_process_status = True
+    else:
+        # handle the error
+        print('Error:', response.status_code)
+
 
     # call here to that process CMS and then get a status as a reponse - 
     # {"Status": "Success"} or {"Status": "Failed"}
@@ -94,7 +106,7 @@ def calculate_refund_amount(CPID, PID, end_lat, end_long):
 
     return jsonify({
         'price': refunded_price,
-        'status': process_refund_status
+        'status': refunded_process_status
     })
 
 

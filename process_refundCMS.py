@@ -4,11 +4,11 @@ import requests
 app = Flask(__name__)
 
 # PAYMENT_LOGS_API = "http://127.0.0.1:5015/api/v1/paymentlog/get_intent_by_CPID_PID/<int:CPID>/<int:PID>"
-PAYMENT_LOGS_API = "http://127.0.0.1:5015/api/v1/paymentlog/get_intent_by_ID"
+PAYMENT_LOGS_API = "http://127.0.0.1:5055/api/v1/paymentlog/get_intent_by_ID"
 # PAYMENTS_API_BASE_URL = 'http://127.0.0.1:5004/api/v1/payments/refund/<intentID>/<int:refundAmount>'
 PAYMENTS_API_BASE_URL = 'http://127.0.0.1:5004/api/v1/payments/refund'
 
-@app.route('/api/v1/process_refund/<int:refundedAmount>/<int:CPID>/<int:PID>')
+@app.route('/api/v1/process_refund/<float:refundedAmount>/<int:CPID>/<int:PID>')
 def process_refund(refundedAmount, CPID, PID):
 
     intentID = get_intentID(CPID,PID)

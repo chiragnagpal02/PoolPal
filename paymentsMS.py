@@ -186,7 +186,7 @@ def processAddPaymentLogs(session_id,CPID,PID):
         }
     }
 
-@app.route("/api/v1/payments/refund/<intentID>/<int:refundedAmount>")
+@app.route("/api/v1/payments/refund/<intentID>/<float:refundedAmount>")
 def refund(intentID, refundedAmount):
     # payment_intent_id = request.form.get('payment_intent_id')
     # amount = request.form.get('amount')
@@ -198,7 +198,6 @@ def refund(intentID, refundedAmount):
         )
         if refund.status == 'succeeded':
             print('Refund was successful!')
-            processAddRefundLogs(intentID)
             return jsonify(refund.status)
         else:
             print('Refund failed!')
@@ -206,24 +205,6 @@ def refund(intentID, refundedAmount):
         # return jsonify(refund)
     except Exception as e:
         return jsonify(error=str(e)), 403
-    
-@app.route("/api/v1/payments/refund/<string:intentID>")
-def processAddRefundLogs(intent_id):
-    print('\n-----Invoking Payment log microservice-----')
-    payment_details = {
-        "intent_id" : intent_id
-    }
-    print(payment_details)
-    message = json.dumps(payment_details)
-    amqp_setup.channel.basic_publish(exchange=amqp_setup.exchangename, routing_key="refund.payment", 
-            body=message, properties=pika.BasicProperties(delivery_mode = 2)) 
-    
-    return {
-        "code": 201,
-        "data": {
-            "payment_logs_result": payment_details
-        }
-    }
 
 if __name__ == '__main__':
     app.run(host= "0.0.0.0", debug=True, port=5004)
