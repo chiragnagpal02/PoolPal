@@ -17,45 +17,59 @@ class Feedback(db.Model):
     __tablename__ = 'feedback'
 
     feedbackID = db.Column(db.Integer, primary_key=True, nullable=False)
+    usernmae = db.Column(db.string(100, nullable=False))
     email = db.Column(db.string(100), nullable=False)
     phoneNo = db.Column(db.Integer, nullable=False)
     rating = db.Column(db.Integer)
-    desc = db.Column(db.String(256))
+    feedbackDesc = db.Column(db.String(256))
 
-    def __init__(self, feedbackID, email, phoneNo, rating, desc):
+    def __init__(self, feedbackID, username, email, phoneNo, rating, feedbackDesc):
         self.feedbackID = feedbackID
+        self.username = username
         self.email = email
         self.phoneNo = phoneNo
         self.rating = rating
-        self.desc = desc
+        self.feedbackDesc = feedbackDesc
 
 
     def json(self):
-        return {"feedbackID": self.feedbackID, "email": self.email, "phoneNo": self.phoneNo, "rating": self.rating, "desc": self.desc}
+        return {"feedbackID": self.feedbackID, 
+                "username": self.username,
+                "email": self.email, 
+                "phoneNo": self.phoneNo, 
+                "rating": self.rating, 
+                "feedbackDesc": self.feedbackDesc}
 
 
-@app.route("/api/v1/feedback/get_all_feedback")
-def get_all():
-    feedbacklist = Feedback.query.all()
-    if len(feedbacklist):
-        return jsonify(
-            {
-                "code": 200,
-                "data": {
-                    "feedback": [feedbacks.json() for feedbacks in feedbacklist]
-                }
-            }
-        )
-    return jsonify(
-        {
-            "code": 404,
-            "message": "There are no feedback."
-        }
-    ), 404
+# @app.route("/api/v1/feedback/get_all_feedback")
+# def get_all():
+#     feedbacklist = Feedback.query.all()
+#     if len(feedbacklist):
+#         return jsonify(
+#             {
+#                 "code": 200,
+#                 "data": {
+#                     "feedback": [feedbacks.json() for feedbacks in feedbacklist]
+#                 }
+#             }
+#         )
+#     return jsonify(
+#         {
+#             "code": 404,
+#             "message": "There are no feedback."
+#         }
+#     ), 404
 
 
-@app.route("/api/v1/feedback/create_feedback/<int:feedbackID>", methods=['POST'])
-def create_feedback(feedbackID):
+@app.route('/api/v1/feedback/create_feedback/', methods=['POST'])
+def create_feedback():
+    feedbackID = request.json.get('feedbackID')
+    username = request.json.get('username')
+    email = request.json.get('email')
+    phoneNo = request.json.get('phoneNo')
+    rating = request.json.get('rating')
+    feedbackDesc = request.json.get('feedbackDesc')
+
     if (Feedback.query.filter_by(feedbackID=feedbackID).first()):
         return jsonify(
             {
@@ -67,8 +81,14 @@ def create_feedback(feedbackID):
             }
         ), 400
 
-    data = request.get_json()
-    feedback = Feedback(feedbackID, **data)
+    feedback = Feedback(
+        feedbackID=feedbackID,
+        username=username,
+        email=email,
+        phoneNo=phoneNo,
+        rating=rating,
+        feedbackDesc=feedbackDesc
+        )
 
     try:
         db.session.add(feedback)

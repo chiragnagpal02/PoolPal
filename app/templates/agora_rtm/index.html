@@ -29,9 +29,9 @@
 
         
          
-          <button type="button" class="btn btn-info">          
+          <!-- <button type="button" class="btn btn-info">          
             <a href="http://0.0.0.0:5050/" target="_blank">Email Support</a>
-          </button>
+          </button> -->
           
           
           <!-- Button trigger modal -->
@@ -153,6 +153,11 @@
 
 <!-- Add Scripts -->
 {% block bottom_scripts%}
+
+<!-- axios -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
 <script>
   
   const AUTH_USER = "{{current_user['username']}}";
@@ -165,9 +170,8 @@
 
   const submit = document.querySelector('#submit')
   submit.addEventListener('click', async () => {
-
   axios.post("http://127.0.0.1:5008/api/v1/feedback/create_feedback", {
-          "feedbackID": feedbackID,
+          // "feedbackID": feedbackID,
           "username": document.getElementById("username").value,
           "email": document.getElementById("email").value,
           "phoneNo": document.getElementById("phoneNo").value,
@@ -180,13 +184,17 @@
             document.getElementById("success").innerHTML = response.data.data.status
             // success.style.display = 'block';
           })
-          .catch(function (error) {
-            console.log(error);
-          })
+        .catch(function (error) {
+          console.log(error);
+          
+        })
 
         });
 
 </script>
+
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="{{ url_for('static', filename='agora_rtm/index.js') }}"></script>
