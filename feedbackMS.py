@@ -100,3 +100,6 @@ def create_feedback():
             "data": feedback.json()
         }
     ), 201
+
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", debug=True, port=5008)
