@@ -107,11 +107,11 @@
         const address = document.querySelector('#PAddress').value;
         const phone = document.querySelector('#PPhone').value;
         axios.post('http://127.0.0.1:5001/api/v1/passenger/add_new_passenger', {
-          PName: name,
-          PUserName: username,
-          PAge: age,
-          PGender: gender,
-          PEmail: email,
+          PName: document.getElementById("name").value,
+          PUserName: document.getElementById("name").value,
+          PAge: document.getElementById("name").value,
+          PGender: document.getElementById("gender").selected,
+          PEmail: document.getElementById("name").value,
           PPassword: password,
           PAddress: address,
           PPhone: phone,
