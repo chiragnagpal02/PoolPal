@@ -162,19 +162,19 @@
   <script>
     let passengerId = 1;
     // get passenger info
-    axios.get(`http://127.0.0.1:5001/api/v1/get_passenger_by_id/${passengerId}`)
+    axios.get(`http://127.0.0.1:5001/api/v1/passenger/get_passenger_by_id/${passengerId}`)
       .then((response) => {
         console.log(response.data);
         var passenger = response.data.data.passenger;
 
-        document.getElementById('name').innerHTML = passenger.PName;
-        document.getElementById('username').innerHTML = passenger.PUserName;
-        document.getElementById('gender').innerHTML = passenger.PGender;
-        document.getElementById('age').innerHTML = passenger.PAge;
-        document.getElementById('email').innerHTML = passenger.PEmail;
-        document.getElementById('phoneNo').innerHTML = passenger.PPhone;
-        document.getElementById('address').innerHTML = passenger.PAddress;
-        document.getElementById('creation').innerHTML = passenger.PAccount_Created_At;
+        document.getElementById('name').value = passenger.PName;
+        document.getElementById('username').value = passenger.PUserName;
+        document.getElementById('gender').selected = passenger.PGender;
+        document.getElementById('age').value = passenger.PAge;
+        document.getElementById('email').value = passenger.PEmail;
+        document.getElementById('phoneNo').value = passenger.PPhone;
+        document.getElementById('address').value = passenger.PAddress;
+        document.getElementById('creation').value = passenger.PAccount_Created_At;
       })
       .catch((error) => {
         console.log(error);

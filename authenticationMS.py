@@ -72,9 +72,11 @@ def callback():
     if response.status_code == 200:
         role = response.json()['data']['Role']
         if role == "Driver":
-            return render_template("driver/driverHomepage.html", email=session['email'], id_info=session['id_info'], name=session['name'], picture=session['picture'])
+            return render_template("driver/dHome.html", email=session['email'], id_info=session['id_info'], name=session['name'], picture=session['picture'])
+        
         elif role == "Passenger":
             return render_template("passenger/passengerHomepage.html", email=session['email'], id_info=session['id_info'], name=session['name'], picture=session['picture'])
+        
         else: #admin
             return render_template("admin/adminHomepage.html", email=session['email'], id_info=session['id_info'], name=session['name'], picture=session['picture'])
 

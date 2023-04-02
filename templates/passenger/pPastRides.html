@@ -135,6 +135,7 @@
       })
         .then(response => {
           console.log(response);
+          alert("Review has been submitted.")
         })
         .catch(error => {
           console.log(error);
@@ -170,7 +171,7 @@
               carpoolData += `<b>End Location:</b> ${carpools[i].CPEndLocation}<br>`
               carpoolData += `<b>Date and Time:</b> ${carpools[i].DateTime} <br>`
               carpoolData += `<b>Price ($):</b> ${carpools[i].PassengerPrice}<br>`
-              carpoolData += `<b>Driver:</b> ${carpools[i].DID}`
+              carpoolData += `<b>Driver:</b> ${carpools[i].driver.DName}`
               carpoolData += `</p>`
               // review
               carpoolData += `<div class="d-flex justify-content-center">`
