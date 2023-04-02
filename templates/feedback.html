@@ -175,11 +175,11 @@ html, body {
                                 <div class="alert alert-danger" id="feedback-fail" style="display: none;">Feedback Submit Unsuccessful.</div>
                                 <div class="form-group">
                                   <label for="nameInput">Name: </label>
-                                  <input type="text" class="form-control" id="nameInput" value="{{ current_user.username }}" name="nameInput" placeholder="Enter name" required>
+                                  <input type="text" class="form-control" id="nameInput" value="" name="nameInput" placeholder="Enter name" required>
                                 </div>
                                 <div class="form-group">
                                   <label for="emailInput">Email: </label>
-                                  <input type="email" class="form-control" id="emailInput" value="{{ current_user.email }}" name="emailInput" placeholder="Enter email">
+                                  <input type="email" class="form-control" id="emailInput" value="" name="emailInput" placeholder="Enter email">
                                 </div>
                           
                                 <div class="form-group">
@@ -202,12 +202,20 @@ html, body {
                                   <label for="feedbackDesc">Message:</label>
                                   <textarea class="form-control" id="feedbackDesc" name="feedbackDesc" rows="3"></textarea>
                                 </div>
+
+                                <!-- <div class="form-group">
+                                    <label for="resolved"> Dispute Resolved?:</label>
+                                    <input type="radio" name="option" value="option3">
+                                    <input type="radio" name="option" value="option3">
+
+                                </div> -->
+
                             </div>
                               Dispute Resolved?
                               <!-- If resolved, kill page -->
                               <button type="button" onclick="window.close();" class="btn btn-secondary" data-dismiss="modal">Yes</button>
                               <!-- else refund -->
-                              <button type="submit" class="btn btn-primary">No</button>
+                              <button type="submit" class="btn btn-primary">submit</button>
                             </form>
 
 
