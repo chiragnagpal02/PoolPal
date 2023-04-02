@@ -79,7 +79,6 @@ def index():
     return render_template("login.html")
 
 
-
 @app.route("/protected_area")
 @login_is_required
 def protected_area():

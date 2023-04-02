@@ -25,7 +25,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mx-auto">
+        <ul class="navbar-nav mx-auto  mb-lg-0">
           <li class="nav-item">
             <a href="driverHomepage.html" class="nav-link routing">Home</a>
           </li>
@@ -38,9 +38,24 @@
           <li class="nav-item">
             <a href="driverRides.html" class="nav-link routing">Ride History</a>
           </li>
+          {% if session.get('google_id') %}
           <li class="nav-item">
-            <a href="driverProfile.html" class="nav-link routing">Profile</a>
+            <a href="driverProfile.html" class="nav-link routing">
+              <img src="{{ picture }}" alt="MY PICTURE">
+            </a>
           </li>
+          <li class="nav-item">
+            <a href="driverProfile.html" class="nav-link routing">
+              <button class="btn bg-white btn-sm btn-outline-dark">Log Out</button>
+            </a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a href="/" class="nav-link routing">
+              <button class="btn bg-white btn-sm btn-outline-dark">Login</button>
+            </a>
+          </li>
+          {% endif %}
         </ul>
       </div>
     </div>
