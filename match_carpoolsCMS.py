@@ -13,7 +13,7 @@ app = Flask(__name__)
 CORS(app)
 
 
-THRESHOLD_DISTANC_KMS = 1
+THRESHOLD_DISTANC_KMS = 5
 
 CARPOOLS_URL = 'http://127.0.0.1:5002/api/v1/carpool/get_all_carpools'
 CARPEOPLE_URL = 'http://127.0.0.1:5010/api/v1/carpeople/get_all_passengers'
@@ -37,7 +37,7 @@ def get_all_existing_carpools(start_lat, start_lng, end_lat, end_lng, formatted_
     passenger_start_coords = (start_lat, start_lng)
     passenger_end_coords = (end_lat, end_lng)
     passenger_start_time = datetime.strptime(start_time_str, "%H:%M:%S").time()
-    print(passenger_start_time)
+    # print(passenger_start_time)
 
     carpools = response.json()['data']['carpools']
 
@@ -71,6 +71,8 @@ def get_all_existing_carpools(start_lat, start_lng, end_lat, end_lng, formatted_
 
         start_distance = match_carpools(start_coords, passenger_start_coords)
         end_distance = match_carpools(end_coords, passenger_end_coords)
+
+        print(start_distance, end_distance)
 
         # print(f"CARPOOL DATE - {to_compare_date}")
         # print(f"PASSENGER DATE - {formatted_date}")
@@ -109,25 +111,45 @@ def get_matching_carpools():
     time = request.json.get('time')
     date = request.json.get('date')
     PID = request.json.get('PID')
+    print(start_lat, start_lng, end_lat, end_lng, time, date, PID)
 
+    if start_lat is None or start_lng is None or end_lat is None or end_lng is None:
+        return jsonify(
+            {
+                "error": "Missing required fields"
+            }
+        )
 
-    print(date)
+    
+    # print(date)
 
     formatted_date = datetime.strptime(date, "%Y-%m-%d")
 
     date_final = formatted_date.date()
 
-    print(time)
+    # print(time)
 
     carpools = get_all_existing_carpools(float(start_lat), float(start_lng), float(end_lat), float(end_lng), date_final, time, PID)
 
+    # print(carpools)
+
+    if len(carpools) == 0:
+        return jsonify(
+            {
+                "error": "No matching carpools found"
+            }
+        )
+    print(carpools)
+
     for carpool in carpools:
+       
         DID = carpool['DID']
-        url = DRIVER_URL + DID
+        # print(DID)
+        url = DRIVER_URL + str(DID)
         driver_details = requests.get(url).json()['data']['driver']
         carpool['driver'] = driver_details
 
-    print(carpools)
+    
 
     return jsonify(
         {
