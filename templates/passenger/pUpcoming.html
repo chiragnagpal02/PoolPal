@@ -11,7 +11,7 @@
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
   <!-- page name -->
-  <title>Upcoming Rides</title>
+  <title>Passenger Upcoming Rides</title>
 
   <!-- css -->
   <style>
@@ -51,7 +51,7 @@
     <div class="container-fluid">
 
       <!-- logo -->
-      <a href="passengerHomepage.html" class="navbar-brand mx-2 routing">
+      <a href="pHome.html" class="navbar-brand mx-2 routing">
         <img src="../../static/logo.png" alt="Logo" width="50" height="50" class="d-inline-block align-text-top">
       </a>
 
@@ -61,19 +61,25 @@
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mx-auto">
+      <div class="collapse navbar-collapse justify-content-end align-items-center" id="navbarNav">
+        <ul class="navbar-nav">
           <li class="nav-item">
-            <a href="passengerHomepage.html" class="nav-link routing">Home</a>
+            <a href="pHome.html" class="nav-link routing">Home</a>
           </li>
           <li class="nav-item">
-            <a href="passengerRideOffers.html" class="nav-link routing">Ride Offers</a>
+            <a href="pFindCarpool.html" class="nav-link routing">Find Carpool</a>
           </li>
           <li class="nav-item">
-            <a href="passengerRides.html" class="nav-link routing">Ride History</a>
+            <a href="pUpcoming.html" class="nav-link routing">Upcoming Rides</a>
           </li>
           <li class="nav-item">
-            <a href="passengerProfile.html" class="nav-link routing">Profile</a>
+            <a href="pPastRides.html" class="nav-link routing">Ride History</a>
+          </li>
+          <li class="nav-item">
+            <a href="pProfile.html" class="nav-link routing">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a href="/logout" class="nav-link routing"><button class="btn btn-sm btn-outline-dark">Log Out</button></a>
           </li>
         </ul>
       </div>
@@ -89,7 +95,7 @@
       No Upcoming Rides
       <div class="d-flex justify-content-center">
         <button type="submit" class="btn btn-outline-dark m-3  w-50">
-          <a href="passengerRideOffers.html" class="routing">Book A Ride</a>
+          <a href="pFindCarpool.html" class="routing">Book A Ride</a>
         </button>
       </div>
     </div>
@@ -105,7 +111,7 @@
 
     // remove passenger
     function removePassenger(cpid, did) {
-      axios.delete(`http://127.0.0.1:5010/api/v1/carpeople/remove_passenger/${CPID}/${DID}/${PID}`)
+      axios.delete(`http://127.0.0.1:5010/api/v1/carpeople/remove_passenger/${cpid}/${did}/${pid}`)
         .then(response => {
           console.log(response);
           window.location.reload();
@@ -127,51 +133,41 @@
         });
     }
 
-    // get carpeople by pid then get carpool with cpid
-    axios.get(`http://127.0.0.1:5010/api/v1/carpeople/get_all_by_PID/${pid}`)
-      .then(function (response3) {
-        console.log(response3.data)
-
-        if (response3.data.length != 0) {
+    axios.get(`http://127.0.0.1:5700/get_carpools_by_passenger/${pid}`)
+      .then(function (response) {
+        console.log(response.data)
+        if (response.data.length != 0) {
+          var carpools = response.data;
           var carpoolData = '';
-          for (var k = 0; k < response3.data.length; k++) {
-            axios.get(`http://127.0.0.1:5002/api/v1/carpool/get_carpool_by_id/${response3.data[k].CPID}`)
-              .then(function (response4) {
-                console.log(response4.data.data.carpool.Status);
-                var carpools = response4.data.data.carpool;
-                if (carpools.Status == "Active") {
-                  // carpool details
-                  carpoolData += `<div class="row my-4">`
-                  carpoolData += `<div class="card pb-4">`
-                  carpoolData += `<p class="card-text p-4 pb-2" style="text-align:left;">`
-                  carpoolData += `<b>Start Location:</b> ${carpools.CPStartLocation}<br>`
-                  carpoolData += `<b>End Location:</b> ${carpools.CPEndLocation}<br>`
-                  carpoolData += `<b>Date and Time:</b> ${carpools.DateTime} <br>`
-                  carpoolData += `<b>Price ($):</b> ${carpools.PassengerPrice}<br>`
-                  carpoolData += `<b>Driver</b> `
-                  carpoolData += `</p>`
-                  // cancel --> remove passenger
-                  carpoolData += `<div class="d-flex justify-content-center">`
-                  carpoolData += `<button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100" onclick="removePassenger(${carpools.CPID}, ${carpools.DID})">Cancel</button>`
-                  carpoolData += `</div>`
-                  // dispute
-                  carpoolData += `<div class="d-flex justify-content-center">`
-                  carpoolData += `<button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100 p-0"><a href="http://127.0.0.1:8001/auth/login" target="_blank" class="nav-link routing">Open Dispute Ticket</a></button>`
-                  carpoolData += `</div>`
-                  // end trip --> change to inactive
-                  carpoolData += `<div class="d-flex justify-content-center">`
-                  carpoolData += `<button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100" onclick="endCarpool(${carpools.CPID})">End Carpool</button>`
-                  carpoolData += `</div>`
-                  carpoolData += `</div>`
-                  carpoolData += `</div>`
-                }
-              })
-              .catch(function (error) {
-                // handle errors here
-                console.log(error);
-              });
+          for (var i = 0; i < carpools.length; i++) {
+            if (carpools[i].Status == "Active") {
+              // carpool details
+              carpoolData += `<div class="row my-4">`
+              carpoolData += `<div class="card pb-4">`
+              carpoolData += `<p class="card-text p-4 pb-2" style="text-align:left;">`
+              carpoolData += `<b>Start Location:</b> ${carpools[i].CPStartLocation}<br>`
+              carpoolData += `<b>End Location:</b> ${carpools[i].CPEndLocation}<br>`
+              carpoolData += `<b>Date and Time:</b> ${carpools[i].DateTime} <br>`
+              carpoolData += `<b>Price($):</b> ${carpools[i].PassengerPrice}<br>`
+              carpoolData += `<b>Driver:</b> ${carpools[i].driver.DName}`
+              carpoolData += `</p>`
+              // cancel
+              carpoolData += `<div class="d-flex justify-content-center">`
+              carpoolData += `<button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100" onclick="removePassenger(${carpools[i].CPID}, ${carpools[i].DID})">Cancel</button>`
+              carpoolData += `</div>`
+              // dispute
+              carpoolData += `<div class="d-flex justify-content-center">`
+              carpoolData += `<button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100 p-0"><a href="http://127.0.0.1:8001/auth/login" target="_blank" class="nav-link routing">Open Dispute Ticket</a></button>`
+              carpoolData += `</div>`
+              // end trip --> change to inactive
+              carpoolData += `<div class="d-flex justify-content-center">`
+              carpoolData += `<button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100" onclick="endCarpool(${carpools[i].CPID})">End Carpool</button>`
+              carpoolData += `</div>`
+              carpoolData += `</div>`
+              carpoolData += `</div>`
+            }
+
           }
-          console.log(carpoolData)
           if (carpoolData != '') {
             document.getElementById("upcomingRides").innerHTML = carpoolData;
           }
