@@ -7,30 +7,24 @@ import json
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://poolpal@localhost:3306/PoolPal'
-
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 299}
 
-db = SQLAlchemy(app)
 
+db = SQLAlchemy(app)
 CORS(app)
 
 class Feedback(db.Model):
     __tablename__ = 'feedback'
 
-    id = db.Column(db.Integer, autoincrement=True)
-    username = db.Column(db.String(64), nullable=False)
-    email = db.Column(db.String(64), nullable=False)
-    phoneNo = db.Column(db.Integer, nullable=False)
-    rating = db.Column(db.Integer, nullable=False)
-    feedbackDesc = db.Column(db.String(256), nullable=False)
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
+    username = db.Column(db.String(64))
+    email = db.Column(db.String(64))
+    phoneNo = db.Column(db.Integer)
+    rating = db.Column(db.Integer)
+    feedbackDesc = db.Column(db.String(256))
 
 
-    __table_args__ = (
-            db.PrimaryKeyConstraint('id', 'email'),
-            {},
-    
-    )
 
     def __init__(self, username, email, phoneNo, rating, feedbackDesc):
             self.username = username
@@ -57,13 +51,23 @@ def home():
 
 @app.route('/api/v1/feedback/create_feedback', methods=['POST'])
 def create_feedback():
-    # form_data = json.loads(list(request.form.keys())[0])
-    username = request.json.get('nameInput')
-    email = request.json.get('emailInput')
-    phone_number = request.json.get('phoneNoInput')
-    rating = request.json.get('ratingInput')
-    feedbackDesc = request.json.get('feedbackDesc')
+    id = request.get_json()['id']
+    username = request.json.get()['nameInput']
+    email = request.json.get()['emailInput']
+    phoneNo = request.json.get()['phoneNoInput']
+    rating = request.json.get()['ratingInput']
+    feedbackDesc = request.json.get()['feedbackDesc']
     
+    new_feedback = Feedback(
+        id,
+        username,
+        email,
+        phoneNo,
+        rating,
+        feedbackDesc
+    )
+
+
     existing_feedback = Feedback.query.filter_by(email=email).first()
     if existing_feedback:
         return jsonify({
@@ -71,22 +75,17 @@ def create_feedback():
             "message": "Feedback already exists."
         }), 400
 
-    new_feedback = Feedback(
-        username,
-        email,
-        phone_number,
-        rating,
-        feedbackDesc
-    )
-
+    
 
     db.session.add(new_feedback)
     db.session.commit()
 
-    return {
+    return jsonify(
+         {
         "code": 201,
-        "data": new_feedback
-    }
+        "data": new_feedback.json()
+        }
+    )
 
 
 
