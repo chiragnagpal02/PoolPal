@@ -21,6 +21,9 @@
     integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
     crossorigin="anonymous"></script>
 
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAu5xYBC5OCuZImTFY1xt81NdOnhP0IB_g&callback=initMap"></script>
+
   <!-- page name -->
   <title>Driver Create Carpool</title>
 
@@ -301,7 +304,7 @@
       const success = document.querySelector("#success")
 
       offer.addEventListener('click', async () => {
-        event.preventDefault();
+
         // calculating passenger price
         var totalPrice = document.getElementById("totalprice").value;
         var capacity = document.getElementById("capacity").value;
@@ -332,6 +335,7 @@
           .then(function (response) {
             console.log(response);
             // route and map appear when button is clicked
+      
             console.log(response.data.data.status)
             document.getElementById("success").innerHTML = response.data.data.status
             success.style.display = 'block';
@@ -341,9 +345,7 @@
           })
 
       });
-
     </script>
-    
 
     <!-- axios -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
