@@ -53,8 +53,8 @@
                 <label for="DGender">Gender:</label>
                 <select class="form-control" id="gender" required>
                   <option value="">--Select Gender--</option>
-                  <option value="M">Male</option>
-                  <option value="F">Female</option>
+                  <option value="M">M</option>
+                  <option value="F">F</option>
                 </select>
               </div>
               <div class="form-group">
@@ -79,8 +79,8 @@
               </div>
               <div class="form-group">
                 <label for="DLicenseExpiration">License Expiration:</label>
-                <input type="date" class="form-control" id="licenseExpiration" placeholder="Enter license expiration"
-                  required>
+                <input type="date" class="form-control" id="licenseExpiration"
+                  placeholder="Enter license expiration" required>
               </div>
               <div class="form-group">
                 <label for="DCar">Car:</label>
@@ -90,8 +90,8 @@
                 <label for="DCapacity">Capacity:</label>
                 <input type="number" class="form-control" id="capacity" placeholder="Enter capacity" required>
               </div>
-              <button type="submit" class="btn btn-outline-dark mt-3 mb-3 w-100">Submit</button>
-              <a href="login.html" class="btn btn-outline-dark mt-3 mb-3 w-100">Go to Login</a>
+              <button type="submit" id="submit" class="btn btn-outline-dark mt-3 mb-3 w-100">
+                Submit</button>
             </form>
           </div>
         </div>
@@ -100,89 +100,37 @@
   </div>
 
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const driverForm = document.querySelector('#driver-form');
-      driverForm.addEventListener('submit', function (event) {
-        event.preventDefault();
-        const name = document.querySelector('#DName').value;
-        const gender = document.querySelector('#DGender').value;
-        const email = document.querySelector('#DEmail').value;
-        const password = document.querySelector('#DPassword').value;
-        const vehicleNo = document.querySelector('#DVehicleNo').value;
-        const licenseNo = document.querySelector('#DLicenseNo').value;
-        const phoneNo = document.querySelector('#DPhoneNo').value;
-        const licenseExpiration = document.querySelector('#DLicenseExpiration').value;
-        const car = document.querySelector('#DCar').value;
-        const capacity = document.querySelector('#DCapacity').value;
-        axios.post('http://127.0.0.1:5000/api/v1/driver/add_driver', {
-          DName: name,
-          DGender: gender,
-          DEmail: email,
-          DPassword: password,
-          DVehicleNo: vehicleNo,
-          DLicenseNo: licenseNo,
-          DPhoneNo: phoneNo,
-          DLicenseExpiration: licenseExpiration,
-          DCar: car,
-          DCapacity: capacity
-        })
-          .then(function (response) {
-            console.log(response);
-            alert("Driver added successfully.");
-          })
-          .catch(function (error) {
-            console.log(error);
-            alert("An error occurred while adding the driver.");
-          });
-      });
-    });
 
-    // get details
-    axios.get(`http://127.0.0.1:5000/api/v1/driver/get_driver_by_id/${did}`)
-      .then(function (response) {
-        console.log(response);
-        var driver = response.data.data.driver;
-        document.getElementById("name").value = driver.DName;
-        document.getElementById("gender").selected = driver.DGender;
-        document.getElementById("email").value = driver.DEmail;
-        document.getElementById("password").value = driver.DPassword;
-        document.getElementById("phone").value = driver.DPhone;
-        document.getElementById("vehicleNo").value = driver.DVehicleNo;
-        document.getElementById("licenseNo").value = driver.DLicenseNo;
-        document.getElementById("licenseExpiration").value = driver.DLicenseExpiration;
-        document.getElementById("car").value = driver.DCar;
-        document.getElementById("capacity").value = driver.DCapacity;
-        
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+  <script>
+    document.getElementById("name").value = "{{ name }}"
+    document.getElementById("email").value = "{{ email }}"
 
     // updating passenger
-    const button = document.querySelector('#submit');
-    submit.addEventListener('click', () => {
+    const form = document.getElementById('driver-form');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
       axios.post('http://127.0.0.1:5000/api/v1/driver/add_driver', {
         DName: document.getElementById("name").value,
-        DGender: document.getElementById("gender").selected,
+        DGender: document.getElementById("gender").value,
         DEmail: document.getElementById("email").value,
         DPassword: document.getElementById("password").value,
-        DPhoneNo: document.getElementById("phone").value,
+        DPhoneNo: document.getElementById("phone"),
         DVehicleNo: document.getElementById("vehicleNo").value,
         DLicenseNo: document.getElementById("licenseNo").value,
         DLicenseExpiration: document.getElementById("licenseExpiration").value,
         DCar: document.getElementById("car").value,
         DCapacity: document.getElementById("capacity").value
-      
+
       })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+        .then(function (response) {
+          console.log(response);
+          window.location.replace("/login");
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     });
+    
   </script>
 </body>
 

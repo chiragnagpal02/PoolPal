@@ -59,8 +59,8 @@
                 <label for="PGender">Gender:</label>
                 <select class="form-control" id="gender" required>
                   <option value="">--Select Gender--</option>
-                  <option value="M">Male</option>
-                  <option value="F">Female</option>
+                  <option value="M">M</option>
+                  <option value="F">F</option>
                 </select>
               </div>
               <div class="form-group">
@@ -77,9 +77,9 @@
               </div>
               <div class="form-group">
                 <label for="PPhone">Phone Number:</label>
-                <input type="tel" class="form-control" id="phone" placeholder="Enter phone number" required>
+                <input type="number" class="form-control" id="phone" placeholder="Enter phone number" required>
               </div>
-              <button id="submit" class="btn btn-outline-dark mt-3 mb-3 w-100">Sign Up</button>
+              <button type="submit" id="submit" class="btn btn-outline-dark mt-3 mb-3 w-100">Sign Up</button>
             </form>
           </div>
         </div>
@@ -89,32 +89,19 @@
 
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script>
-    // get details
-    axios.get(`http://127.0.0.1:5001/api/v1/passenger/get_passenger_by_id/${pid}`)
-      .then(function (response) {
-        console.log(response);
-        var passenger = response.data.data.passenger;
-        document.getElementById("name").value = passenger.PName;
-        document.getElementById("username").value = passenger.PUserName;
-        document.getElementById("age").value = passenger.PAge;
-        document.getElementById("gender").selected = passenger.PGender;
-        document.getElementById("email").value = passenger.PEmail;
-        document.getElementById("password").value = passenger.PPassword
-        document.getElementById("address").value = passenger.PAddress;
-        document.getElementById("phone").value = passenger.PPhone;
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    document.getElementById("name").value = "{{ name }}"
+    document.getElementById("email").value = "{{ email }}"
+    console.log("{{ email }}")
 
     // updating passenger
-    const button = document.querySelector('#submit');
-    submit.addEventListener('click', () => {
+    const form = document.getElementById('passenger-form');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
       axios.post('http://127.0.0.1:5001/api/v1/passenger/add_new_passenger', {
         PName: document.getElementById("name").value,
         PUserName: document.getElementById("username").value,
         PAge: document.getElementById("age").value,
-        PGender: document.getElementById("gender").selected,
+        PGender: document.getElementById("gender").value,
         PEmail: document.getElementById("email").value,
         PPassword: document.getElementById("password").value,
         PAddress: document.getElementById("address").value,
@@ -122,11 +109,10 @@
       })
       .then(function (response) {
         console.log(response);
-        alert("Passenger added successfully.");
+        window.location.replace("/");
       })
       .catch(function (error) {
         console.log(error);
-        alert("An error occurred while adding the passenger.");
       });
     });
   </script>
