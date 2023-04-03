@@ -114,11 +114,12 @@
       axios.delete(`http://127.0.0.1:5010/api/v1/carpeople/remove_passenger/${cpid}/${did}/${pid}`)
         .then(response => {
           console.log(response);
-          window.location.reload();
+          
+          window.location.href = `/pRefund?cpid=${cpid}`;
         })
         .catch(error => {
           console.log(error);
-        });
+        });     
     }
 
     // create dispute

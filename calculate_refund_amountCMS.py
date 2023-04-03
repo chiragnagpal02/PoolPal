@@ -1,8 +1,19 @@
-from flask import Flask, request, jsonify, redirect
+from flask import Flask, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
+from os import environ
+import os, sys
 import requests
 from geopy.distance import geodesic
 
+
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://poolpal@localhost:3306/PoolPal'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 299}
+
+db = SQLAlchemy(app)
+CORS(app)
 
 CARPOOL_API_BASE_URL = 'http://127.0.0.1:5002/api/v1/carpool'
 # PROCESS_REFUND_API_URL = 'http://127.0.0.1:5120/api/v1/process_refund'
