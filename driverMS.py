@@ -12,7 +12,7 @@ import json
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://poolpal@localhost:3306/PoolPal'
+app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL') or 'mysql+mysqlconnector://poolpal@localhost:8889/PoolPal'
 # app.config['SQLALCHEMY_DATABASE_URI'] = environ.get("dbURL")
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 299}
 
@@ -73,7 +73,6 @@ def home():
     return render_template("templates/driver/driverSignUp.html")
     
 @app.route('/api/v1/driver/get_all_drivers')
-
 def get_all_drivers(): 
     drivers = Driver.query.all()
 
