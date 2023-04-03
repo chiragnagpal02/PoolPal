@@ -90,7 +90,24 @@
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script>
     // get details
-    axios.get()
+    axios.get(`http://127.0.0.1:5001/api/v1/passenger/get_passenger_by_id/${pid}`)
+      .then(function (response) {
+        console.log(response);
+        var passenger = response.data.data.passenger;
+        document.getElementById("name").value = passenger.PName;
+        document.getElementById("username").value = passenger.PUserName;
+        document.getElementById("age").value = passenger.PAge;
+        document.getElementById("gender").selected = passenger.PGender;
+        document.getElementById("email").value = passenger.PEmail;
+        document.getElementById("password").value = passenger.PPassword
+        document.getElementById("address").value = passenger.PAddress;
+        document.getElementById("phone").value = passenger.PPhone;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    // updating passenger
     const button = document.querySelector('#submit');
     submit.addEventListener('click', () => {
       axios.post('http://127.0.0.1:5001/api/v1/passenger/add_new_passenger', {
@@ -103,14 +120,14 @@
         PAddress: document.getElementById("address").value,
         PPhone: document.getElementById("phone").value,
       })
-        .then(function (response) {
-          console.log(response);
-          alert("Passenger added successfully.");
-        })
-        .catch(function (error) {
-          console.log(error);
-          alert("An error occurred while adding the passenger.");
-        });
+      .then(function (response) {
+        console.log(response);
+        alert("Passenger added successfully.");
+      })
+      .catch(function (error) {
+        console.log(error);
+        alert("An error occurred while adding the passenger.");
+      });
     });
   </script>
 </body>
