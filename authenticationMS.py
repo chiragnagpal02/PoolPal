@@ -144,8 +144,7 @@ def dUpcoming():
 # passenger
 @app.route("/pSignUp")
 def psignup():
-    PID = session['passenger_id']
-    return render_template("passenger/pSignUp.html", PID=PID)
+    return render_template("passenger/pSignUp.html")
 
 @app.route("/pFindCarpool")
 def pFindCarpool():
