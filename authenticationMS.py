@@ -11,7 +11,7 @@ import google.auth.transport.requests
 app = Flask("Google Login App")
 app.secret_key = "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" # make sure this matches with that's in client_secret.json
 USERMS_URL = "http://127.0.0.1:5016/api/v1/user"
-DRIVER_URL = "http://127.0.0.1:5000/api/v1/driver/api/v1/driver/get_driver_by_email/"
+DRIVER_URL = "http://127.0.0.1:5000/api/v1/driver/get_driver_by_email/"
 PASSENGER_URL = "http://127.0.0.1:5001/api/v1/passenger/get_passenger_by_email/"
 
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1" # to allow Http traffic for local dev
