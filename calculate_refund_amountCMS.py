@@ -5,7 +5,7 @@ from geopy.distance import geodesic
 app = Flask(__name__)
 
 CARPOOL_API_BASE_URL = 'http://127.0.0.1:5002/api/v1/carpool'
-PROCESS_REFUND_API_URL = 'http://127.0.0.1:5120/api/v1/process_refund'
+# PROCESS_REFUND_API_URL = 'http://127.0.0.1:5120/api/v1/process_refund'
 
 def get_carpool_distance(CPID):
     # payload = {
@@ -72,10 +72,10 @@ def calculate_distance(start_lat, start_long, end_lat, end_long):
     return geodesic(starting_coordinates, ending_coordinates).km
 
 
-@app.route('/api/v1/calculate_refund_amount/<int:CPID>/<int:PID>/<end_lat>,<end_long>', methods=['GET'])
-def calculate_refund_amount(CPID, PID, end_lat, end_long):
+@app.route('/api/v1/calculate_refund_amount/<int:CPID>/<end_lat>,<end_long>', methods=['GET'])
+def calculate_refund_amount(CPID, end_lat, end_long):
 
-    refunded_process_status = False
+    # refunded_process_status = False
     
     # Calculates travelled distance
     travelled_distance = get_travelled_distance(CPID, end_lat, end_long)
@@ -85,17 +85,22 @@ def calculate_refund_amount(CPID, PID, end_lat, end_long):
     passenger_price = int(get_passenger_price(CPID))
 
     refunded_price = (travelled_distance/carpool_distance) * passenger_price
+    
+    return jsonify({
+        'price': refunded_price
+        # 'status': refunded_process_status
+    })
 
-    url = f"{PROCESS_REFUND_API_URL}/{refunded_price}/{CPID}/{PID}"
+    # url = f"{PROCESS_REFUND_API_URL}/{refunded_price}/{CPID}/{PID}"
 
-    response = requests.get(url)
+    # response = requests.get(url)
 
-    if response.status_code == 200:
-    # process the response data
-        refunded_process_status = True
-    else:
-        # handle the error
-        print('Error:', response.status_code)
+    # if response.status_code == 200:
+    # # process the response data
+    #     refunded_process_status = True
+    # else:
+    #     # handle the error
+    #     print('Error:', response.status_code)
 
 
     # call here to that process CMS and then get a status as a reponse - 
@@ -103,41 +108,6 @@ def calculate_refund_amount(CPID, PID, end_lat, end_long):
     # if status == "Success":
     #     return jsonify({
     #             "price": refunded_price
-
-    return jsonify({
-        'price': refunded_price,
-        'status': refunded_process_status
-    })
-
-
-# calculate the price + initiate refund from stripe payment
-
-# takes in the CPID + coordinates of where the person gets off -> calls the carpool MS for the total coordinates
-
-
-
-'''
-get <start_lat>,<start_long>/<end_lat>,<end_long> from carpool MS by inputting MS
-
-this for total distance of carpool 
-@app.route("/api/v1/calculate_price_between_points/<start_lat>,<start_long>/<end_lat>,<end_long>", methods=['GET'])
-def get_price_between_points(start_lat, start_long, end_lat, end_long):
-    return a = calculate_distance(start_lat, start_long, end_lat, end_long)
-
-this is travelled distance before refund
-@app.route("/api/v1/calculate_price_between_points/<start_lat>,<start_long>/<end_lat_of_pass>,<end_long_of_pass>", methods=['GET'])
-def get_price_between_points(start_lat, start_long, end_lat, end_long):
-    return b = calculate_distance(start_lat, start_long, end_lat, end_long)
-
-also need to get passenger_price from carpool MS 
-
-refunded_price = (b/a)*passenger_price
-
-return refunded_price
-
-# SEPERATE MS - 
-call the refund payments once in payments MS and give intent ID + amount which you get from here. 
-'''
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=5115)
