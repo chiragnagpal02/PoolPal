@@ -12,7 +12,7 @@ app = Flask("Google Login App")
 app.secret_key = "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" # make sure this matches with that's in client_secret.json
 USERMS_URL = "http://127.0.0.1:5016/api/v1/user"
 DRIVER_URL = "http://127.0.0.1:5000/api/v1/driver/api/v1/driver/get_driver_by_email/"
-PASSENGER_URL = "http://127.0.0.1:5001/api/v1/passenger/api/v1/passenger/get_passenger_by_email/"
+PASSENGER_URL = "http://127.0.0.1:5001/api/v1/passenger/get_passenger_by_email/"
 
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1" # to allow Http traffic for local dev
 
@@ -84,8 +84,9 @@ def callback():
             content = f"{PASSENGER_URL}{email_id}"
             response = requests.get(content).json()['data']['passenger']['PID']
             session['passenger_id'] = response
+            print()
 
-            return render_template("passenger/pHome.html", PID=session['passenger_ID'], email=session['email'], id_info=session['id_info'], name=session['name'], picture=session['picture'])
+            return render_template("passenger/pHome.html", PID=session['passenger_id'], email=session['email'], id_info=session['id_info'], name=session['name'], picture=session['picture'])
 
     else:
         return render_template("signup.html")
