@@ -176,28 +176,20 @@ INSERT INTO `User` (`Email`,`Role`) VALUES ('adam@gmail.com','Passenger');
 --
 
 CREATE TABLE IF NOT EXISTS dispute (
-  id INTEGER AUTO_INCREMENT,
-  email varchar(64) NOT NULL,
-  username varchar(64) NOT NULL,
-  password_hash varchar(64) NOT NULL,
-  PRIMARY KEY (id)
+  disputeID INTEGER AUTO_INCREMENT,
+  Amount int NOT NULL,
+  CPID int NOT NULL,
+  PID int NOT NULL,
+  DID int NOT NULL,
+  PRIMARY KEY (disputeID)
 );
+
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `users for videos`
 --
-
-CREATE TABLE IF NOT EXISTS feedback (
-  feedbackID INTEGER AUTO_INCREMENT,
-  username varchar(64) NOT NULL,
-  email varchar(64) NOT NULL,
-  phoneNo int,
-  rating int,
-  feedbackDesc varchar(256), 
-  PRIMARY KEY (feedbackID)
-);
 
 -- Table structure for table `users for videos`
 --
@@ -262,6 +254,8 @@ ALTER TABLE `staff`
 --
 ALTER TABLE `User`
   ADD PRIMARY KEY (`Email`,`Role`);
+
+--
 
 --
 -- AUTO_INCREMENT for dumped tables

@@ -47,11 +47,11 @@
             <form id="driver-form">
               <div class="form-group">
                 <label for="DName">Name:</label>
-                <input type="text" class="form-control" id="DName" placeholder="Enter name" required>
+                <input type="text" class="form-control" id="name" placeholder="Enter name" required>
               </div>
               <div class="form-group">
                 <label for="DGender">Gender:</label>
-                <select class="form-control" id="DGender" required>
+                <select class="form-control" id="gender" required>
                   <option value="">--Select Gender--</option>
                   <option value="M">Male</option>
                   <option value="F">Female</option>
@@ -59,41 +59,36 @@
               </div>
               <div class="form-group">
                 <label for="DEmail">Email:</label>
-                <input type="email" class="form-control" id="DEmail" placeholder="Enter email" required>
+                <input type="email" class="form-control" id="email" placeholder="Enter email" required>
               </div>
               <div class="form-group">
                 <label for="DPassword">Password:</label>
-                <input type="password" class="form-control" id="DPassword" placeholder="Enter password" required>
-              </div>
-              <div class="form-group">
-                <label for="DConfirmPassword">Confirm Password:</label>
-                <input type="password" class="form-control" id="DConfirmPassword" placeholder="Confirm password"
-                  required>
-              </div>
-              <div class="form-group">
-                <label for="DVehicleNo">Vehicle Number:</label>
-                <input type="text" class="form-control" id="DVehicleNo" placeholder="Enter vehicle number" required>
-              </div>
-              <div class="form-group">
-                <label for="DLicenseNo">License Number:</label>
-                <input type="text" class="form-control" id="DLicenseNo" placeholder="Enter license number" required>
-              </div>
-              <div class="form-group">
-                <label for="DLicenseExpiration">License Expiration:</label>
-                <input type="date" class="form-control" id="DLicenseExpiration" placeholder="Enter license expiration"
-                  required>
+                <input type="password" class="form-control" id="password" placeholder="Enter password" required>
               </div>
               <div class="form-group">
                 <label for="DPhoneNo">Phone Number:</label>
-                <input type="tel" class="form-control" id="DPhoneNo" placeholder="Enter phone number" required>
+                <input type="tel" class="form-control" id="phoneNo" placeholder="Enter phone number" required>
+              </div>
+              <div class="form-group">
+                <label for="DVehicleNo">Vehicle Number:</label>
+                <input type="text" class="form-control" id="vehicleNo" placeholder="Enter vehicle number" required>
+              </div>
+              <div class="form-group">
+                <label for="DLicenseNo">License Number:</label>
+                <input type="text" class="form-control" id="licenseNo" placeholder="Enter license number" required>
+              </div>
+              <div class="form-group">
+                <label for="DLicenseExpiration">License Expiration:</label>
+                <input type="date" class="form-control" id="licenseExpiration" placeholder="Enter license expiration"
+                  required>
               </div>
               <div class="form-group">
                 <label for="DCar">Car:</label>
-                <input type="text" class="form-control" id="DCar" placeholder="Enter car" required>
+                <input type="text" class="form-control" id="car" placeholder="Enter car" required>
               </div>
               <div class="form-group">
                 <label for="DCapacity">Capacity:</label>
-                <input type="number" class="form-control" id="DCapacity" placeholder="Enter capacity" required>
+                <input type="number" class="form-control" id="capacity" placeholder="Enter capacity" required>
               </div>
               <button type="submit" class="btn btn-outline-dark mt-3 mb-3 w-100">Submit</button>
               <a href="login.html" class="btn btn-outline-dark mt-3 mb-3 w-100">Go to Login</a>
@@ -105,6 +100,7 @@
   </div>
 
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const driverForm = document.querySelector('#driver-form');
@@ -140,6 +136,51 @@
             console.log(error);
             alert("An error occurred while adding the driver.");
           });
+      });
+    });
+
+    // get details
+    axios.get(`http://127.0.0.1:5000/api/v1/driver/get_driver_by_id/${did}`)
+      .then(function (response) {
+        console.log(response);
+        var driver = response.data.data.driver;
+        document.getElementById("name").value = driver.DName;
+        document.getElementById("gender").selected = driver.DGender;
+        document.getElementById("email").value = driver.DEmail;
+        document.getElementById("password").value = driver.DPassword;
+        document.getElementById("phone").value = driver.DPhone;
+        document.getElementById("vehicleNo").value = driver.DVehicleNo;
+        document.getElementById("licenseNo").value = driver.DLicenseNo;
+        document.getElementById("licenseExpiration").value = driver.DLicenseExpiration;
+        document.getElementById("car").value = driver.DCar;
+        document.getElementById("capacity").value = driver.DCapacity;
+        
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    // updating passenger
+    const button = document.querySelector('#submit');
+    submit.addEventListener('click', () => {
+      axios.post('http://127.0.0.1:5000/api/v1/driver/add_driver', {
+        DName: document.getElementById("name").value,
+        DGender: document.getElementById("gender").selected,
+        DEmail: document.getElementById("email").value,
+        DPassword: document.getElementById("password").value,
+        DPhoneNo: document.getElementById("phone").value,
+        DVehicleNo: document.getElementById("vehicleNo").value,
+        DLicenseNo: document.getElementById("licenseNo").value,
+        DLicenseExpiration: document.getElementById("licenseExpiration").value,
+        DCar: document.getElementById("car").value,
+        DCapacity: document.getElementById("capacity").value
+      
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
       });
     });
   </script>
