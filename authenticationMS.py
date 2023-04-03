@@ -84,7 +84,7 @@ def callback():
             content = f"{PASSENGER_URL}{email_id}"
             response = requests.get(content).json()['data']['passenger']['PID']
             session['passenger_id'] = response
-            
+
             return render_template("passenger/pHome.html", PID=session['passenger_ID'], email=session['email'], id_info=session['id_info'], name=session['name'], picture=session['picture'])
 
     else:
@@ -112,73 +112,62 @@ def signup():
 
 # driver
 @app.route("/dSignUp")
-@login_is_required
 def dsignup():
     return render_template("driver/dSignUp.html")
 
 @app.route("/dCreateCarpool")
-@login_is_required
 def dCreateCarpool():
     DID = session['driver_id']
     return render_template("driver/dCreateCarpool.html", DID=DID)
 
 @app.route("/dHome")
-@login_is_required
+
 def dHome():
     DID = session['driver_id']
     return render_template("driver/dHome.html", DID=DID)
 
 @app.route("/dPastRides")
-@login_is_required
 def dPastRides():
     DID = session['driver_id']
     return render_template("driver/dPastRides.html", DID=DID)
 
 @app.route("/dProfile")
-@login_is_required
 def dProfile():
     DID = session['driver_id']
     return render_template("driver/dProfile.html", DID=DID)
 
 @app.route("/dUpcoming")
-@login_is_required
 def dUpcoming():
     DID = session['driver_id']
     return render_template("driver/dUpcoming.html", DID=DID)
 
 # passenger
 @app.route("/pSignUp")
-@login_is_required
 def psignup():
     PID = session['passenger_id']
     return render_template("passenger/pSignUp.html", PID=PID)
 
 @app.route("/pFindCarpool")
-@login_is_required
 def pFindCarpool():
     PID = session['passenger_id']
     return render_template("passenger/pFindCarpool.html", PID=PID)
 
 @app.route("/pHome")
-@login_is_required
 def pHome():
     PID = session['passenger_id']
     return render_template("passenger/pHome.html", PID=PID)
 
 @app.route("/pPastRides")
-@login_is_required
 def pPastRides():
     PID = session['passenger_id']
     return render_template("passenger/pPastRides.html", PID=PID)
 
 @app.route("/pProfile")
-@login_is_required
 def pProfile():
     PID = session['passenger_id']
     return render_template("passenger/pProfile.html", PID=PID)
 
 @app.route("/pUpcoming")
-@login_is_required
 def pUpcoming():
     PID = session['passenger_id']
     return render_template("passenger/pUpcoming.html", PID=PID)
