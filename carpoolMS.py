@@ -1,16 +1,16 @@
-from functools import wraps
+# from functools import wraps
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from os import environ
 from flask_cors import CORS
-import validators
+# import validators
 from datetime import datetime
-# import jwt
-import uuid
+# # import jwt
+# import uuid
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://poolpal@localhost:3306/PoolPal'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://poolpal@localhost:8889/PoolPal'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 299}
 
@@ -89,10 +89,9 @@ def add_new_passenger():
     Capacity_remaining = request.json.get('Capacity_remaining')
     
     # Generate a unique ID
-    new_cpid = str(uuid.uuid4())
+    # new_cpid = str(uuid.uuid4())
     
     new_carpool = Carpool(
-        CPID=new_cpid,
         DID=DID, 
         CarpoolPrice=CarpoolPrice,
         DriverFee = DriverFee,
