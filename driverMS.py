@@ -179,7 +179,7 @@ def add_driver():
     DLicenseNo = request.json['DLicenseNo']
     DPhoneNo = request.json['DPhoneNo']
     DLicenseExpiration = request.json['DLicenseExpiration']
-    DLicenseExpiration_Updated = datetime.strptime(DLicenseExpiration, '%Y-%m-%d')
+    DLicenseExpiration_Updated = datetime.strptime(DLicenseExpiration, '%a, %d %b %Y %H:%M:%S %Z')
     DCar = request.json['DCar']
     DCapacity = request.json['DCapacity']
     print(DName, DGender, DEmail, DVehicleNo, DLicenseNo, DPhoneNo, DLicenseExpiration, DCar, DCapacity)
