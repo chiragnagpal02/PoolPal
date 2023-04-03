@@ -176,12 +176,14 @@ INSERT INTO `User` (`Email`,`Role`) VALUES ('adam@gmail.com','Passenger');
 --
 
 CREATE TABLE IF NOT EXISTS dispute (
-  id INTEGER AUTO_INCREMENT,
-  email varchar(64) NOT NULL,
-  username varchar(64) NOT NULL,
-  password_hash varchar(64) NOT NULL,
-  PRIMARY KEY (id)
+  disputeID INTEGER AUTO_INCREMENT,
+  Amount int NOT NULL,
+  CPID int NOT NULL,
+  PID int NOT NULL,
+  DID int NOT NULL,
+  PRIMARY KEY (disputeID)
 );
+
 
 -- --------------------------------------------------------
 
@@ -262,6 +264,8 @@ ALTER TABLE `staff`
 --
 ALTER TABLE `User`
   ADD PRIMARY KEY (`Email`,`Role`);
+
+--
 
 --
 -- AUTO_INCREMENT for dumped tables
