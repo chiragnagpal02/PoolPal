@@ -114,7 +114,9 @@ def signup():
 # driver
 @app.route("/dSignUp")
 def dsignup():
-    return render_template("driver/dSignUp.html")
+    name = session['name']
+    email = session['email']
+    return render_template("driver/dSignUp.html", name=name, email=email)
 
 @app.route("/dCreateCarpool")
 def dCreateCarpool():
@@ -145,7 +147,9 @@ def dUpcoming():
 # passenger
 @app.route("/pSignUp")
 def psignup():
-    return render_template("passenger/pSignUp.html")
+    name = session['name']
+    email = session['email']
+    return render_template("passenger/pSignUp.html", name=name, email=email) 
 
 @app.route("/pFindCarpool")
 def pFindCarpool():
