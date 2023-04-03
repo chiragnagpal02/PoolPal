@@ -176,5 +176,10 @@ def pUpcoming():
     PID = session['passenger_id']
     return render_template("passenger/pUpcoming.html", PID=PID)
 
+@app.route("/pRefund")
+def refund():
+    PID = session['passenger_id']
+    return render_template("passenger/pRefund.html", PID=PID)
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5450, debug=True)
