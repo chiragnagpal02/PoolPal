@@ -16,7 +16,10 @@ def process_refund(refundedAmount, CPID, PID):
 
     refund_status = process_refund(intentID, refundedAmount)
 
-    return refund_status
+    return jsonify({
+        'price': refundedAmount,
+        'status': refund_status,
+    })
 
 def get_intentID(CPID,PID):
 
