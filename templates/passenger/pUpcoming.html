@@ -123,12 +123,12 @@
 
     // create dispute
     function addDispute(cpid, did){
-      axios.post(``,{
+      axios.post(`http://127.0.0.1:5125/api/v1/dispute/create_dispute`,{
         CPID:cpid,
         DID: did,
         PID: pid,
         Refund: 0
-      }
+      })
       .then(response => {
           console.log(response);
 

@@ -7,16 +7,12 @@ import requests
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://poolpal@localhost:3306/PoolPal'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://poolpal@localhost:8889/PoolPal'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 299}
 
 db = SQLAlchemy(app)
 CORS(app)
-
-DRIVER_URL = 'http://127.0.0.1:5000/api/v1/driver/get_all_drivers'
-PASSENGER_URL = 'http://127.0.0.1:5001/api/v1/get_all_passengers'
-STAFF_URL = 'http://127.0.0.1:5007/staff'
 
 class Dispute(db.Model):
     __tablename__ = 'dispute'
@@ -42,13 +38,13 @@ class Dispute(db.Model):
             "DID": self.DID,
             }
 
-@app.route('/api/v1/dispute/create_dispute/<int:amount>/<int:CPID>/<int:PID>/<int:DID>', methods=['POST'])
+@app.route('/api/v1/dispute/create_dispute', methods=['POST'])
 def create_dispute(amount,CPID,PID,DID):
     #id = request.get_json()['id']
-    amount = amount
-    CPID = CPID
-    PID = PID
-    DID = DID
+    amount = request.json['amount']
+    CPID = request.json['CPID']
+    PID = request.json['PID']
+    DID = request.json['DID']
     
     new_dispute = Dispute(
         amount,
@@ -66,32 +62,6 @@ def create_dispute(amount,CPID,PID,DID):
         "data": new_dispute.json()
         }
     ), 201
-
-
-def get_existing_driverDetails():
-    response = requests.get(DRIVER_URL)
-    driverID = response.json()['data']['Driver']
-    for i in driverID:
-        dID = i['DID']
-        dName = i['DName']
-        dVeh = i['DVehicleNo']
-        dNo = i['DPhoneNo'] 
-
-
-def get_existing_PassengerDetails():
-    response = requests.get(PASSENGER_URL)
-    passengerID = response.json()['data']['Passengers']
-    for i in passengerID:
-        pID = i['PID']
-        pName = i['PName']
-        dNo = i['PPhone'] 
-
-def staffDetails():
-    response = requests.get(PASSENGER_URL)
-    staffID = response.json()['data']['Staff']
-    for i in staffID:
-        sID = i['SID']
-        sName = i['SName']
 
 
 if __name__ == '__main__': 
