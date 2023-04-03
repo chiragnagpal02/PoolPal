@@ -11,6 +11,8 @@ import google.auth.transport.requests
 app = Flask("Google Login App")
 app.secret_key = "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" # make sure this matches with that's in client_secret.json
 USERMS_URL = "http://127.0.0.1:5016/api/v1/user"
+DRIVER_URL = "http://127.0.0.1:5000/api/v1/driver/api/v1/driver/get_driver_by_email/"
+PASSENGER_URL = "http://127.0.0.1:5001/api/v1/passenger/api/v1/passenger/get_passenger_by_email/"
 
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1" # to allow Http traffic for local dev
 
@@ -72,18 +74,26 @@ def callback():
     if response.status_code == 200:
         role = response.json()['data']['Role']
         if role == "Driver":
-            return render_template("driver/dHome.html", email=session['email'], id_info=session['id_info'], name=session['name'], picture=session['picture'])
+            content = f"{DRIVER_URL}{email_id}"
+            response = requests.get(content).json()['data']['driver']['DID']
+            session['driver_id'] = response
+
+            return render_template("driver/dHome.html", DID=session['driver_id'], email=session['email'], id_info=session['id_info'], name=session['name'], picture=session['picture'])
         
         elif role == "Passenger":
-            return render_template("passenger/pHome.html", email=session['email'], id_info=session['id_info'], name=session['name'], picture=session['picture'])
+            content = f"{PASSENGER_URL}{email_id}"
+            response = requests.get(content).json()['data']['passenger']['PID']
+            session['passenger_id'] = response
+            
+            return render_template("passenger/pHome.html", PID=session['passenger_ID'], email=session['email'], id_info=session['id_info'], name=session['name'], picture=session['picture'])
 
     else:
         return render_template("signup.html")
 
-@app.route("/protected_area")
-@login_is_required
-def protected_area():
-    return f"Hello {session['email']}! <br/> <a href='/logout'><button>Logout</button></a>"
+# @app.route("/protected_area")
+# @login_is_required
+# def protected_area():
+#     return f"Hello {session['email']}! <br/> <a href='/logout'><button>Logout</button></a>"
 
 
 # our html pages
@@ -102,53 +112,76 @@ def signup():
 
 # driver
 @app.route("/dSignUp")
+@login_is_required
 def dsignup():
     return render_template("driver/dSignUp.html")
 
 @app.route("/dCreateCarpool")
+@login_is_required
 def dCreateCarpool():
-    return render_template("driver/dCreateCarpool.html")
+    DID = session['driver_id']
+    return render_template("driver/dCreateCarpool.html", DID=DID)
 
 @app.route("/dHome")
+@login_is_required
 def dHome():
-    return render_template("driver/dHome.html")
+    DID = session['driver_id']
+    return render_template("driver/dHome.html", DID=DID)
 
 @app.route("/dPastRides")
+@login_is_required
 def dPastRides():
-    return render_template("driver/dPastRides.html")
+    DID = session['driver_id']
+    return render_template("driver/dPastRides.html", DID=DID)
 
 @app.route("/dProfile")
+@login_is_required
 def dProfile():
-    return render_template("driver/dProfile.html")
+    DID = session['driver_id']
+    return render_template("driver/dProfile.html", DID=DID)
 
 @app.route("/dUpcoming")
+@login_is_required
 def dUpcoming():
-    return render_template("driver/dUpcoming.html")
+    DID = session['driver_id']
+    return render_template("driver/dUpcoming.html", DID=DID)
 
 # passenger
 @app.route("/pSignUp")
+@login_is_required
 def psignup():
-    return render_template("passenger/pSignUp.html")
+    PID = session['passenger_id']
+    return render_template("passenger/pSignUp.html", PID=PID)
 
 @app.route("/pFindCarpool")
+@login_is_required
 def pFindCarpool():
-    return render_template("passenger/pFindCarpool.html")
+    PID = session['passenger_id']
+    return render_template("passenger/pFindCarpool.html", PID=PID)
 
 @app.route("/pHome")
+@login_is_required
 def pHome():
-    return render_template("passenger/pHome.html")
+    PID = session['passenger_id']
+    return render_template("passenger/pHome.html", PID=PID)
 
 @app.route("/pPastRides")
+@login_is_required
 def pPastRides():
-    return render_template("passenger/pPastRides.html")
+    PID = session['passenger_id']
+    return render_template("passenger/pPastRides.html", PID=PID)
 
 @app.route("/pProfile")
+@login_is_required
 def pProfile():
-    return render_template("passenger/pProfile.html")
+    PID = session['passenger_id']
+    return render_template("passenger/pProfile.html", PID=PID)
 
 @app.route("/pUpcoming")
+@login_is_required
 def pUpcoming():
-    return render_template("passenger/pUpcoming.html")
+    PID = session['passenger_id']
+    return render_template("passenger/pUpcoming.html", PID=PID)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5450, debug=True)

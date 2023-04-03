@@ -144,6 +144,25 @@ def get_passenger_by_username(username):
         }
     ), 404
 
+@app.route('/api/v1/passenger/get_passenger_by_email/<email>')
+def get_passenger_by_email(email):
+    passenger = Passengers.query.filter_by(PEmail=email).first()
+    if passenger:
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "passenger": passenger.json()
+                }
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": f"There is no passenger with email {email}!"
+        }
+    ), 404
+
 
 @app.route('/api/v1/passenger/add_new_passenger', methods=['POST'])
 def add_new_passenger():
