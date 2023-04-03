@@ -114,7 +114,7 @@
         DGender: document.getElementById("gender").value,
         DEmail: document.getElementById("email").value,
         DPassword: document.getElementById("password").value,
-        DPhoneNo: document.getElementById("phone").value,
+        DPhoneNo: document.getElementById("phoneNo").value,
         DVehicleNo: document.getElementById("vehicleNo").value,
         DLicenseNo: document.getElementById("licenseNo").value,
         DLicenseExpiration: document.getElementById("licenseExpiration").value,
@@ -124,7 +124,7 @@
       })
         .then(function (response) {
           console.log(response);
-          window.location.replace("/login");
+          window.location.replace("/");
         })
         .catch(function (error) {
           console.log(error);

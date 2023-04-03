@@ -157,7 +157,7 @@
 
   <!-- get driver info -->
   <script>
-    let DID = 1;
+    let DID = "{{ DID }}";
 
     axios.get(`http://127.0.0.1:5000/api/v1/driver/get_driver_by_id/${DID}`)
       .then((response) => {

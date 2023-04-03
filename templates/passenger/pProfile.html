@@ -158,7 +158,7 @@
 
   <!-- script -->
   <script>
-    let passengerId = 1;
+    let passengerId = "{{ PID }}" ;
 
     axios.get(`http://127.0.0.1:5001/api/v1/passenger/get_passenger_by_id/${passengerId}`)
       .then((response) => {
