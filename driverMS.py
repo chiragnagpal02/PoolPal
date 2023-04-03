@@ -127,7 +127,7 @@ def get_driver_by_id(driver_id):
         }
     ), 404
 
-@app.route('/api/v1/driver/get_driver_by_licence/<license>', methods=['GET'])
+@app.route('/api/v1/driver/get_driver_by_licence/<licence>', methods=['GET'])
 def get_driver_by_licence(licence):
     driver = Driver.query.filter_by(DLicenseNo=licence).first()
     if driver:
@@ -191,7 +191,7 @@ def add_driver():
                 "message": "Invalid email."
             }
         )
-    
+
     
     driver = Driver(
         DName=DName,
