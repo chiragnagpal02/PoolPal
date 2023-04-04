@@ -96,9 +96,9 @@ def calculate_refund_amount(CPID, end_lat, end_long):
     passenger_price = int(get_passenger_price(CPID))
 
     refunded_price = (travelled_distance/carpool_distance) * passenger_price
-    
+
     return jsonify({
-        'price': refunded_price
+        'price': round(refunded_price)
         # 'status': refunded_process_status
     })
 

@@ -263,7 +263,7 @@
             .then(response4 => {
               var price = parseInt(response4.data)
               console.log(price);
-              window.open(`http://127.0.0.1:5004/api/v1/payments/create-checkout-session/${price}/${cpid}/${pid}`, "_blank");
+              window.location.href = `http://127.0.0.1:5004/api/v1/payments/create-checkout-session/${price}/${cpid}/${pid}`;
             })
             .catch(error => {
               console.error(error);

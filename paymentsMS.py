@@ -186,7 +186,7 @@ def processAddPaymentLogs(session_id,CPID,PID):
         }
     }
 
-@app.route("/api/v1/payments/refund/<intentID>/<float:refundedAmount>")
+@app.route("/api/v1/payments/refund/<intentID>/<int:refundedAmount>")
 def refund(intentID, refundedAmount):
     # payment_intent_id = request.form.get('payment_intent_id')
     # amount = request.form.get('amount')

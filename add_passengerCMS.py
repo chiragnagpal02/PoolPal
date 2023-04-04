@@ -7,7 +7,6 @@ CORS(app)
 
 CARPOOL_API_BASE_URL = 'http://127.0.0.1:5002/api/v1/carpool/'
 CARPEOPLE_API_BASE_URL = 'http://127.0.0.1:5010/api/v1/carpeople'
-PAYMENTS_API_BASE_URL = 'http://127.0.0.1:5004/api/v1/payments/create-checkout-session/'
 
 
 def get_passenger_price(CPID):
