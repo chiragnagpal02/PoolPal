@@ -19,6 +19,11 @@ SET time_zone = "+00:00";
 
 --
 -- Database: `PoolPal`
+
+CREATE DATABASE PoolPal;
+
+USE PoolPal;
+
 --
 
 -- --------------------------------------------------------
@@ -27,12 +32,6 @@ SET time_zone = "+00:00";
 -- Table structure for table `carpeople`
 --
 
-CREATE TABLE `carpeople` (
-  `CPID` int(11) NOT NULL,
-  `DID` int(11) NOT NULL,
-  `PID` int(11) NOT NULL,
-  `PEmail` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -130,6 +129,15 @@ INSERT INTO `passengers` (`PID`, `PName`, `PUserName`, `PAge`, `PGender`, `PEmai
 
 -- --------------------------------------------------------
 
+CREATE TABLE `carpeople` (
+  `CPID` int(11) NOT NULL,
+  `DID` int(11) NOT NULL,
+  `PID` int(11) NOT NULL,
+  `PEmail` varchar(100) NOT NULL,
+  PRIMARY KEY (`CPID`,`DID`,`PID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 --
 -- Table structure for table `review`
 --
@@ -146,18 +154,6 @@ CREATE TABLE `review` (
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `staff`
---
-
-CREATE TABLE `staff` (
-  `SID` int(11) NOT NULL,
-  `SName` varchar(100) NOT NULL,
-  `SEmail` varchar(100) NOT NULL,
-  `SPasswordHash` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `User`
@@ -167,6 +163,7 @@ CREATE TABLE `User` (
   `Email` varchar(200) NOT NULL,
   `Role` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 INSERT INTO `User` (`Email`,`Role`) VALUES ('adam@gmail.com','Passenger');
 
 -- --------------------------------------------------------
@@ -210,13 +207,6 @@ CREATE TABLE IF NOT EXISTS paymentlogs (
 -- Indexes for dumped tables
 --
 
---
--- Indexes for table `carpeople`
---
-ALTER TABLE `carpeople`
-  ADD PRIMARY KEY (`CPID`,`DID`,`PID`);
-
---
 -- Indexes for table `carpooling`
 --
 ALTER TABLE `carpooling`
@@ -244,12 +234,6 @@ ALTER TABLE `review`
   ADD KEY `PID` (`PID`);
 
 --
--- Indexes for table `staff`
---
-ALTER TABLE `staff`
-  ADD PRIMARY KEY (`SID`);
-
---
 -- Indexes for table `User`
 --
 ALTER TABLE `User`
@@ -265,23 +249,18 @@ ALTER TABLE `User`
 -- AUTO_INCREMENT for table `driver`
 --
 ALTER TABLE `driver`
-  MODIFY `DID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `DID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `passengers`
 --
 ALTER TABLE `passengers`
-  MODIFY `PID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `PID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
---
--- AUTO_INCREMENT for table `staff`
---
-ALTER TABLE `staff`
-  MODIFY `SID` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `carpooling`
+  MODIFY `CPID` int NOT NULL AUTO_INCREMENT;
 
---
--- Constraints for dumped tables
---
+
 
 --
 -- Constraints for table `carpooling`

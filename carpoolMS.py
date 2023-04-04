@@ -78,7 +78,7 @@ def add_new_passenger():
     CarpoolPrice = request.json.get('CarpoolPrice')
     DriverFee = request.json.get('DriveFee')
     PassengerPrice = request.json.get('PassengerPrice')
-    DateTime = request.json.get('DateTime')
+    DateTime_str = request.json.get('DateTime')  # Rename to avoid name conflict
     CPStartLocation = request.json.get('CPStartLocation')
     CPStartLatitude = request.json.get('CPStartLatitude')
     CPStartLongitude = request.json.get('CPStartLongitude')
@@ -90,6 +90,15 @@ def add_new_passenger():
     
     # Generate a unique ID
     # new_cpid = str(uuid.uuid4())
+    DateTime = datetime.strptime(DateTime_str, '%Y-%m-%d %H:%M:%S')
+    today = datetime.now()
+    if DateTime < today:
+        return jsonify({
+            "code": 400,
+            "data": {
+                "message": "DateTime cannot be in the past"
+            }
+        }), 400
     
     new_carpool = Carpool(
         DID=DID, 
@@ -169,22 +178,27 @@ def get_carpool_by_passenger_id(PID):
         }
     }), 200
 
-@app.route('/api/v1/carpool/update_carpool_capacity/<CPID>', methods=['PUT'])
-def update_carpool_capacity(CPID):
+@app.route('/api/v1/carpool/update_carpool_capacity/<CPID>/<sign>', methods=['PUT'])
+def update_carpool_capacity(CPID, sign):
     CPID = int(CPID)
     carpool = Carpool.query.filter_by(CPID=CPID).first()
     capacity = carpool.Capacity_remaining
     # check if the exising capacity is greater than 0. only then subtract. else return the error - 
     # capacity cannot be negative.
-    capacity = capacity - 1
+    if sign == '+':
+        capacity = capacity + 1
+    elif sign == '-':
+        capacity = capacity - 1
     carpool.Capacity_remaining = capacity
     db.session.commit()
     return jsonify({
         "code": 200,
         "data": {
-            "status": f"Capacity of carpool {CPID} has been updated."
+            "status": f"Capacity of carpool {CPID} has been updated.",
+            "new_capacity": capacity
         }
     }), 200
+
     
 # do we still need this????
 @app.route("/api/v1/carpool/update_passenger_price/<CPID>", methods=['PUT'])
