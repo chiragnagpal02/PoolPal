@@ -114,28 +114,37 @@
       axios.delete(`http://127.0.0.1:5010/api/v1/carpeople/remove_passenger/${cpid}/${did}/${pid}`)
         .then(response => {
           console.log(response);
-          
+
           window.location.href = `/pRefund?cpid=${cpid}`;
         })
         .catch(error => {
           console.log(error);
-        });     
+        });
+      // update capacity
+      axios.put(`http://127.0.0.1:5002/api/v1/carpool/update_carpool_capacity/${cpid}/-`)
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error(error);
+        });
     }
 
     // create dispute
-    function addDispute(cpid, did){
-      axios.post(`http://127.0.0.1:5125/api/v1/dispute/create_dispute`,{
-        CPID:cpid,
+    function addDispute(cpid, did) {
+      axios.post(`http://127.0.0.1:5125/api/v1/dispute/create_dispute`, {
+        CPID: cpid,
         DID: did,
         PID: pid,
-        Refund: 0
+        amount: 0
       })
-      .then(response => {
+        .then(response => {
           console.log(response);
-
+          document.getElementById("refundbutton").innerHTML = `<button class="btn btn-outline-dark m-4 mt-0 w-100"><a href="/pRefund">Refund</a></button>`
         })
         .catch(error => {
           console.log(error);
+          console.log(cpid)
         });
     }
     // end carpool
@@ -174,8 +183,10 @@
               carpoolData += `</div>`
               // dispute
               carpoolData += `<div class="d-flex justify-content-center">`
-              carpoolData += `<button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100 p-0" onclick= "addDispute(${carpools[i].CPID}, ${carpools[i].DID})"><a href="http://localhost:5020/auth/login?next=%2F" target="_blank" class="nav-link routing">Open Dispute Ticket</a></button>`
+              carpoolData += `<button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100 p-0" onclick= "addDispute(${carpools[i].CPID}, ${carpools[i].DID})"><a href="http://localhost:5022/auth/login?next=%2F&PID=${pid}" target="_blank" class="nav-link routing">Open Dispute Ticket</a></button>`
               carpoolData += `</div>`
+              // refund button
+              carpoolData += `<div class="d-flex justify-content-center" id="refundbutton"></div>`
               // end trip --> change to inactive
               carpoolData += `<div class="d-flex justify-content-center">`
               carpoolData += `<button type="submit" class="btn btn-outline-dark m-4 mt-0 w-100" onclick="endCarpool(${carpools[i].CPID})">End Carpool</button>`
