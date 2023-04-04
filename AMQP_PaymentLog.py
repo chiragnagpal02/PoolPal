@@ -2,16 +2,13 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from os import environ
-import os, sys
 import amqp_setup
-import pika
 import json
 import stripe
-
 from invokes import invoke_http
-
 import json
 import os
+
 
 import amqp_setup
 
@@ -32,6 +29,8 @@ stripe_keys = {
   'secret_key': 'sk_test_51MmIrBFHZFAE1pQVPwD4MzJnsitPPloEFrl3YTqCIiivuil5dTQtRsmKhdnpZn4I7iWtk49Xzp16yEq3Rle2ze9x003p7jB5rR',
   'publishable_key': 'pk_test_51MmIrBFHZFAE1pQVPrlMHKHZhwz9bhe0G3MObVgU0tZTDZWkzk1tQjWUCMfABMIsm8JLnWvR2Wb6P8dKKr66LITR009L64FDkh'
 }
+
+PAYMENTLOG_URL = "http://127.0.0.1:5055/api/v1/paymentlog/get_CPID_PID/"
 
 stripe.api_key = stripe_keys["secret_key"]
 
@@ -119,7 +118,7 @@ def retrieverefundfromStripe(intent_id):
     print(intent)
     total_amount = intent["amount"]/100
     status = intent["status"]
-    URL = "http://localhost:5055/api/v1/paymentlog/get_CPID_PID/" + IntentID
+    URL = PAYMENTLOG_URL + IntentID
     result = invoke_http(URL, method='GET')
     CPID = result["data"]["CPID"]
     PID = result["data"]["PID"]
