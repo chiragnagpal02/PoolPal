@@ -35,7 +35,7 @@ def get_base_price(start_lat, start_long, end_lat, end_long):
     #     return jsonify({
     #         'price': 0
     #     })
-    base_price = round(calculate_price(start_lat, start_long, end_lat, end_long) + POOLPAL_COMMISSION, 2)
+    base_price = round(calculate_price(start_lat, start_long, end_lat, end_long) + POOLPAL_COMMISSION)
     
     return jsonify({
         'price': base_price
