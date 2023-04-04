@@ -40,8 +40,7 @@ class Carpool(db.Model):
         {},
     )
 
-    def __init__(self, CarpoolPrice, PassengerPrice, CPID, DID, DriverFee, DateTime, CPStartLatitude, CPStartLongitude ,CPStartLocation, CPEndLocation, CPEndLatitude, CPEndLongitude ,Status, Capacity_remaining):
-        self.CPID = CPID
+    def __init__(self, CarpoolPrice, PassengerPrice, DID, DateTime, CPStartLatitude, CPStartLongitude ,CPStartLocation, CPEndLocation, CPEndLatitude, CPEndLongitude ,Status, Capacity_remaining):
         self.DID = DID
         self.CarpoolPrice = CarpoolPrice
         self.PassengerPrice = PassengerPrice
@@ -76,7 +75,6 @@ class Carpool(db.Model):
 def add_new_passenger():
     DID = request.json.get('DID')
     CarpoolPrice = request.json.get('CarpoolPrice')
-    DriverFee = request.json.get('DriveFee')
     PassengerPrice = request.json.get('PassengerPrice')
     DateTime_str = request.json.get('DateTime')  # Rename to avoid name conflict
     CPStartLocation = request.json.get('CPStartLocation')
@@ -103,7 +101,6 @@ def add_new_passenger():
     new_carpool = Carpool(
         DID=DID, 
         CarpoolPrice=CarpoolPrice,
-        DriverFee = DriverFee,
         PassengerPrice=PassengerPrice,
         DateTime = DateTime,
         CPStartLocation=CPStartLocation,
