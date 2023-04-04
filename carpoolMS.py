@@ -85,10 +85,13 @@ def add_new_passenger():
     CPEndLocation = request.json.get('CPEndLocation')
     Status = request.json.get('Status')
     Capacity_remaining = request.json.get('Capacity_remaining')
-    
+    print(DateTime_str)
     # Generate a unique ID
     # new_cpid = str(uuid.uuid4())
-    DateTime = datetime.strptime(DateTime_str, '%Y-%m-%d %H:%M:%S')
+    DateTime = datetime.strptime(DateTime_str, '%Y-%m-%dT%H:%M')
+    print()
+    print(DateTime)
+    print()
     today = datetime.now()
     if DateTime < today:
         return jsonify({
@@ -102,7 +105,7 @@ def add_new_passenger():
         DID=DID, 
         CarpoolPrice=CarpoolPrice,
         PassengerPrice=PassengerPrice,
-        DateTime = DateTime,
+        DateTime = DateTime_str,
         CPStartLocation=CPStartLocation,
         CPStartLatitude=CPStartLatitude,
         CPStartLongitude=CPStartLongitude,

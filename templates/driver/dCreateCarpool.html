@@ -308,7 +308,7 @@
         // calculating passenger price
         var totalPrice = document.getElementById("totalprice").value;
         var capacity = document.getElementById("capacity").value;
-        var passengerPrice = totalPrice / capacity;
+        var passengerPrice = parseInt(totalPrice / capacity);
         // lat and lng
         var allLatLng = await initMap();
         var startLat = allLatLng[0];
@@ -319,9 +319,11 @@
         route.style.display = 'block';
         map.style.display = 'block';
         success.style.display = 'block';
+        console.log(document.getElementById("datetime").value)
 
         axios.post("http://127.0.0.1:5002/api/v1/carpool/add_new_carpool", {
           "DID": DID,
+          "DateTime": document.getElementById("datetime").value,
           "CarpoolPrice": totalPrice,
           "PassengerPrice": passengerPrice,
           "CPStartLocation": document.getElementById("startLocation").value,
