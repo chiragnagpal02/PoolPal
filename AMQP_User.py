@@ -7,7 +7,7 @@ import amqp_setup
 import json
 
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates")
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://poolpal@localhost:3306/PoolPal'
 # app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL') or 'mysql+mysqlconnector://poolpal@localhost:8889/PoolPal'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

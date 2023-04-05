@@ -82,15 +82,16 @@
 # if __name__ == '__main__':
 #     app.run(host= "0.0.0.0", debug=True, port=5004)
 
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify, redirect
 import stripe
 import amqp_setup
 import pika
 import json
+import requests
 from flask_cors import CORS
-from invokes import invoke_http
+from os import environ
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates")
 
 CORS(app)
 
@@ -101,7 +102,7 @@ stripe_keys = {
 
 stripe.api_key = stripe_keys["secret_key"]
 
-PAYMENTLOG_URL = "http://127.0.0.1:5055/api/v1/paymentlogs/"
+PAYMENTLOG_URL = environ.get('paymentlog_URL') or "http://127.0.0.1:5055/api/v1/paymentlogs/"
 
 @app.route('/api/v1/payments/')
 def index():
@@ -113,10 +114,13 @@ def success():
     session_id = request.args.get("session_id")
     CPID = request.args.get("CPID")
     PID = request.args.get("PID")
+    print(CPID)
+    print(PID)
+    print()
     #processAddPaymentLogs(session_id,CPID,PID)
     URL = PAYMENTLOG_URL + "/add_new_payment_log/" + session_id + "/" + CPID + "/" + PID
     print(URL)
-    result = invoke_http(URL, method='POST')
+    result = requests.get(URL)
     print(result)
     return render_template("/stripe/success.html")
 

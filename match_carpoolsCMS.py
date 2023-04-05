@@ -9,16 +9,16 @@ from flask_cors import CORS
 from os import environ
 
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates")
 
 CORS(app)
 
 
 THRESHOLD_DISTANC_KMS = 2
 
-CARPOOLS_URL = 'http://127.0.0.1:5002/api/v1/carpool/get_all_carpools'
-CARPEOPLE_URL = 'http://127.0.0.1:5010/api/v1/carpeople/get_all_passengers'
-DRIVER_URL = 'http://127.0.0.1:5000/api/v1/driver/get_driver_by_id/'
+CARPOOLS_URL = environ.get('carpool_URL') or 'http://127.0.0.1:5002/api/v1/carpool/get_all_carpools'
+CARPEOPLE_URL = environ.get('carpeople_URL') or 'http://127.0.0.1:5010/api/v1/carpeople/get_all_passengers'
+DRIVER_URL = environ.get('driver_URL') or 'http://127.0.0.1:5000/api/v1/driver/get_driver_by_id/'
 
 # Passenger chooses date, start location and end location
 # Have to check for 3 factors -> start location,  and date

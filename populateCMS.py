@@ -1,15 +1,16 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
+from os import environ
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates")
 
 CORS(app)
 
-CARPEOPLE_API_URL = "http://127.0.0.1:5010/api/v1/carpeople/"
-CARPOOL_API_URL = "http://127.0.0.1:5002/api/v1/carpool/"
-PASSENGER_API_URL = "http://127.0.0.1:5001/api/v1/passenger/"
-DRIVER_API_URL = "http://127.0.0.1:5000/api/v1/driver/"
+CARPEOPLE_API_URL = environ.get('carpeople_URL') or "http://127.0.0.1:5010/api/v1/carpeople/"
+CARPOOL_API_URL = environ.get('carpool_URL') or "http://127.0.0.1:5002/api/v1/carpool/"
+PASSENGER_API_URL = environ.get('passenger_URL') or "http://127.0.0.1:5001/api/v1/passenger/"
+DRIVER_API_URL = environ.get('driver_URL') or "http://127.0.0.1:5000/api/v1/driver/"
 
 def get_carpools_by_driver(DID):
     url = f"{CARPOOL_API_URL}/get_carpool_by_driver_id/{DID}"

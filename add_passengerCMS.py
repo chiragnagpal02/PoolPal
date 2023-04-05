@@ -1,13 +1,13 @@
 from flask import Flask, request, jsonify, redirect
 import requests
 from flask_cors import CORS
+from os import environ
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates")
 CORS(app)
 
-CARPOOL_API_BASE_URL = 'http://127.0.0.1:5002/api/v1/carpool/'
-CARPEOPLE_API_BASE_URL = 'http://127.0.0.1:5010/api/v1/carpeople'
-
+CARPOOL_API_BASE_URL = environ.get('carpool_URL') or 'http://127.0.0.1:5002/api/v1/carpool/'
+CARPEOPLE_API_BASE_URL = environ.get('carpeople_URL') or 'http://127.0.0.1:5010/api/v1/carpeople'
 
 def get_passenger_price(CPID):
     # payload = {

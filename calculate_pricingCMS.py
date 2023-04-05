@@ -3,14 +3,15 @@
 from geopy.distance import geodesic
 from flask_cors import CORS
 from flask import Flask, request, jsonify
+from os import environ
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates")
 
 CORS(app)
 
-AVERAGE_SINGAPORE_FUEL_PRICES = 3.28 # per liter price
-AVERAGE_MILEAGE_SINGAPORE_CARS = 16 # kmpl
-POOLPAL_COMMISSION = 5
+AVERAGE_SINGAPORE_FUEL_PRICES = environ.get("average_singapore_fuel_prices") or 3.28 # per liter price
+AVERAGE_MILEAGE_SINGAPORE_CARS = environ.get("average_mileage_singapore_cars") or 16 # kmpl
+POOLPAL_COMMISSION = environ.get("poolpal_commission") or 5
 
 def calculate_price(start_lat, start_long, end_lat, end_long):
     distance = calculate_distance(start_lat, start_long, end_lat, end_long)

@@ -7,12 +7,13 @@ from google.oauth2 import id_token
 from google_auth_oauthlib.flow import Flow
 from pip._vendor import cachecontrol
 import google.auth.transport.requests
+from os import environ
 
-app = Flask("Google Login App")
+app = Flask(__name__, template_folder="templates")
 app.secret_key = "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" # make sure this matches with that's in client_secret.json
-USERMS_URL = "http://127.0.0.1:5016/api/v1/user"
-DRIVER_URL = "http://127.0.0.1:5000/api/v1/driver/get_driver_by_email/"
-PASSENGER_URL = "http://127.0.0.1:5001/api/v1/passenger/get_passenger_by_email/"
+USERMS_URL = environ.get("user_URL") or "http://127.0.0.1:5016/api/v1/user"
+DRIVER_URL = environ.get("driver_URL") or "http://127.0.0.1:5000/api/v1/driver/get_driver_by_email/"
+PASSENGER_URL = environ.get('passenger_URL') or "http://127.0.0.1:5001/api/v1/passenger/get_passenger_by_email/"
 
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1" # to allow Http traffic for local dev
 

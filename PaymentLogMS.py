@@ -2,15 +2,11 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from os import environ
-import os, sys
 import stripe
-from invokes import invoke_http
 
-import json
-import os
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://poolpal@localhost:3306/PoolPal'
+app = Flask(__name__, template_folder="templates")
+app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL') or 'mysql+mysqlconnector://poolpal@localhost:3306/PoolPal'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 299}
 
@@ -19,7 +15,6 @@ app.app_context().push()
 db = SQLAlchemy(app)
 CORS(app)
 
-PAYMENTLOG_URL = "http://127.0.0.1:5055/api/v1/paymentlog/get_CPID_PID/"
 
 stripe_keys = {
   'secret_key': 'sk_test_51MmIrBFHZFAE1pQVPwD4MzJnsitPPloEFrl3YTqCIiivuil5dTQtRsmKhdnpZn4I7iWtk49Xzp16yEq3Rle2ze9x003p7jB5rR',
@@ -44,8 +39,7 @@ class PaymentLogs1(db.Model):
         {},
     )
 
-    def __init__(self, logsID, intentID, sessionID, Amount, CPID, PID, Status):
-        self.logsID = logsID
+    def __init__(self, intentID, sessionID, Amount, CPID, PID, Status):
         self.intentID = intentID
         self.sessionID = sessionID
         self.Amount = Amount
@@ -103,7 +97,7 @@ def find_by_intent_id(intent_id):
         }
     ), 404
 
-@app.route("/api/v1/paymentlogs/add_new_payment_log/<session_id>/<CPID>/<PID>", methods=['POST'])
+@app.route("/api/v1/paymentlogs/add_new_payment_log/<session_id>/<int:CPID>/<int:PID>", methods=['GET'])
 def retrievefromStripe(session_id,CPID,PID):
     # Retrieve the Checkout Session
     session_id_str = session_id
@@ -112,7 +106,7 @@ def retrievefromStripe(session_id,CPID,PID):
     checkout_session = stripe.checkout.Session.retrieve(session_id_str)
     amount = checkout_session["amount_total"] / 100
     #print(create_payment(checkout_session["payment_intent"],session_id_str,amount,CPID_str,PID_str,checkout_session["payment_status"]))
-    logs = PaymentLogs1('',checkout_session["payment_intent"],session_id_str,amount,CPID_str,PID_str,checkout_session["payment_status"])
+    logs = PaymentLogs1(checkout_session["payment_intent"],session_id_str,amount,CPID_str,PID_str,checkout_session["payment_status"])
 
     try:
         db.session.add(logs)
@@ -139,12 +133,12 @@ def create_refund_log(IntentID):
     #print(intent)
     Amount = intent["amount"]/100
     Status = intent["status"]
-    URL = PAYMENTLOG_URL + IntentID
-    result = invoke_http(URL, method='GET')
-    sessionID = result["data"]["sessionID"]
-    CPID = result["data"]["CPID"]
-    PID = result["data"]["PID"]
-    logs = PaymentLogs1('',IntentID,sessionID,Amount,CPID,PID,Status)
+    paymentlog = PaymentLogs1.query.filter_by(intentID=IntentID).first()
+    result = paymentlog.json()
+    sessionID = result["sessionID"]
+    CPID = result["CPID"]
+    PID = result["PID"]
+    logs = PaymentLogs1(IntentID,sessionID,Amount,CPID,PID,Status)
 
     try:
         db.session.add(logs)
