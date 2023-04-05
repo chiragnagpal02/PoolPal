@@ -88,6 +88,7 @@ import amqp_setup
 import pika
 import json
 from flask_cors import CORS
+from invokes import invoke_http
 
 app = Flask(__name__)
 
@@ -100,6 +101,7 @@ stripe_keys = {
 
 stripe.api_key = stripe_keys["secret_key"]
 
+PAYMENTLOG_URL = "http://127.0.0.1:5055/api/v1/paymentlogs/"
 
 @app.route('/api/v1/payments/')
 def index():
@@ -111,7 +113,11 @@ def success():
     session_id = request.args.get("session_id")
     CPID = request.args.get("CPID")
     PID = request.args.get("PID")
-    processAddPaymentLogs(session_id,CPID,PID)
+    #processAddPaymentLogs(session_id,CPID,PID)
+    URL = PAYMENTLOG_URL + "/add_new_payment_log/" + session_id + "/" + CPID + "/" + PID
+    print(URL)
+    result = invoke_http(URL, method='POST')
+    print(result)
     return render_template("/stripe/success.html")
 
 
@@ -198,7 +204,11 @@ def refund(intentID, refundedAmount):
         )
         if refund.status == 'succeeded':
             print('Refund was successful!')
-            processAddRefundLogs(intentID)
+            #processAddRefundLogs(intentID)
+            URL = PAYMENTLOG_URL + "/add_new_refund_log/" + intentID
+            print(URL)
+            result = invoke_http(URL, method='POST')
+            print(result)
             return jsonify(refund.status)
         else:
             print('Refund failed!')
