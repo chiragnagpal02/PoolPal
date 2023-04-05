@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 # from flask import Flask, render_template, request, jsonify
 # import stripe
 
@@ -83,6 +84,9 @@
 #     app.run(host= "0.0.0.0", debug=True, port=5004)
 
 from flask import Flask, render_template, request, jsonify, redirect
+=======
+from flask import Flask, render_template, request, jsonify, redirect, url_for
+>>>>>>> Stashed changes
 import stripe
 import amqp_setup
 import pika

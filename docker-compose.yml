@@ -1,8 +1,11 @@
 version: "3.8"
 
+<<<<<<< Updated upstream
 networks:
   my-poolpal:
 
+=======
+>>>>>>> Stashed changes
 volumes:
   rabbitmq_data:
 
@@ -15,8 +18,11 @@ services:
     image: rabbitmq:3-management
     hostname: esd-rabbit
     restart: always
+<<<<<<< Updated upstream
     networks:
       - my-poolpal
+=======
+>>>>>>> Stashed changes
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -32,6 +38,7 @@ services:
       dockerfile: driver.Dockerfile
     image: chirag02/driver:1.0
     restart: always
+<<<<<<< Updated upstream
     networks:
       - my-poolpal
     depends_on:
@@ -39,6 +46,11 @@ services:
     environment:
       rabbit_host: rabbitmq
       rabbit_port: 5672
+=======
+    depends_on:
+      - rabbitmq
+    environment:
+>>>>>>> Stashed changes
       dbURL: mysql+mysqlconnector://poolpal@host.docker.internal:3306/poolpal
       PYTHONUNBUFFERED: 1
     ports:
@@ -53,6 +65,7 @@ services:
       dockerfile: passenger.Dockerfile
     image: chirag02/passenger:1.0
     restart: always
+<<<<<<< Updated upstream
     networks:
       - my-poolpal
     depends_on:
@@ -60,6 +73,11 @@ services:
     environment:
       rabbit_host: rabbitmq
       rabbit_port: 5672
+=======
+    depends_on:
+      - rabbitmq
+    environment:
+>>>>>>> Stashed changes
       dbURL: mysql+mysqlconnector://poolpal@host.docker.internal:3306/poolpal
       PYTHONUNBUFFERED: 1
     ports:
@@ -74,8 +92,11 @@ services:
       dockerfile: carpool.Dockerfile
     image: chirag02/carpool:1.0
     restart: always
+<<<<<<< Updated upstream
     networks:
       - my-poolpal
+=======
+>>>>>>> Stashed changes
     environment:
       dbURL: mysql+mysqlconnector://poolpal@host.docker.internal:3306/poolpal
       PYTHONUNBUFFERED: 1
@@ -91,8 +112,11 @@ services:
       dockerfile: carpeople.Dockerfile
     image: chirag02/carpool:1.0
     restart: always
+<<<<<<< Updated upstream
     networks:
       - my-poolpal
+=======
+>>>>>>> Stashed changes
     environment:
       dbURL: mysql+mysqlconnector://poolpal@host.docker.internal:3306/poolpal
       PYTHONUNBUFFERED: 1
@@ -108,17 +132,28 @@ services:
       dockerfile: add_passenger.Dockerfile
     image: chirag02/add_passenger:1.0
     restart: always
+<<<<<<< Updated upstream
     networks:
       - my-poolpal
+=======
+>>>>>>> Stashed changes
     depends_on:
       - carpeople
       - carpool
     environment:
+<<<<<<< Updated upstream
       carpeople_URL: http://carpeople/api/v1/carpeople/get_all_passengers
       carpool_URL: http://carpool/api/v1/carpool/get_all_carpools
       PYTHONUNBUFFERED: 1
     ports:
       - "5110:5110"
+=======
+      carpeople_URL: http://carpool/api/v1/carpeople/get_all_passengers
+      carpool_URL: http://carpool/api/v1/carpool/get_all_carpools
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "5100:5100"
+>>>>>>> Stashed changes
 
   #################################################
   # Match Carpools: The Match Carpools microservice
@@ -129,8 +164,11 @@ services:
       dockerfile: match_carpools.Dockerfile
     image: chirag02/match_carpools:1.0
     restart: always
+<<<<<<< Updated upstream
     networks:
       - my-poolpal
+=======
+>>>>>>> Stashed changes
     depends_on:
       - carpool
       - carpeople
@@ -139,6 +177,10 @@ services:
       carpeople_URL: http://carpool/api/v1/carpeople/get_all_passengers
       carpool_URL: http://carpool/api/v1/carpool/get_all_carpools
       driver_url: http://driver/api/v1/driver/get_driver_by_id/
+<<<<<<< Updated upstream
+=======
+      dbURL: mysql+mysqlconnector://poolpal@host.docker.internal:3306/PoolPal
+>>>>>>> Stashed changes
       PYTHONUNBUFFERED: 1
     ports:
       - "5100:5100"
@@ -152,8 +194,11 @@ services:
       dockerfile: review.Dockerfile
     image: chirag02/review:1.0
     restart: always
+<<<<<<< Updated upstream
     networks:
       - my-poolpal
+=======
+>>>>>>> Stashed changes
     environment:
       dbURL: mysql+mysqlconnector://poolpal@host.docker.internal:3306/PoolPal
       PYTHONUNBUFFERED: 1
@@ -169,8 +214,11 @@ services:
       dockerfile: user.Dockerfile
     image: chirag02/user:1.0
     restart: always
+<<<<<<< Updated upstream
     networks:
       - my-poolpal
+=======
+>>>>>>> Stashed changes
     environment:
       dbURL: mysql+mysqlconnector://poolpal@host.docker.internal:3306/PoolPal
       PYTHONUNBUFFERED: 1
@@ -186,14 +234,20 @@ services:
       dockerfile: amqp_user.Dockerfile
     image: chirag02/amqp_user:1.0
     restart: always
+<<<<<<< Updated upstream
     networks:
       - my-poolpal
+=======
+>>>>>>> Stashed changes
     depends_on:
       - rabbitmq
     environment:
       rabbit_host: rabbitmq
       rabbit_port: 5672
+<<<<<<< Updated upstream
       dbURL: mysql+mysqlconnector://poolpal@host.docker.internal:3306/PoolPal
+=======
+>>>>>>> Stashed changes
       PYTHONUNBUFFERED: 1
 
   #################################################
@@ -205,14 +259,18 @@ services:
       dockerfile: dispute.Dockerfile
     image: chirag02/dispute:1.0
     restart: always
+<<<<<<< Updated upstream
     networks:
       - my-poolpal
+=======
+>>>>>>> Stashed changes
     environment:
       dbURL: mysql+mysqlconnector://poolpal@host.docker.internal:3306/PoolPal
       PYTHONUNBUFFERED: 1
     ports:
       - "5125:5125"
   
+<<<<<<< Updated upstream
 
   #################################################
   # Payment Log : The Payment Logs microservice
@@ -233,6 +291,10 @@ services:
   
   #################################################
   # Payments: The Payments microservice
+=======
+  #################################################
+  # Payments: The Match Carpools microservice
+>>>>>>> Stashed changes
   #################################################
   payments:
     build:
@@ -240,6 +302,7 @@ services:
       dockerfile: payments.Dockerfile
     image: chirag02/payments:1.0
     restart: always
+<<<<<<< Updated upstream
     networks:
       - my-poolpal
     depends_on:
@@ -247,6 +310,11 @@ services:
       - rabbitmq
     environment:
       paymentlog_URL: http://payment_logs/api/v1/paymentlogs/
+=======
+    depends_on:
+      - rabbitmq
+    environment:
+>>>>>>> Stashed changes
       rabbit_host: rabbitmq
       rabbit_port: 5672
       PYTHONUNBUFFERED: 1
@@ -254,6 +322,27 @@ services:
       - "5004:5004"
 
   #################################################
+<<<<<<< Updated upstream
+=======
+  # Payment Log : The Payment Logs microservice
+  #################################################
+  payment_logs:
+    build:
+      context: ./
+      dockerfile: payment_logs.Dockerfile
+    image: chirag02/payment_logs:1.0
+    restart: always
+    depends_on:
+      - rabbitmq
+    environment:
+      rabbit_host: rabbitmq
+      rabbit_port: 5672
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "5055:5055"
+
+  #################################################
+>>>>>>> Stashed changes
   # Authentication: The Authentication microservice
   #################################################
   authentication:
@@ -262,8 +351,11 @@ services:
       dockerfile: authentication.Dockerfile
     image: chirag02/authentication:1.0
     restart: always
+<<<<<<< Updated upstream
     networks:
       - my-poolpal
+=======
+>>>>>>> Stashed changes
     depends_on:
       - user
       - driver
@@ -285,18 +377,29 @@ services:
       dockerfile: process_refund.Dockerfile
     image: chirag02/process_refund:1.0
     restart: always
+<<<<<<< Updated upstream
     networks:
       - my-poolpal
+=======
+>>>>>>> Stashed changes
     depends_on:
       - payment_logs
       - payments
     environment:
+<<<<<<< Updated upstream
       dbURL: mysql+mysqlconnector://poolpal@host.docker.internal:3306/PoolPal
       paymentlog_URL: http://payment_logs/api/v1/paymentlog/get_intent_by_ID
       payments_URL: http://payments/api/v1/payments/refund
       PYTHONUNBUFFERED: 1
     ports:
       - "5120:5120"
+=======
+      paymentlog_URL: http://127.0.0.1:5055/api/v1/paymentlog/get_intent_by_ID
+      payments_URL: http://127.0.0.1:5004/api/v1/payments/refund
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "5450:5450"
+>>>>>>> Stashed changes
   
   #################################################
   # Populate: The Populate microservice
@@ -307,8 +410,11 @@ services:
       dockerfile: populate.Dockerfile
     image: chirag02/populate:1.0
     restart: always
+<<<<<<< Updated upstream
     networks:
       - my-poolpal
+=======
+>>>>>>> Stashed changes
     depends_on:
       - carpeople
       - carpool
@@ -317,12 +423,18 @@ services:
     environment:
       carpeople_URL: http://carpeople:5010/api/v1/carpeople/
       carpool_URL: http://carpool:5002/api/v1/carpool/
+<<<<<<< Updated upstream
       passenger_URL: http://passenger/api/v1/passenger/
       driver_URL: http://driver/api/v1/driver/
+=======
+      passenger_URL: http://127.0.0.1:5001/api/v1/passenger/
+      driver_URL: http://127.0.0.1:5000/api/v1/driver/
+>>>>>>> Stashed changes
       PYTHONUNBUFFERED: 1
     ports:
       - "5700:5700"
 
+<<<<<<< Updated upstream
   # #################################################
   # # Populate: The Populate microservice
   # #################################################
@@ -384,3 +496,30 @@ services:
       PYTHONUNBUFFERED: 1
     ports:
       - "5115:5115"
+=======
+  #################################################
+  # Populate: The Populate microservice
+  #################################################
+  populate:
+    build:
+      context: ./
+      dockerfile: populate.Dockerfile
+    image: chirag02/populate:1.0
+    restart: always
+    depends_on:
+      - carpeople
+      - carpool
+      - driver
+      - passenger
+    environment:
+      carpeople_URL: http://carpeople:5010/api/v1/carpeople/
+      carpool_URL: http://carpool:5002/api/v1/carpool/
+      passenger_URL: http://127.0.0.1:5001/api/v1/passenger/
+      driver_URL: http://127.0.0.1:5000/api/v1/driver/
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "5700:5700"
+
+    
+
+>>>>>>> Stashed changes
